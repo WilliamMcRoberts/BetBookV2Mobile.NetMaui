@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BetBookGamingMobile.Views.GameDetailsPage"
+             xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
+             xmlns:models="clr-namespace:BetBookGamingMobile.Models"
+             xmlns:dto="clr-namespace:BetBookGamingMobile.Dto"
+             x:DataType="viewModels:GameDetailsViewModel"
+             Title="GameDetailsPage">
+    
+    <ScrollView>
+
+        <VerticalStackLayout>
+
+            <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto, Auto">
+
+                <HorizontalStackLayout Margin="10" Spacing="50">
+
+                    <Image
+                        Aspect="AspectFill"
+                        HeightRequest="160"
+                        HorizontalOptions="Center"
+                        Grid.ColumnSpan="1"
+                        VerticalOptions="Center"
+                        Source="{Binding GameDto.AwayTeamImage}"
+                        WidthRequest="160"/>
+
+                    <Image
+                        Aspect="AspectFill"
+                        HeightRequest="160"
+                        HorizontalOptions="Center"
+                        Grid.ColumnSpan="1"
+                        VerticalOptions="Center"
+                        Source="{Binding GameDto.HomeTeamImage}"
+                        WidthRequest="160"/>
+                    
+                </HorizontalStackLayout>
+
+            </Grid>
+
+            <Label FontSize="40" 
+                   TextColor="Navy" 
+                   HorizontalOptions="Center"  
+                   Style="{StaticResource MediumLabel}" 
+                   Text="{Binding GameDto.DateOfGameOnly}" />
+
+            <HorizontalStackLayout HorizontalOptions="Center" Margin="10" Spacing="50">
+
+                <Label FontSize="40" 
+                       TextColor="Navy"  
+                       Style="{StaticResource MediumLabel}" 
+                       Text="{Binding GameDto.AwayTeam}" />
+
+                <Label FontSize="40" 
+                       TextColor="Navy"  
+                       Style="{StaticResource MediumLabel}" 
+                       Text="@" />
+
+                <Label FontSize="40" 
+                       TextColor="Navy"
+                       Style="{StaticResource MediumLabel}" 
+                       Text="{Binding GameDto.HomeTeam}" />
+
+            </HorizontalStackLayout>
+
+            <Label FontSize="40" 
+                   TextColor="Navy"
+                   HorizontalOptions="Center"  
+                   Style="{StaticResource MediumLabel}" 
+                   Text="{Binding GameDto.TimeOfGameOnly}" />
+
+            <VerticalStackLayout Spacing="5" x:Name="verticalStackLayout">
+
+                <Button x:Name="buttonAP" 
+                        Command="{Binding AddWagerForPointSpreadCommand}"
+                        CommandParameter="{Binding GameDto.AwayTeam}"
+                        Text="{Binding GameDto.AwayTeamPointSpreadForDisplay}"
+                        BackgroundColor="{Binding ButtonColorStateModel.ApColor}" />
+
+
+                <Button x:Name="buttonHP" 
+                        Command="{Binding AddWagerForPointSpreadCommand}" 
+                        CommandParameter="{Binding GameDto.HomeTeam}"
+                        Text="{Binding GameDto.HomeTeamPointSpreadForDisplay}"
+                        BackgroundColor="{Binding ButtonColorStateModel.HpColor}" />
+
+
+                <Button x:Name="buttonAM" 
+                        Command="{Binding AddWagerForMoneylineCommand}" 
+                        CommandParameter="{Binding GameDto.AwayTeam}"
+                        Text="{Binding GameDto.AwayTeamMoneylineForDisplay}"
+                        BackgroundColor="{Binding ButtonColorStateModel.AmColor}" />
+
+
+                <Button x:Name="buttonHM" 
+                        Command="{Binding AddWagerForMoneylineCommand}" 
+                        CommandParameter="{Binding GameDto.HomeTeam}"
+                        Text="{Binding GameDto.HomeTeamMoneylineForDisplay}"
+                        BackgroundColor="{Binding ButtonColorStateModel.HmColor}" />
+
+                <Button x:Name="buttonO" 
+                        Command="{Binding AddWagerForOverUnderCommand}" 
+                        CommandParameter="Over"
+                        Text="{Binding GameDto.OverUnderForOverDisplay}"
+                        BackgroundColor="{Binding ButtonColorStateModel.OColor}" />
+
+                <Button x:Name="buttonU" 
+                        Command="{Binding AddWagerForOverUnderCommand}" 
+                        CommandParameter="Under"
+                        Text="{Binding GameDto.OverUnderForUnderDisplay}"
+                        BackgroundColor="{Binding ButtonColorStateModel.UColor}" />
+
+                <Button Command="{Binding SubmitWagerCommand}" Text="Submit Wager"/>
+
+            </VerticalStackLayout>
+
+            <CollectionView ItemsSource="{Binding Bets}">
+
+                <CollectionView.ItemTemplate>
+
+                    <DataTemplate x:DataType="models:CreateBetModel">
+
+                        <VerticalStackLayout >
+
+                            <Label  HorizontalOptions="Center" FontSize="20" Text="{Binding BetAmount}"/>
+
+                            <Label  HorizontalOptions="Center" FontSize="20" Text="{Binding WinnerSummary}"/>
+                            <!--Create Bet Amount Entry-->
+                        </VerticalStackLayout>
+
+                    </DataTemplate>
+
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+        </VerticalStackLayout>
+
+    </ScrollView>
+    
+</ContentPage>

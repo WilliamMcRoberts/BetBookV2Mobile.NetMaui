@@ -1,0 +1,102 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net6.0-windows10.0.19041.0</TargetFrameworks>
+		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net6.0-tizen</TargetFrameworks> -->
+		<OutputType>Exe</OutputType>
+		<RootNamespace>BetBookGamingMobile</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+
+		<!-- Display name -->
+		<ApplicationTitle>BetBookGamingMobile</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.companyname.betbookgamingmobile</ApplicationId>
+		<ApplicationIdGuid>26069F05-6F99-4C31-9859-16E391316C4B</ApplicationIdGuid>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#00008B" BaseSize="128,128" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
+
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Resources\Images\ari.svg" />
+	  <None Remove="Resources\Images\atl.svg" />
+	  <None Remove="Resources\Images\bal.svg" />
+	  <None Remove="Resources\Images\buf.svg" />
+	  <None Remove="Resources\Images\car.svg" />
+	  <None Remove="Resources\Images\chi.svg" />
+	  <None Remove="Resources\Images\cin.svg" />
+	  <None Remove="Resources\Images\cle.svg" />
+	  <None Remove="Resources\Images\dal.svg" />
+	  <None Remove="Resources\Images\den.svg" />
+	  <None Remove="Resources\Images\det.svg" />
+	  <None Remove="Resources\Images\gb.svg" />
+	  <None Remove="Resources\Images\hou.svg" />
+	  <None Remove="Resources\Images\ind.svg" />
+	  <None Remove="Resources\Images\jax.svg" />
+	  <None Remove="Resources\Images\kc.svg" />
+	  <None Remove="Resources\Images\lac.svg" />
+	  <None Remove="Resources\Images\lar.svg" />
+	  <None Remove="Resources\Images\lv.svg" />
+	  <None Remove="Resources\Images\mia.svg" />
+	  <None Remove="Resources\Images\min.svg" />
+	  <None Remove="Resources\Images\ne.svg" />
+	  <None Remove="Resources\Images\no.svg" />
+	  <None Remove="Resources\Images\nyg.svg" />
+	  <None Remove="Resources\Images\nyj.svg" />
+	  <None Remove="Resources\Images\phi.svg" />
+	  <None Remove="Resources\Images\pit.svg" />
+	  <None Remove="Resources\Images\sea.svg" />
+	  <None Remove="Resources\Images\sf.svg" />
+	  <None Remove="Resources\Images\tb.svg" />
+	  <None Remove="Resources\Images\ten.svg" />
+	  <None Remove="Resources\Images\was.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0-rc.1.22426.10" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0-rc.1.22426.10" />
+		<PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta04" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta2" />
+		<PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0-rc.1.22426.10" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\GameDetailsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+</Project>
