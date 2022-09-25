@@ -18,6 +18,7 @@ public partial class GameDetailsViewModel : BaseViewModel
 {
     private readonly BetSlipState _betSlipState;
     private readonly IUserService _userService;
+    
 
     [ObservableProperty]
     GameDto gameDto;
@@ -65,10 +66,18 @@ public partial class GameDetailsViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task SubmitWager()
+    private async Task SubmitSinglesWager()
     {
         UserModel user = await _userService.GetUserByUserId("632395fdc17912bd030e4162");
 
         await _betSlipState.OnSubmitBetsFromSinglesBetSlip(user);
+    }
+
+    [RelayCommand]
+    private async Task SubmitParleyWager()
+    {
+        UserModel user = await _userService.GetUserByUserId("632395fdc17912bd030e4162");
+
+        await _betSlipState.OnSubmitBetsFromParleyBetSlip(user);
     }
 }

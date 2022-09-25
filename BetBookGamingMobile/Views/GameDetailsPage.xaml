@@ -10,7 +10,7 @@
     
     <ScrollView>
 
-        <VerticalStackLayout>
+        <VerticalStackLayout BackgroundColor="DimGray">
 
             <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto, Auto">
 
@@ -37,81 +37,232 @@
                 </HorizontalStackLayout>
 
             </Grid>
+            <Frame BackgroundColor="DarkRed"
+                   WidthRequest="385"
+                   HeightRequest="300"
+                   BorderColor="DarkBlue"
+                   CornerRadius="15"
+                   Style="{StaticResource CardView}">
+                
+                <Border Stroke="DarkBlue"
+                        StrokeThickness="3">
+                    
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="25, 25, 25, 25"/>
+                    </Border.StrokeShape>
 
-            <Label FontSize="40" 
-                   TextColor="Navy" 
-                   HorizontalOptions="Center"  
-                   Style="{StaticResource MediumLabel}" 
-                   Text="{Binding GameDto.DateOfGameOnly}" />
+                    <Border.Shadow>
+                        <Shadow Brush="DarkBlue" Offset="20, 20" Opacity=".7"/>
+                    </Border.Shadow>
+                    
+                    <VerticalStackLayout Margin="20">
+                        
+                        <Label FontSize="40" 
+                               TextColor="Navy" 
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center"  
+                               Style="{StaticResource MediumLabel}" 
+                               Text="{Binding GameDto.DateOfGameOnly}" />
 
-            <HorizontalStackLayout HorizontalOptions="Center" Margin="10" Spacing="50">
+                        <HorizontalStackLayout HorizontalOptions="Center" Margin="10" Spacing="50">
 
-                <Label FontSize="40" 
-                       TextColor="Navy"  
-                       Style="{StaticResource MediumLabel}" 
-                       Text="{Binding GameDto.AwayTeam}" />
+                            <Label FontSize="40" 
+                                   VerticalOptions="Center"
+                                   FontAttributes="Bold"
+                                   TextColor="Navy"  
+                                   Style="{StaticResource MediumLabel}" 
+                                   Text="{Binding GameDto.AwayTeam}" />
 
-                <Label FontSize="40" 
-                       TextColor="Navy"  
-                       Style="{StaticResource MediumLabel}" 
-                       Text="@" />
+                            <Label FontSize="40" 
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center"
+                                   TextColor="Navy"  
+                                   Style="{StaticResource MediumLabel}" 
+                                   Text="@" />
 
-                <Label FontSize="40" 
-                       TextColor="Navy"
-                       Style="{StaticResource MediumLabel}" 
-                       Text="{Binding GameDto.HomeTeam}" />
+                            <Label FontSize="40" 
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center"
+                                   TextColor="Navy"
+                                   Style="{StaticResource MediumLabel}" 
+                                   Text="{Binding GameDto.HomeTeam}" />
 
-            </HorizontalStackLayout>
+                        </HorizontalStackLayout>
 
-            <Label FontSize="40" 
-                   TextColor="Navy"
-                   HorizontalOptions="Center"  
-                   Style="{StaticResource MediumLabel}" 
-                   Text="{Binding GameDto.TimeOfGameOnly}" />
-
+                        <Label FontSize="40" 
+                               FontAttributes="Bold"
+                               TextColor="Navy"
+                               HorizontalOptions="Center"  
+                               Style="{StaticResource MediumLabel}" 
+                               Text="{Binding GameDto.TimeOfGameOnly}" />
+                        
+                    </VerticalStackLayout>
+                    
+                </Border>
+                
+            </Frame>
+            
             <VerticalStackLayout Spacing="5" x:Name="verticalStackLayout">
+
+                <Label Text="Point Spread"
+                       TextColor="White"
+                       FontSize="25"
+                       FontAttributes="Bold"
+                       HorizontalTextAlignment="Center"
+                       Margin="15"/>
 
                 <Button x:Name="buttonAP" 
                         Command="{Binding AddWagerForPointSpreadCommand}"
                         CommandParameter="{Binding GameDto.AwayTeam}"
                         Text="{Binding GameDto.AwayTeamPointSpreadForDisplay}"
-                        BackgroundColor="{Binding ButtonColorStateModel.ApColor}" />
-
+                        FontAttributes="Bold"
+                        BackgroundColor="{Binding ButtonColorStateModel.ApColor}" 
+                        BorderColor="DimGray"
+                        BorderWidth="3"
+                        CornerRadius="15"
+                        WidthRequest="300">
+                    <Button.Shadow>
+                        <Shadow Brush="DarkRed" 
+                                Offset="5, 5" 
+                                Radius="10"/>
+                    </Button.Shadow>
+                </Button>
 
                 <Button x:Name="buttonHP" 
                         Command="{Binding AddWagerForPointSpreadCommand}" 
                         CommandParameter="{Binding GameDto.HomeTeam}"
                         Text="{Binding GameDto.HomeTeamPointSpreadForDisplay}"
-                        BackgroundColor="{Binding ButtonColorStateModel.HpColor}" />
+                        FontAttributes="Bold"
+                        BackgroundColor="{Binding ButtonColorStateModel.HpColor}" 
+                        BorderColor="DimGray"
+                        BorderWidth="3"
+                        CornerRadius="15"
+                        WidthRequest="300">
+                    <Button.Shadow>
+                        <Shadow Brush="DarkRed" 
+                                Offset="5, 5" 
+                                Radius="10"/>
+                    </Button.Shadow>
+                </Button>
 
+                <Label Text="Moneyline"
+                       TextColor="White"
+                       FontSize="25"
+                       FontAttributes="Bold"
+                       HorizontalTextAlignment="Center"
+                       Margin="15"/>
 
                 <Button x:Name="buttonAM" 
                         Command="{Binding AddWagerForMoneylineCommand}" 
                         CommandParameter="{Binding GameDto.AwayTeam}"
                         Text="{Binding GameDto.AwayTeamMoneylineForDisplay}"
-                        BackgroundColor="{Binding ButtonColorStateModel.AmColor}" />
-
+                        FontAttributes="Bold"
+                        BackgroundColor="{Binding ButtonColorStateModel.AmColor}"
+                        BorderColor="DimGray"
+                        BorderWidth="3"
+                        CornerRadius="15"
+                        WidthRequest="300">
+                    <Button.Shadow>
+                        <Shadow Brush="DarkRed" 
+                                Offset="5, 5" 
+                                Radius="10"/>
+                    </Button.Shadow>
+                </Button>
 
                 <Button x:Name="buttonHM" 
                         Command="{Binding AddWagerForMoneylineCommand}" 
                         CommandParameter="{Binding GameDto.HomeTeam}"
                         Text="{Binding GameDto.HomeTeamMoneylineForDisplay}"
-                        BackgroundColor="{Binding ButtonColorStateModel.HmColor}" />
+                        FontAttributes="Bold"
+                        BackgroundColor="{Binding ButtonColorStateModel.HmColor}"
+                        BorderColor="DimGray"
+                        BorderWidth="3"
+                        CornerRadius="15"
+                        WidthRequest="300">
+                    <Button.Shadow>
+                        <Shadow Brush="DarkRed" 
+                                Offset="5, 5" 
+                                Radius="10"/>
+                    </Button.Shadow>
+                </Button>
+
+                <Label Text="Over/Under"
+                       TextColor="White"
+                       FontSize="25"
+                       FontAttributes="Bold"
+                       HorizontalTextAlignment="Center"
+                       Margin="15"/>
 
                 <Button x:Name="buttonO" 
                         Command="{Binding AddWagerForOverUnderCommand}" 
                         CommandParameter="Over"
                         Text="{Binding GameDto.OverUnderForOverDisplay}"
-                        BackgroundColor="{Binding ButtonColorStateModel.OColor}" />
+                        FontAttributes="Bold"
+                        BackgroundColor="{Binding ButtonColorStateModel.OColor}" 
+                        BorderColor="DimGray"
+                        BorderWidth="3"
+                        CornerRadius="15"
+                        WidthRequest="300">
+                    <Button.Shadow>
+                        <Shadow Brush="DarkRed" 
+                                Offset="5, 5" 
+                                Radius="10"/>
+                    </Button.Shadow>
+                </Button>
 
                 <Button x:Name="buttonU" 
                         Command="{Binding AddWagerForOverUnderCommand}" 
                         CommandParameter="Under"
                         Text="{Binding GameDto.OverUnderForUnderDisplay}"
-                        BackgroundColor="{Binding ButtonColorStateModel.UColor}" />
+                        FontAttributes="Bold"
+                        BackgroundColor="{Binding ButtonColorStateModel.UColor}" 
+                        BorderColor="DimGray"
+                        BorderWidth="3"
+                        CornerRadius="30"
+                        WidthRequest="300">
+                    <Button.Shadow>
+                        <Shadow Brush="DarkRed" 
+                                Offset="5, 5" 
+                                Radius="10"/>
+                    </Button.Shadow>
+                </Button>
 
-                <Button Command="{Binding SubmitWagerCommand}" Text="Submit Wager"/>
+                <VerticalStackLayout 
+                    Spacing="5"
+                    Margin="45">
+                    <Button Command="{Binding SubmitSinglesWagerCommand}" 
+                        Text="Submit Singles Wager"
+                        FontAttributes="Bold"
+                        BackgroundColor="DarkRed" 
+                        BorderColor="DimGray"
+                        BorderWidth="3"
+                        CornerRadius="15"
+                        WidthRequest="300">
 
+                        <Button.Shadow>
+                            <Shadow Brush="DarkBlue" 
+                                Offset="5, 5" 
+                                Radius="10"/>
+                        </Button.Shadow>
+                    </Button>
+
+                    <Button Command="{Binding SubmitParleyWagerCommand}" 
+                        Text="Submit Parley Wager"
+                        FontAttributes="Bold"
+                        BackgroundColor="DarkRed" 
+                        BorderColor="DimGray"
+                        BorderWidth="3"
+                        CornerRadius="15"
+                        WidthRequest="300">
+                        <Button.Shadow>
+                            <Shadow Brush="DarkBlue" 
+                                Offset="5, 5" 
+                                Radius="10"/>
+                        </Button.Shadow>
+                    </Button>
+                </VerticalStackLayout>
+                
             </VerticalStackLayout>
 
             <CollectionView ItemsSource="{Binding BetSlipState.BetsInBetSlip}">
