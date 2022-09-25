@@ -1,6 +1,8 @@
 ﻿using BetBookGamingMobile.Services;
+using BetBookGamingMobile.StateManagement;
 using BetBookGamingMobile.ViewModels;
 using BetBookGamingMobile.Views;
+using Microsoft.Extensions.Configuration;
 
 namespace BetBookGamingMobile;
 
@@ -8,14 +10,22 @@ public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()
 	{
-		var builder = MauiApp.CreateBuilder();
-		builder
-			.UseMauiApp<App>()
-			.ConfigureFonts(fonts =>
-			{
-				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			});
+        
+        var builder = MauiApp.CreateBuilder();
+        builder
+            .UseMauiApp<App>()
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+            });
+
+        /*********************** Http Client Factory **************************/
+        
+        builder.Services.AddHttpClient("sportsdata", client =>
+        {
+            client.BaseAddress = new Uri("https://api.sportsdata.io/v3/nfl/");
+        });
 
         builder.Services.AddHttpClient("vortex", client =>
         {
@@ -29,13 +39,19 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<BetSlipState>();
 
-        builder.Services.AddSingleton<MainViewModel>();
+        builder.Services.AddTransient<MainViewModel>();
         builder.Services.AddTransient<GameDetailsViewModel>();
 
-        builder.Services.AddSingleton<MainPage>();
+        builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<GameDetailsPage>();
         builder.Services.AddSingleton(Connectivity.Current);
+        builder.Services.AddSingleton<Secrets>();
+        builder.Configuration.AddUserSecrets("e7d4ad5e-3fed-44c5-846f-c09a4742a4cd");
 
         return builder.Build();
-	}
+    }
+
 }
+
+
+

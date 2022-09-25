@@ -1,10 +1,10 @@
 ﻿
 using BetBookGamingMobile.Dto;
-using BetBookGamingMobile.Helpers;
 using BetBookGamingMobile.Models;
-using CommunityToolkit.Mvvm.Input;
+using BetBookGamingMobile.Helpers;
+using BetBookGamingMobile.Services;
 
-namespace BetBookGamingMobile.Services;
+namespace BetBookGamingMobile.StateManagement;
 
 public class BetSlipState
 {
@@ -74,6 +74,16 @@ public class BetSlipState
         };
     }
 
+    public BetSlipStateModel GetBetSlipState()
+    {
+        var betSlipState = new BetSlipStateModel();
+
+        foreach(var bet in preBets)
+            betSlipState.BetsInBetSlip.Add(bet);
+
+        return betSlipState;
+    }
+
     public bool CheckForConflictingBets()
     {
         foreach (CreateBetModel cb in preBets)
@@ -93,7 +103,7 @@ public class BetSlipState
         week = season.CalculateWeek(DateTime.Now);
 
         GameDto[] gameCheckArray =
-            await _gameService.GetGamesByWeekAndSeason(season, week);
+            await _gameService.GetGamesByWeek(season, week);
 
         foreach (CreateBetModel createBetModel in preBets)
         {
@@ -155,7 +165,7 @@ public class BetSlipState
         week = season.CalculateWeek(DateTime.Now);
 
         GameDto[] gameCheckArray =
-            await _gameService.GetGamesByWeekAndSeason(season, week);
+            await _gameService.GetGamesByWeek(season, week);
 
         var parleyBetSlip = new ParleyBetSlipModel();
 

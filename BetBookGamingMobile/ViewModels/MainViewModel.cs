@@ -4,6 +4,7 @@ using BetBookGamingMobile.Dto;
 using BetBookGamingMobile.Helpers;
 using BetBookGamingMobile.Models;
 using BetBookGamingMobile.Services;
+using BetBookGamingMobile.StateManagement;
 using BetBookGamingMobile.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -49,7 +50,7 @@ public partial class MainViewModel : BaseViewModel
         IsBusy = true;
 
         GameDto[] gamesArray =
-            await _gameService.GetGamesByWeekAndSeason(season, week);
+            await _gameService.GetGamesByWeek(season, week);
 
         if (gamesArray is null)
             return;
@@ -76,11 +77,15 @@ public partial class MainViewModel : BaseViewModel
         ButtonColorStateModel buttonColorStateModel = 
             _betSlipState.GetButtonColorState(gameDto);
 
+        BetSlipStateModel betSlipState = 
+            _betSlipState.GetBetSlipState();
+
         await Shell.Current.GoToAsync(nameof(GameDetailsPage), true,
         new Dictionary<string, object>
                 {
                     {"GameDto", gameDto },
-                    {"ButtonColorStateModel", buttonColorStateModel }
+                    {"ButtonColorStateModel", buttonColorStateModel },
+                    {"BetSlipState", betSlipState }
                 });
     }
 }

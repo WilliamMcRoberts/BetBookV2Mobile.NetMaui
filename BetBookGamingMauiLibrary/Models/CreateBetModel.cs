@@ -1,5 +1,9 @@
 ﻿
-using BetBookGamingMobile.Dto;
+
+
+
+using BetBookGamingLibrary;
+using BetBookGamingLibrary.Dto;
 
 namespace BetBookGamingMobile.Models;
 

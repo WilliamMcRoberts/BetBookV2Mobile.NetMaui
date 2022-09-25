@@ -3,6 +3,7 @@
 using BetBookGamingMobile.Dto;
 using BetBookGamingMobile.Models;
 using BetBookGamingMobile.Services;
+using BetBookGamingMobile.StateManagement;
 using BetBookGamingMobile.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -12,18 +13,20 @@ namespace BetBookGamingMobile.ViewModels;
 
 [QueryProperty("GameDto", "GameDto")]
 [QueryProperty("ButtonColorStateModel", "ButtonColorStateModel")]
+[QueryProperty("BetSlipState", "BetSlipState")]
 public partial class GameDetailsViewModel : BaseViewModel
 {
     private readonly BetSlipState _betSlipState;
     private readonly IUserService _userService;
-
-    public ObservableCollection<CreateBetModel> Bets { get; } = new();
 
     [ObservableProperty]
     GameDto gameDto;
 
     [ObservableProperty]
     ButtonColorStateModel buttonColorStateModel;
+
+    [ObservableProperty]
+    BetSlipStateModel betSlipState;
 
     public GameDetailsViewModel(BetSlipState betSlipState, IUserService userService)
     {
@@ -41,9 +44,7 @@ public partial class GameDetailsViewModel : BaseViewModel
     private void AddWagerForPointSpread(string winner)
     {
         _betSlipState.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.POINTSPREAD);
-        Bets.Clear();
-        foreach (var createBet in _betSlipState.preBets)
-            Bets.Add(createBet);
+        BetSlipState = _betSlipState.GetBetSlipState();
         ButtonColorStateModel = _betSlipState.GetButtonColorState(GameDto);
     }
 
@@ -51,9 +52,7 @@ public partial class GameDetailsViewModel : BaseViewModel
     private void AddWagerForMoneyline(string winner)
     {
         _betSlipState.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.MONEYLINE);
-        Bets.Clear();
-        foreach (var createBet in _betSlipState.preBets)
-            Bets.Add(createBet);
+        BetSlipState = _betSlipState.GetBetSlipState();
         ButtonColorStateModel = _betSlipState.GetButtonColorState(GameDto);
     }
 
@@ -61,9 +60,7 @@ public partial class GameDetailsViewModel : BaseViewModel
     private void AddWagerForOverUnder(string overUnder)
     {
         _betSlipState.SelectOrRemoveWinnerAndGameForBet(string.Concat(overUnder, GameDto.ScoreID.ToString()), GameDto, BetType.OVERUNDER);
-        Bets.Clear();
-        foreach (var createBet in _betSlipState.preBets)
-            Bets.Add(createBet);
+        BetSlipState = _betSlipState.GetBetSlipState();
         ButtonColorStateModel = _betSlipState.GetButtonColorState(GameDto);
     }
 

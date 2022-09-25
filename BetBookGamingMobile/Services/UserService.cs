@@ -2,6 +2,7 @@
 
 
 using BetBookGamingMobile.Models;
+using System.Net.Http;
 using System.Net.Http.Json;
 
 namespace BetBookGamingMobile.Services;
