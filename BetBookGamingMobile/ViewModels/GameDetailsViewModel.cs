@@ -56,7 +56,7 @@ public partial class GameDetailsViewModel : BaseViewModel
         (BetSlip, ButtonColorState) = GetAllStates();
     }
 
-    private (BetSlipStateModel, ButtonColorStateModel) GetAllStates()
+    public (BetSlipStateModel, ButtonColorStateModel) GetAllStates()
     {
         BetSlip = _betSlipState.GetBetSlipState();
         ButtonColorState = _betSlipState.GetButtonColorState(GameDto);
