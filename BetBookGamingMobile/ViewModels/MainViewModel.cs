@@ -15,7 +15,15 @@ namespace BetBookGamingMobile.ViewModels;
 public partial class MainViewModel : BaseViewModel
 {
     private readonly IConnectivity _connectivity;
+
     private readonly IGameService _gameService;
+
+    public bool gamesLoaded;
+
+    public ObservableCollection<GameDto> Games { get; } = new();
+
+    [ObservableProperty]
+    private bool isRefreshing;
 
     public MainViewModel(IConnectivity connectivity, 
                          IGameService gameService)
@@ -25,13 +33,8 @@ public partial class MainViewModel : BaseViewModel
         _gameService = gameService;
     }
 
-    public ObservableCollection<GameDto> Games { get; } = new();
-
-    [ObservableProperty]
-    private bool isRefreshing;
-
     [RelayCommand]
-    private async Task GetGamesAsync()
+    public async Task GetGamesAsync()
     {
         if (IsBusy)
             return;
@@ -65,6 +68,7 @@ public partial class MainViewModel : BaseViewModel
 
         IsBusy = false;
         IsRefreshing = false;
+        gamesLoaded = true;
     }
 
     [RelayCommand]

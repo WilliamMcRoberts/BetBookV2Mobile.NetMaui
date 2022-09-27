@@ -28,7 +28,7 @@ public class GameService : IGameService
             var client = _httpClientFactory.CreateClient("sportsdata");
 
             games = await client.GetFromJsonAsync<GameDto[]>(
-                    $"scores/json/ScoresByWeek/2022{season}/{week}?key=");
+                    $"scores/json/ScoresByWeek/2022{season}/{week}?key=818e3e1b20d944cc82a2b0c5c299f40d");
         }
 
         catch (Exception ex)
