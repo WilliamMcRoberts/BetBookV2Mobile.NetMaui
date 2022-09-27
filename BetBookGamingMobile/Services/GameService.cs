@@ -20,7 +20,7 @@ public class GameService : IGameService
     public async Task<GameDto[]> GetGamesByWeek(
         SeasonType season, int week)
     {
-        GameDto[]? games = new GameDto[16];
+        GameDto[] games = new GameDto[16];
 
         try
         {
@@ -33,6 +33,7 @@ public class GameService : IGameService
 
         catch (Exception ex)
         {
+            Console.WriteLine(ex.Message);
         }
 
         return games!;

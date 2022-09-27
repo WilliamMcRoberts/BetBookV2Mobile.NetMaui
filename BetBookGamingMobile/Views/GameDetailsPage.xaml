@@ -10,13 +10,24 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
+            
             <Style x:Key="WagerButtonStyle" TargetType="Button">
                 <Setter Property="BorderColor" Value="DimGray"/>
                 <Setter Property="CornerRadius" Value="15"/>
                 <Setter Property="WidthRequest" Value="300"/>
                 <Setter Property="BorderWidth" Value="3"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="TextColor" Value="White"/>
             </Style>
+            
+            <Style x:Key="WagerLabel" TargetType="Label">
+                <Setter Property="Margin" Value="15"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="FontSize" Value="25"/>
+                <Setter Property="TextColor" Value="White"/>
+            </Style>
+            
         </ResourceDictionary>
     </ContentPage.Resources>
     
@@ -122,11 +133,7 @@
                                  x:Name="verticalStackLayout">
 
                 <Label Text="Point Spread"
-                       TextColor="White"
-                       FontSize="25"
-                       FontAttributes="Bold"
-                       HorizontalTextAlignment="Center"
-                       Margin="15"/>
+                       Style="{StaticResource WagerLabel}"/>
 
                 <Button x:Name="buttonAP" 
                         Command="{Binding AddOrRemoveWagerForPointSpreadCommand}"
@@ -163,11 +170,7 @@
                 </Button>
 
                 <Label Text="Moneyline"
-                       TextColor="White"
-                       FontSize="25"
-                       FontAttributes="Bold"
-                       HorizontalTextAlignment="Center"
-                       Margin="15"/>
+                       Style="{StaticResource WagerLabel}"/>
 
                 <Button x:Name="buttonAM" 
                         Command="{Binding AddOrRemoveWagerForMoneylineCommand}" 
@@ -203,11 +206,7 @@
                 </Button>
 
                 <Label Text="Over/Under"
-                       TextColor="White"
-                       FontSize="25"
-                       FontAttributes="Bold"
-                       HorizontalTextAlignment="Center"
-                       Margin="15"/>
+                       Style="{StaticResource WagerLabel}"/>
 
                 <Button x:Name="buttonO" 
                         Command="{Binding AddOrRemoveWagerForOverUnderCommand}" 
@@ -242,11 +241,11 @@
 
                 </Button>
 
-                <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:GameDetailsViewModel}}, Path=GoToCurrentBetSlipCommand}"
-                        CommandParameter="{Binding .}"
+                <Button Command="{Binding GoToCurrentBetSlipCommand}"
                         Text="Go To Bet Slip"
                         BackgroundColor="DarkRed" 
-                        Style="{StaticResource WagerButtonStyle}">
+                        Style="{StaticResource WagerButtonStyle}"
+                        Margin="30">
 
                     <Button.Shadow>
 

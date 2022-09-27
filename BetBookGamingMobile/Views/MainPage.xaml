@@ -10,27 +10,6 @@
     <Grid ColumnDefinitions="*,*"
           RowDefinitions="*,Auto"
           RowSpacing="1">
-
-        <!--<Button x:Name="buttonAP" 
-                        Command="{Binding GetGamesCommand}"
-                        Text="Get Games"
-                        FontAttributes="Bold"
-                        BackgroundColor="DarkBlue"
-                        BorderColor="DimGray"
-                        BorderWidth="3"
-                        WidthRequest="385"
-                        CornerRadius="15"
-                        HeightRequest="100">
-
-            <Button.Shadow>
-
-                <Shadow Brush="DarkRed" 
-                                Offset="5, 5" 
-                                Radius="10"/>
-
-            </Button.Shadow>
-            
-        </Button>-->
         
         <RefreshView Grid.ColumnSpan="2"
                      Command="{Binding GetGamesCommand}"

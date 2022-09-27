@@ -13,8 +13,6 @@ using System.Collections.ObjectModel;
 namespace BetBookGamingMobile.ViewModels;
 
 [QueryProperty("GameDto", "GameDto")]
-[QueryProperty("ButtonColorStateModel", "ButtonColorStateModel")]
-[QueryProperty("BetSlipState", "BetSlipState")]
 public partial class GameDetailsViewModel : BaseViewModel
 {
     private readonly BetSlipState _betSlipState;
@@ -70,7 +68,7 @@ public partial class GameDetailsViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    async Task GoBack()
+    private async Task GoBack()
     {
         await Shell.Current.GoToAsync("..");
     }
