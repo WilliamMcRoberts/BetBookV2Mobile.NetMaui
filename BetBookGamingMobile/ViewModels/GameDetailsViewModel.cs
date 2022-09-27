@@ -7,6 +7,7 @@ using BetBookGamingMobile.StateManagement;
 using BetBookGamingMobile.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.ObjectModel;
 
 namespace BetBookGamingMobile.ViewModels;
@@ -19,65 +20,58 @@ public partial class GameDetailsViewModel : BaseViewModel
     private readonly BetSlipState _betSlipState;
     private readonly IUserService _userService;
     
-
     [ObservableProperty]
     GameDto gameDto;
 
     [ObservableProperty]
-    ButtonColorStateModel buttonColorStateModel;
+    ButtonColorStateModel buttonColorState;
 
     [ObservableProperty]
-    BetSlipStateModel betSlipState;
+    BetSlipStateModel betSlip;
 
     public GameDetailsViewModel(BetSlipState betSlipState, IUserService userService)
     {
         _betSlipState = betSlipState;
         _userService = userService;
+    }    
+
+    [RelayCommand]
+    private void AddOrRemoveWagerForPointSpread(string winner)
+    {
+        _betSlipState.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.POINTSPREAD);
+        (BetSlip, ButtonColorState) = GetAllStates();
+    }
+
+    [RelayCommand]
+    private void AddOrRemoveWagerForMoneyline(string winner)
+    {
+        _betSlipState.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.MONEYLINE);
+        (BetSlip, ButtonColorState) = GetAllStates();
+    }
+
+    [RelayCommand]
+    private void AddOrRemoveWagerForOverUnder(string overUnder)
+    {
+        _betSlipState.SelectOrRemoveWinnerAndGameForBet(string.Concat(overUnder, GameDto.ScoreID.ToString()), GameDto, BetType.OVERUNDER);
+        (BetSlip, ButtonColorState) = GetAllStates();
+    }
+
+    private (BetSlipStateModel, ButtonColorStateModel) GetAllStates()
+    {
+        BetSlip = _betSlipState.GetBetSlipState();
+        ButtonColorState = _betSlipState.GetButtonColorState(GameDto);
+        return (BetSlip, ButtonColorState);
+    }
+
+    [RelayCommand]
+    private async Task GoToCurrentBetSlip()
+    {
+        await Shell.Current.GoToAsync(nameof(BetSlipPage), true);
     }
 
     [RelayCommand]
     async Task GoBack()
     {
         await Shell.Current.GoToAsync("..");
-    }
-
-    [RelayCommand]
-    private void AddWagerForPointSpread(string winner)
-    {
-        _betSlipState.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.POINTSPREAD);
-        BetSlipState = _betSlipState.GetBetSlipState();
-        ButtonColorStateModel = _betSlipState.GetButtonColorState(GameDto);
-    }
-
-    [RelayCommand]
-    private void AddWagerForMoneyline(string winner)
-    {
-        _betSlipState.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.MONEYLINE);
-        BetSlipState = _betSlipState.GetBetSlipState();
-        ButtonColorStateModel = _betSlipState.GetButtonColorState(GameDto);
-    }
-
-    [RelayCommand]
-    private void AddWagerForOverUnder(string overUnder)
-    {
-        _betSlipState.SelectOrRemoveWinnerAndGameForBet(string.Concat(overUnder, GameDto.ScoreID.ToString()), GameDto, BetType.OVERUNDER);
-        BetSlipState = _betSlipState.GetBetSlipState();
-        ButtonColorStateModel = _betSlipState.GetButtonColorState(GameDto);
-    }
-
-    [RelayCommand]
-    private async Task SubmitSinglesWager()
-    {
-        UserModel user = await _userService.GetUserByUserId("632395fdc17912bd030e4162");
-
-        await _betSlipState.OnSubmitBetsFromSinglesBetSlip(user);
-    }
-
-    [RelayCommand]
-    private async Task SubmitParleyWager()
-    {
-        UserModel user = await _userService.GetUserByUserId("632395fdc17912bd030e4162");
-
-        await _betSlipState.OnSubmitBetsFromParleyBetSlip(user);
     }
 }

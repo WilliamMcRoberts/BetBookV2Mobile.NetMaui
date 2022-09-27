@@ -16,14 +16,13 @@ public partial class MainViewModel : BaseViewModel
 {
     private readonly IConnectivity _connectivity;
     private readonly IGameService _gameService;
-    private readonly BetSlipState _betSlipState;
 
-    public MainViewModel(IConnectivity connectivity, IGameService gameService, BetSlipState betSlipState)
+    public MainViewModel(IConnectivity connectivity, 
+                         IGameService gameService)
     {
         Title = "Bet Book Mobile";
         _connectivity = connectivity;
         _gameService = gameService;
-        _betSlipState = betSlipState;
     }
 
     public ObservableCollection<GameDto> Games { get; } = new();
@@ -71,21 +70,13 @@ public partial class MainViewModel : BaseViewModel
     [RelayCommand]
     private async Task GoToGameDetails(GameDto gameDto)
     {
-        if (gameDto == null)
+        if (gameDto is null)
             return;
-
-        ButtonColorStateModel buttonColorStateModel = 
-            _betSlipState.GetButtonColorState(gameDto);
-
-        BetSlipStateModel betSlipState = 
-            _betSlipState.GetBetSlipState();
 
         await Shell.Current.GoToAsync(nameof(GameDetailsPage), true,
         new Dictionary<string, object>
                 {
                     {"GameDto", gameDto },
-                    {"ButtonColorStateModel", buttonColorStateModel },
-                    {"BetSlipState", betSlipState }
                 });
     }
 }

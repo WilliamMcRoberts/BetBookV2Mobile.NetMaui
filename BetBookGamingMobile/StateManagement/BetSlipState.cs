@@ -150,12 +150,12 @@ public class BetSlipState
         return true;
     }
 
-    public async Task<bool> OnSubmitBetsFromParleyBetSlip(UserModel loggedInUser)
+    public async Task<bool> OnSubmitBetsFromParleyBetSlip(UserModel loggedInUser, decimal parleyWagerAmount)
     {
         if (preBets.Count < 1 || conflictingBetsForParley)
             return false;
 
-        if (totalWagerForParley <= 0)
+        if (parleyWagerAmount <= 0)
         {
             betAmountForParleyBad = true;
             return false;
@@ -198,8 +198,8 @@ public class BetSlipState
         }
 
         parleyBetSlip.BettorId = loggedInUser.UserId;
-        parleyBetSlip.ParleyBetAmount = totalWagerForParley;
-        parleyBetSlip.ParleyBetPayout = Math.Round(totalPayoutForParley, 2);
+        parleyBetSlip.ParleyBetAmount = parleyWagerAmount;
+        parleyBetSlip.ParleyBetPayout = Math.Round(GetPayoutForTotalBetsParley(parleyWagerAmount), 2);
         parleyBetSlip.ParleyBetSlipStatus = ParleyBetSlipStatus.IN_PROGRESS;
         parleyBetSlip.ParleyBetSlipPayoutStatus = ParleyBetSlipPayoutStatus.UNPAID;
 
@@ -207,8 +207,6 @@ public class BetSlipState
             await _parleyBetSlipService.CreateParleyBet(parleyBetSlip);
 
         preBets.Clear();
-        totalWagerForParley = 0;
-        totalPayoutForParley = 0;
 
         return parleyBetGood;
     }
@@ -239,7 +237,7 @@ public class BetSlipState
          moneylinePayout < 0 ? betAmount / ((decimal)moneylinePayout * -1 / 100) + betAmount
          : ((decimal)moneylinePayout / 100) * betAmount;
 
-    public decimal GetPayoutForTotalBetsParley()
+    public decimal GetPayoutForTotalBetsParley(decimal totalParleyWager)
     {
         if (preBets.Count < 2) return 0;
 
@@ -253,15 +251,18 @@ public class BetSlipState
             totalDecimalOdds *= decimalMoneyline;
         }
 
-        return totalPayoutForParley = totalWagerForParley * totalDecimalOdds;
+        return totalPayoutForParley = totalParleyWager * totalDecimalOdds;
     }
 
     public decimal ConvertMoneylinePayoutToDecimalFormat(int moneylinePayout) =>
          moneylinePayout < 0 ? (100 / (decimal)moneylinePayout * -1) + (decimal)1
          : ((decimal)moneylinePayout / 100) + 1;
 
-    public void RemoveBetFromPreBetsList(CreateBetModel createBetModel) =>
-        preBets.Remove(createBetModel);
+    public void RemoveBetFromPreBetsList(CreateBetModel createBetModel)
+    {
+            preBets.Remove(createBetModel);
+    }
+        
 
     public decimal GetPayoutForTotalBetsSingles()
     {

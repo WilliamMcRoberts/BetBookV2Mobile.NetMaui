@@ -8,5 +8,6 @@ public partial class AppShell : Shell
 	{
 		InitializeComponent();
         Routing.RegisterRoute(nameof(GameDetailsPage), typeof(GameDetailsPage));
+        Routing.RegisterRoute(nameof(BetSlipPage), typeof(BetSlipPage));
     }
 }

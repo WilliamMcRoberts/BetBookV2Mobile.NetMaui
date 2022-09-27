@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
+             xmlns:views="clr-namespace:BetBookGamingMobile.Views"
+             xmlns:models="clr-namespace:BetBookGamingMobile.Models"
+             x:DataType="viewModels:BetSlipViewModel"
+             x:Class="BetBookGamingMobile.Views.BetSlipPage"
+             Title="BetSlipPage">
+    
+    <VerticalStackLayout>
+        
+        <CollectionView ItemsSource="{Binding BetSlip.BetsInBetSlip}">
+            
+            <CollectionView.ItemTemplate>
+
+                <DataTemplate x:DataType="models:CreateBetModel">
+
+                    <VerticalStackLayout >
+
+                        <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BetSlipViewModel}}, Path=RemoveBetFromPreBetsCommand}"
+                                    Text="Remove Bet"
+                                    TextColor="White"
+                                    HorizontalOptions="Center"
+                                    WidthRequest="150"
+                                    FontAttributes="Bold"
+                                    CommandParameter="{Binding .}"/>
+                        
+                        <Label  HorizontalOptions="Center" 
+                                FontSize="20" 
+                                Text="{Binding BetAmount}"
+                                TextColor="Black"/>
+
+                        <Label  HorizontalOptions="Center" 
+                                FontSize="20" 
+                                Text="{Binding WinnerSummary}"/>
+                        
+                    </VerticalStackLayout>
+
+                </DataTemplate>
+
+            </CollectionView.ItemTemplate>
+            
+        </CollectionView>
+
+        <Label Text="Enter Parley Wager Amount" 
+               TextColor="DarkRed" 
+               FontSize="20"
+               HorizontalTextAlignment="Center"
+               Margin="5"/>
+        
+        <Entry Text="{Binding ParlyWagerAmount}"
+               HorizontalTextAlignment="Center"/>
+
+            <Button Command="{Binding SubmitSinglesWagerCommand}" 
+                        Text="Submit Singles Wager"
+                        FontAttributes="Bold"
+                        BackgroundColor="DarkRed" 
+                        BorderColor="DimGray"
+                        BorderWidth="3"
+                        CornerRadius="15"
+                        WidthRequest="300">
+
+                <Button.Shadow>
+                    
+                    <Shadow Brush="DarkBlue" 
+                            Offset="5, 5" 
+                            Radius="10"/>
+                    
+                </Button.Shadow>
+                
+            </Button>
+
+            <Button Command="{Binding SubmitParleyWagerCommand}" 
+                        Text="Submit Parley Wager"
+                        FontAttributes="Bold"
+                        BackgroundColor="DarkRed" 
+                        BorderColor="DimGray"
+                        BorderWidth="3"
+                        CornerRadius="15"
+                        WidthRequest="300">
+                <Button.Shadow>
+                    
+                    <Shadow Brush="DarkBlue" 
+                            Offset="5, 5" 
+                            Radius="10"/>
+                    
+                </Button.Shadow>
+                
+            </Button>
+
+        <Button Command="{Binding GoBackToGamesCommand}" 
+                        Text="Go Back To Games"
+                        FontAttributes="Bold"
+                        BackgroundColor="Yellow" 
+                        BorderColor="DimGray"
+                        BorderWidth="3"
+                        CornerRadius="15"
+                        WidthRequest="385"
+                        Margin="20">
+            
+        </Button>
+        
+    </VerticalStackLayout>
+    
+</ContentPage>

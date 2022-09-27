@@ -9,14 +9,12 @@ public class GameService : IGameService
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IConfiguration _configuration;
-    private readonly Secrets _secrets;
 
     public GameService(
-        IHttpClientFactory httpClientFactory, IConfiguration configuration, Secrets secrets)
+        IHttpClientFactory httpClientFactory, IConfiguration configuration)
     {
         _httpClientFactory = httpClientFactory;
         _configuration = configuration;
-        _secrets = secrets;
     }
 
     public async Task<GameDto[]> GetGamesByWeek(
@@ -30,7 +28,7 @@ public class GameService : IGameService
             var client = _httpClientFactory.CreateClient("sportsdata");
 
             games = await client.GetFromJsonAsync<GameDto[]>(
-                    $"scores/json/ScoresByWeek/2022{season}/{week}?key={_secrets.Key5}");
+                    $"scores/json/ScoresByWeek/2022{season}/{week}?key=");
         }
 
         catch (Exception ex)
