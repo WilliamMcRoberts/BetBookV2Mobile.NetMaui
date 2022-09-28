@@ -7,41 +7,37 @@
              x:DataType="viewModels:MainViewModel"
              Title="Games">
 
-    <Grid ColumnDefinitions="*,*"
-          RowDefinitions="*,Auto"
-          RowSpacing="1">
-        
-        <RefreshView Grid.ColumnSpan="2"
-                     Command="{Binding GetGamesCommand}"
-                     IsRefreshing="{Binding IsRefreshing}">
+    <VerticalStackLayout>
+            
+        <RefreshView Command="{Binding GetGamesCommand}"
+                    IsRefreshing="{Binding IsRefreshing}">
 
-            <CollectionView Grid.ColumnSpan="2"
-                                ItemsSource="{Binding Games}"
-                                SelectionMode="None">
+            <CollectionView ItemsSource="{Binding Games}"
+                        SelectionMode="None">
 
                 <CollectionView.ItemTemplate>
 
                     <DataTemplate x:DataType="dto:GameDto">
 
                         <Frame HeightRequest="140" 
-                                   WidthRequest="385"
-                                   BorderColor="Transparent"
-                                   Style="{StaticResource CardView}"
-                                   Margin="2">
+                                WidthRequest="385"
+                                BorderColor="Transparent"
+                                Style="{StaticResource CardView}"
+                                Margin="2">
 
                             <Frame.GestureRecognizers>
 
                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}, Path=GoToGameDetailsCommand}"
-                                                      CommandParameter="{Binding .}"/>
+                                                    CommandParameter="{Binding .}"/>
 
                             </Frame.GestureRecognizers>
 
                             <Border BackgroundColor="DimGray"
-                                        Stroke="DarkBlue"
-                                        WidthRequest="385"
-                                        HeightRequest="140"
-                                        StrokeThickness="3"
-                                        Padding="15">
+                                    Stroke="DarkBlue"
+                                    WidthRequest="385"
+                                    HeightRequest="140"
+                                    StrokeThickness="3"
+                                    Padding="15">
 
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="15, 15, 15, 15"/>
@@ -49,46 +45,46 @@
 
                                 <Border.Shadow>
                                     <Shadow Brush="DarkRed"
-                                                Offset="40, 40">
+                                            Offset="40, 40">
                                     </Shadow>
                                 </Border.Shadow>
 
                                 <HorizontalStackLayout Spacing="30">
 
                                     <Image Aspect="AspectFill"
-                                               HeightRequest="120"
-                                               Source="{Binding AwayTeamImage}"
-                                               WidthRequest="115" />
+                                            HeightRequest="120"
+                                            Source="{Binding AwayTeamImage}"
+                                            WidthRequest="115" />
 
                                     <VerticalStackLayout Spacing="10">
 
                                         <Label HorizontalTextAlignment="Center" 
-                                                   Style="{StaticResource MediumLabel}"  
-                                                   Text="{Binding DateOfGameOnly}"
-                                                   TextColor="White"
-                                                   FontSize="18"
-                                                   FontAttributes="Bold"/>
+                                                Style="{StaticResource MediumLabel}"  
+                                                Text="{Binding DateOfGameOnly}"
+                                                TextColor="White"
+                                                FontSize="18"
+                                                FontAttributes="Bold"/>
 
                                         <Label HorizontalTextAlignment="Center" 
-                                                   Style="{StaticResource SmallLabel}" 
-                                                   TextColor="White"
-                                                   FontSize="15"
-                                                   FontAttributes="Bold"
-                                                   Text="@"/>
+                                                Style="{StaticResource SmallLabel}" 
+                                                TextColor="White"
+                                                FontSize="15"
+                                                FontAttributes="Bold"
+                                                Text="@"/>
 
                                         <Label HorizontalTextAlignment="Center" 
-                                                   Style="{StaticResource MediumLabel}"  
-                                                   TextColor="White"
-                                                   FontSize="18"
-                                                   FontAttributes="Bold"
-                                                   Text="{Binding TimeOfGameOnly}" />
+                                                Style="{StaticResource MediumLabel}"  
+                                                TextColor="White"
+                                                FontSize="18"
+                                                FontAttributes="Bold"
+                                                Text="{Binding TimeOfGameOnly}" />
 
                                     </VerticalStackLayout>
 
                                     <Image Aspect="AspectFill"
-                                               HeightRequest="120"
-                                               Source="{Binding HomeTeamImage}"
-                                               WidthRequest="115" />
+                                            HeightRequest="120"
+                                            Source="{Binding HomeTeamImage}"
+                                            WidthRequest="115" />
 
                                 </HorizontalStackLayout>
 
@@ -103,12 +99,7 @@
             </CollectionView>
 
         </RefreshView>
-        
-        
-
-        
-
-    </Grid>
+            
+    </VerticalStackLayout>
     
-
 </ContentPage>

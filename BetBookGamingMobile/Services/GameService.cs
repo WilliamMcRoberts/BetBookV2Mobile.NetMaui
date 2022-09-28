@@ -24,7 +24,6 @@ public class GameService : IGameService
 
         try
         {
-            string key = _configuration.GetSection("Settings:Key5").Value;
             var client = _httpClientFactory.CreateClient("sportsdata");
 
             games = await client.GetFromJsonAsync<GameDto[]>(

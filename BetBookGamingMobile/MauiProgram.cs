@@ -30,11 +30,12 @@ public static class MauiProgram
 
         builder.Services.AddHttpClient("vortex", client =>
         {
-            client.BaseAddress = new Uri("https://user9f9bd262219b696.app.vtxhub.com/");
+            client.BaseAddress = DeviceInfo.Platform == DevicePlatform.Android ? 
+                                    new Uri("https://user9f9bd262219b696.app.vtxhub.com/") 
+                                    : new Uri("https://localhost:7184/");
         });
 
         builder.Services.AddMediatR(typeof(MediatREntryPoint).Assembly);
-
 
         builder.Services.AddSingleton<IGameService, GameService>();
         builder.Services.AddTransient<ISingleBetService, SingleBetService>();
