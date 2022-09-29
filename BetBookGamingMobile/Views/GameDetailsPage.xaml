@@ -138,7 +138,7 @@
                 <Button x:Name="buttonAP" 
                         Command="{Binding AddOrRemoveWagerForPointSpreadCommand}"
                         CommandParameter="{Binding GameDto.AwayTeam}"
-                        Text="{Binding GameDto.AwayTeamPointSpreadForDisplay}"
+                        Text="{Binding ButtonTextState.ApText}"
                         BackgroundColor="{Binding ButtonColorState.ApColor}" 
                         Style="{StaticResource WagerButtonStyle}">
 
@@ -155,7 +155,7 @@
                 <Button x:Name="buttonHP" 
                         Command="{Binding AddOrRemoveWagerForPointSpreadCommand}" 
                         CommandParameter="{Binding GameDto.HomeTeam}"
-                        Text="{Binding GameDto.HomeTeamPointSpreadForDisplay}"
+                        Text="{Binding ButtonTextState.HpText}"
                         BackgroundColor="{Binding ButtonColorState.HpColor}" 
                         Style="{StaticResource WagerButtonStyle}">
 
@@ -175,7 +175,7 @@
                 <Button x:Name="buttonAM" 
                         Command="{Binding AddOrRemoveWagerForMoneylineCommand}" 
                         CommandParameter="{Binding GameDto.AwayTeam}"
-                        Text="{Binding GameDto.AwayTeamMoneylineForDisplay}"
+                        Text="{Binding ButtonTextState.AmText}"
                         BackgroundColor="{Binding ButtonColorState.AmColor}"
                         Style="{StaticResource WagerButtonStyle}">
 
@@ -192,7 +192,7 @@
                 <Button x:Name="buttonHM" 
                         Command="{Binding AddOrRemoveWagerForMoneylineCommand}" 
                         CommandParameter="{Binding GameDto.HomeTeam}"
-                        Text="{Binding GameDto.HomeTeamMoneylineForDisplay}"
+                        Text="{Binding ButtonTextState.HmText}"
                         BackgroundColor="{Binding ButtonColorState.HmColor}"
                         Style="{StaticResource WagerButtonStyle}">
                     <Button.Shadow>
@@ -211,7 +211,7 @@
                 <Button x:Name="buttonO" 
                         Command="{Binding AddOrRemoveWagerForOverUnderCommand}" 
                         CommandParameter="Over"
-                        Text="{Binding GameDto.OverUnderForOverDisplay}"
+                        Text="{Binding ButtonTextState.OText}"
                         BackgroundColor="{Binding ButtonColorState.OColor}" 
                         Style="{StaticResource WagerButtonStyle}">
 
@@ -228,7 +228,7 @@
                 <Button x:Name="buttonU" 
                         Command="{Binding AddOrRemoveWagerForOverUnderCommand}" 
                         CommandParameter="Under"
-                        Text="{Binding GameDto.OverUnderForUnderDisplay}"
+                        Text="{Binding ButtonTextState.UText}"
                         BackgroundColor="{Binding ButtonColorState.UColor}" 
                         Style="{StaticResource WagerButtonStyle}">
                     <Button.Shadow>

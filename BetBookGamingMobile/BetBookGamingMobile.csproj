@@ -52,6 +52,7 @@
 	  <None Remove="Resources\Images\ari.svg" />
 	  <None Remove="Resources\Images\atl.svg" />
 	  <None Remove="Resources\Images\bal.svg" />
+	  <None Remove="Resources\Images\booksolid.svg" />
 	  <None Remove="Resources\Images\buf.svg" />
 	  <None Remove="Resources\Images\car.svg" />
 	  <None Remove="Resources\Images\chi.svg" />
@@ -60,6 +61,7 @@
 	  <None Remove="Resources\Images\dal.svg" />
 	  <None Remove="Resources\Images\den.svg" />
 	  <None Remove="Resources\Images\det.svg" />
+	  <None Remove="Resources\Images\footballsolid.svg" />
 	  <None Remove="Resources\Images\gb.svg" />
 	  <None Remove="Resources\Images\hou.svg" />
 	  <None Remove="Resources\Images\ind.svg" />
@@ -76,6 +78,7 @@
 	  <None Remove="Resources\Images\nyj.svg" />
 	  <None Remove="Resources\Images\phi.svg" />
 	  <None Remove="Resources\Images\pit.svg" />
+	  <None Remove="Resources\Images\profilesolid.svg" />
 	  <None Remove="Resources\Images\sea.svg" />
 	  <None Remove="Resources\Images\sf.svg" />
 	  <None Remove="Resources\Images\tb.svg" />
@@ -103,6 +106,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\GameDetailsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ProfilePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

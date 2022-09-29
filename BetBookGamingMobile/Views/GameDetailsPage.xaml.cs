@@ -11,18 +11,17 @@ public partial class GameDetailsPage : ContentPage
 {
     private readonly GameDetailsViewModel _viewModel;
 
-    public GameDetailsPage(GameDetailsViewModel viewModel, BetSlipState betSlipState)
+    public GameDetailsPage(GameDetailsViewModel viewModel)
     {
         InitializeComponent();
-        BindingContext = viewModel;
-        _viewModel = viewModel;
+        BindingContext = _viewModel = viewModel;
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        (_viewModel.BetSlip, _viewModel.ButtonColorState) = 
-            _viewModel.GetAllStates();
+        (_viewModel.BetSlip, _viewModel.ButtonColorState) =
+            _viewModel.GetButtonColorAndBetSlipStates();
+        _viewModel.ButtonTextState = _viewModel.GetButtonTextState();
     }
-
 }

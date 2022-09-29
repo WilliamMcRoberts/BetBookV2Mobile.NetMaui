@@ -18,17 +18,22 @@ public partial class MainViewModel : BaseViewModel
 
     private readonly IGameService _gameService;
 
-    public bool gamesLoaded;
+    //public bool gamesLoaded;
 
     public ObservableCollection<GameDto> Games { get; } = new();
 
     [ObservableProperty]
     private bool isRefreshing;
 
+    [ObservableProperty]
+    SeasonType season;
+
+    [ObservableProperty]
+    int weekNumber;
+
     public MainViewModel(IConnectivity connectivity, 
                          IGameService gameService)
     {
-        Title = "Bet Book Mobile";
         _connectivity = connectivity;
         _gameService = gameService;
     }
@@ -46,13 +51,10 @@ public partial class MainViewModel : BaseViewModel
             return;
         }
 
-        SeasonType season = DateTime.Now.CalculateSeason();
-        int week = season.CalculateWeek(DateTime.Now);
-
         IsBusy = true;
 
         GameDto[] gamesArray =
-            await _gameService.GetGamesByWeek(season, week);
+            await _gameService.GetGamesByWeek(Season, WeekNumber);
 
         if (gamesArray is null)
             return;
@@ -68,7 +70,7 @@ public partial class MainViewModel : BaseViewModel
 
         IsBusy = false;
         IsRefreshing = false;
-        gamesLoaded = true;
+        //gamesLoaded = true;
     }
 
     [RelayCommand]

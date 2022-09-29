@@ -11,8 +11,7 @@ public partial class BetSlipPage : ContentPage
     public BetSlipPage(BetSlipViewModel viewModel, BetSlipState betSlip)
 	{
 		InitializeComponent();
-		BindingContext = viewModel;
-        _viewModel = viewModel;
+		BindingContext = _viewModel = viewModel;
         _betSlip = betSlip;
     }
 

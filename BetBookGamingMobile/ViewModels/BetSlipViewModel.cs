@@ -1,15 +1,12 @@
 ﻿
 
 using BetBookGamingMobile.Commands;
-using BetBookGamingMobile.Dto;
 using BetBookGamingMobile.Models;
 using BetBookGamingMobile.Services;
 using BetBookGamingMobile.StateManagement;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using MediatR;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace BetBookGamingMobile.ViewModels;
 
@@ -53,17 +50,5 @@ public partial class BetSlipViewModel : BaseViewModel
     async Task RemoveBetFromPreBets(CreateBetModel createBet)
     {
         BetSlip = await _mediator.Send(new DeleteBetCommand(createBet));
-    }
-
-    [RelayCommand]
-    async Task GoBack()
-    {
-        await Shell.Current.GoToAsync("..");
-    }
-
-    [RelayCommand]
-    async Task GoBackToGames()
-    {
-        await Shell.Current.GoToAsync("../..");
     }
 }

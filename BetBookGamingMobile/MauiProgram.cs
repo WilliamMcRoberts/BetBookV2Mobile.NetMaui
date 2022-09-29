@@ -47,12 +47,15 @@ public static class MauiProgram
         builder.Services.AddTransient<MainViewModel>();
         builder.Services.AddTransient<GameDetailsViewModel>();
         builder.Services.AddTransient<BetSlipViewModel>();
+        builder.Services.AddTransient<ProfileViewModel>();
 
         builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<GameDetailsPage>();
         builder.Services.AddTransient<BetSlipPage>();
+        builder.Services.AddTransient<ProfilePage>();
 
         builder.Services.AddSingleton(Connectivity.Current);
+
         builder.Configuration.AddUserSecrets("e7d4ad5e-3fed-44c5-846f-c09a4742a4cd");
 
         return builder.Build();

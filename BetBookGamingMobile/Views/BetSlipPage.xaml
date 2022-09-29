@@ -71,7 +71,7 @@
                 
             </Button>
 
-            <Button Command="{Binding SubmitParleyWagerCommand}" 
+        <Button Command="{Binding SubmitParleyWagerCommand}" 
                         Text="Submit Parley Wager"
                         FontAttributes="Bold"
                         BackgroundColor="DarkRed" 
@@ -79,28 +79,16 @@
                         BorderWidth="3"
                         CornerRadius="15"
                         WidthRequest="300">
-                <Button.Shadow>
-                    
-                    <Shadow Brush="DarkBlue" 
+            <Button.Shadow>
+
+                <Shadow Brush="DarkBlue" 
                             Offset="5, 5" 
                             Radius="10"/>
-                    
-                </Button.Shadow>
-                
-            </Button>
 
-        <Button Command="{Binding GoBackToGamesCommand}" 
-                        Text="Go Back To Games"
-                        FontAttributes="Bold"
-                        BackgroundColor="Yellow" 
-                        BorderColor="DimGray"
-                        BorderWidth="3"
-                        CornerRadius="15"
-                        WidthRequest="385"
-                        Margin="20">
-            
+            </Button.Shadow>
+
         </Button>
-        
+
     </VerticalStackLayout>
     
 </ContentPage>

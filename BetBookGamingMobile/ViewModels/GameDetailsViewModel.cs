@@ -25,6 +25,9 @@ public partial class GameDetailsViewModel : BaseViewModel
     ButtonColorStateModel buttonColorState;
 
     [ObservableProperty]
+    ButtonTextStateModel buttonTextState;
+
+    [ObservableProperty]
     BetSlipStateModel betSlip;
 
     public GameDetailsViewModel(BetSlipState betSlipState, IUserService userService)
@@ -37,39 +40,42 @@ public partial class GameDetailsViewModel : BaseViewModel
     private void AddOrRemoveWagerForPointSpread(string winner)
     {
         _betSlipState.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.POINTSPREAD);
-        (BetSlip, ButtonColorState) = GetAllStates();
+        (BetSlip, ButtonColorState) = GetButtonColorAndBetSlipStates();
     }
 
     [RelayCommand]
     private void AddOrRemoveWagerForMoneyline(string winner)
     {
         _betSlipState.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.MONEYLINE);
-        (BetSlip, ButtonColorState) = GetAllStates();
+        (BetSlip, ButtonColorState) = GetButtonColorAndBetSlipStates();
     }
 
     [RelayCommand]
     private void AddOrRemoveWagerForOverUnder(string overUnder)
     {
         _betSlipState.SelectOrRemoveWinnerAndGameForBet(string.Concat(overUnder, GameDto.ScoreID.ToString()), GameDto, BetType.OVERUNDER);
-        (BetSlip, ButtonColorState) = GetAllStates();
+        (BetSlip, ButtonColorState) = GetButtonColorAndBetSlipStates();
     }
 
-    public (BetSlipStateModel, ButtonColorStateModel) GetAllStates()
-    {
-        BetSlip = _betSlipState.GetBetSlipState();
-        ButtonColorState = _betSlipState.GetButtonColorState(GameDto);
-        return (BetSlip, ButtonColorState);
-    }
+    public (BetSlipStateModel, ButtonColorStateModel) GetButtonColorAndBetSlipStates() =>
+        (_betSlipState.GetBetSlipState(), _betSlipState.GetButtonColorState(GameDto));
+
+    public ButtonTextStateModel GetButtonTextState() =>
+        new ButtonTextStateModel
+        {
+            ApText = $"{GameDto.AwayTeam} {GameDto.AwayTeamPointSpreadForDisplay} Payout: {GameDto.PointSpreadAwayTeamMoneyLine}",
+            HpText = $"{GameDto.HomeTeam} {GameDto.HomeTeamPointSpreadForDisplay} Payout: {GameDto.PointSpreadHomeTeamMoneyLine}",
+            AmText = $"Payout: {GameDto.AwayTeamMoneyLine}",
+            HmText = $"Payout: {GameDto.HomeTeamMoneyLine}",
+            OText = $"Over {GameDto.OverUnder} Payout: {GameDto.OverPayout}",
+            UText = $"Over {GameDto.OverUnder} Payout: {GameDto.UnderPayout}"
+
+        };
 
     [RelayCommand]
-    private async Task GoToCurrentBetSlip()
-    {
+    private async Task GoToCurrentBetSlipAsync() => 
         await Shell.Current.GoToAsync(nameof(BetSlipPage), true);
-    }
 
     [RelayCommand]
-    private async Task GoBack()
-    {
-        await Shell.Current.GoToAsync("..");
-    }
+    private async Task GoBackAsync() => await Shell.Current.GoToAsync("..");
 }

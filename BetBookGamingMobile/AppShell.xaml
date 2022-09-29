@@ -3,12 +3,42 @@
     x:Class="BetBookGamingMobile.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:BetBookGamingMobile.Views"
     xmlns:local="clr-namespace:BetBookGamingMobile"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+        
+            <Tab Title="Games" 
+                 Icon="footballsolid.svg">
+            
+                <ShellContent
+                        Title="Available Games"
+                        ContentTemplate="{DataTemplate local:MainPage}"
+                        Route="MainPage" />
+
+            </Tab>
+        
+            <Tab Title="Bet Slip" 
+                 Icon="booksolid.svg">
+
+                <ShellContent
+                    Title="Potential Wagers"
+                    ContentTemplate="{DataTemplate views:BetSlipPage}"
+                    Route="BetSlipPage" />
+
+            </Tab>
+
+            <Tab Title="Profile" 
+                 Icon="profilesolid.svg">
+
+                <ShellContent
+                        Title="Profile"
+                        ContentTemplate="{DataTemplate views:ProfilePage}"
+                        Route="ProfilePage" />
+
+            </Tab>
+
+    </TabBar>
 
 </Shell>
