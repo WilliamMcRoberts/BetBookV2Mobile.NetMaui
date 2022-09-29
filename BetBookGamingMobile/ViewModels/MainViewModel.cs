@@ -18,8 +18,6 @@ public partial class MainViewModel : BaseViewModel
 
     private readonly IGameService _gameService;
 
-    //public bool gamesLoaded;
-
     public ObservableCollection<GameDto> Games { get; } = new();
 
     [ObservableProperty]
@@ -70,7 +68,6 @@ public partial class MainViewModel : BaseViewModel
 
         IsBusy = false;
         IsRefreshing = false;
-        //gamesLoaded = true;
     }
 
     [RelayCommand]

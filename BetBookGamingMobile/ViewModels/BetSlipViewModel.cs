@@ -13,13 +13,13 @@ namespace BetBookGamingMobile.ViewModels;
 [QueryProperty("BetSlip", "BetSlip")]
 public partial class BetSlipViewModel : BaseViewModel
 {
-	private readonly BetSlipState _betSlipState;
+	private readonly BetSlip _betSlip;
     private readonly IUserService _userService;
     private readonly IMediator _mediator;
 
-    public BetSlipViewModel(BetSlipState betSlipState, IUserService userService, IMediator mediator)
+    public BetSlipViewModel(BetSlip betSlip, IUserService userService, IMediator mediator)
 	{
-        _betSlipState = betSlipState;
+        _betSlip = betSlip;
         _userService = userService;
         _mediator = mediator;
     }
@@ -28,14 +28,14 @@ public partial class BetSlipViewModel : BaseViewModel
     decimal parlyWagerAmount;
 
     [ObservableProperty]
-    BetSlipStateModel betSlip;
+    BetSlipState betSlipState;
 
     [RelayCommand]
     private async Task SubmitSinglesWager()
     {
         UserModel user = await _userService.GetUserByUserId("632395fdc17912bd030e4162");
 
-        await _betSlipState.OnSubmitBetsFromSinglesBetSlip(user);
+        await _betSlip.OnSubmitBetsFromSinglesBetSlip(user);
     }
 
     [RelayCommand]
@@ -43,12 +43,12 @@ public partial class BetSlipViewModel : BaseViewModel
     {
         UserModel user = await _userService.GetUserByUserId("632395fdc17912bd030e4162");
 
-        bool parleyBetGood = await _betSlipState.OnSubmitBetsFromParleyBetSlip(user, parlyWagerAmount);
+        bool parleyBetGood = await _betSlip.OnSubmitBetsFromParleyBetSlip(user, parlyWagerAmount);
     }
 
     [RelayCommand]
     async Task RemoveBetFromPreBets(CreateBetModel createBet)
     {
-        BetSlip = await _mediator.Send(new DeleteBetCommand(createBet));
+        BetSlipState = await _mediator.Send(new DeleteBetCommand(createBet));
     }
 }

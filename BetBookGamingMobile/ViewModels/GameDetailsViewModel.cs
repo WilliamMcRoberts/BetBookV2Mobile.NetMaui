@@ -7,61 +7,59 @@ using BetBookGamingMobile.StateManagement;
 using BetBookGamingMobile.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using System.Collections.ObjectModel;
 
 namespace BetBookGamingMobile.ViewModels;
 
 [QueryProperty("GameDto", "GameDto")]
 public partial class GameDetailsViewModel : BaseViewModel
 {
-    private readonly BetSlipState _betSlipState;
+    private readonly BetSlip _betSlip;
     private readonly IUserService _userService;
     
     [ObservableProperty]
     GameDto gameDto;
 
     [ObservableProperty]
-    ButtonColorStateModel buttonColorState;
+    ButtonColorState buttonColorState;
 
     [ObservableProperty]
-    ButtonTextStateModel buttonTextState;
+    ButtonTextState buttonTextState;
 
     [ObservableProperty]
-    BetSlipStateModel betSlip;
+    BetSlipState betSlipState;
 
-    public GameDetailsViewModel(BetSlipState betSlipState, IUserService userService)
+    public GameDetailsViewModel(BetSlip betSlip, IUserService userService)
     {
-        _betSlipState = betSlipState;
+        _betSlip = betSlip;
         _userService = userService;
     }    
 
     [RelayCommand]
     private void AddOrRemoveWagerForPointSpread(string winner)
     {
-        _betSlipState.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.POINTSPREAD);
-        (BetSlip, ButtonColorState) = GetButtonColorAndBetSlipStates();
+        _betSlip.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.POINTSPREAD);
+        (BetSlipState, ButtonColorState) = GetButtonColorAndBetSlipStates();
     }
 
     [RelayCommand]
     private void AddOrRemoveWagerForMoneyline(string winner)
     {
-        _betSlipState.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.MONEYLINE);
-        (BetSlip, ButtonColorState) = GetButtonColorAndBetSlipStates();
+        _betSlip.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.MONEYLINE);
+        (BetSlipState, ButtonColorState) = GetButtonColorAndBetSlipStates();
     }
 
     [RelayCommand]
     private void AddOrRemoveWagerForOverUnder(string overUnder)
     {
-        _betSlipState.SelectOrRemoveWinnerAndGameForBet(string.Concat(overUnder, GameDto.ScoreID.ToString()), GameDto, BetType.OVERUNDER);
-        (BetSlip, ButtonColorState) = GetButtonColorAndBetSlipStates();
+        _betSlip.SelectOrRemoveWinnerAndGameForBet(string.Concat(overUnder, GameDto.ScoreID.ToString()), GameDto, BetType.OVERUNDER);
+        (BetSlipState, ButtonColorState) = GetButtonColorAndBetSlipStates();
     }
 
-    public (BetSlipStateModel, ButtonColorStateModel) GetButtonColorAndBetSlipStates() =>
-        (_betSlipState.GetBetSlipState(), _betSlipState.GetButtonColorState(GameDto));
+    public (BetSlipState, ButtonColorState) GetButtonColorAndBetSlipStates() =>
+        (_betSlip.GetBetSlipState(), _betSlip.GetButtonColorState(GameDto));
 
-    public ButtonTextStateModel GetButtonTextState() =>
-        new ButtonTextStateModel
+    public ButtonTextState GetButtonTextState() =>
+        new ButtonTextState
         {
             ApText = $"{GameDto.AwayTeam} {GameDto.AwayTeamPointSpreadForDisplay} Payout: {GameDto.PointSpreadAwayTeamMoneyLine}",
             HpText = $"{GameDto.HomeTeam} {GameDto.HomeTeamPointSpreadForDisplay} Payout: {GameDto.PointSpreadHomeTeamMoneyLine}",

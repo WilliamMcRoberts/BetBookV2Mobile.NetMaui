@@ -2,7 +2,7 @@
 
 namespace BetBookGamingMobile.Models
 {
-    public class ButtonTextStateModel
+    public class ButtonTextState
     {
         public string ApText { get; set; }
         public string HpText { get; set; }

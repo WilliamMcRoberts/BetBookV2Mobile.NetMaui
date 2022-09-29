@@ -6,9 +6,9 @@ namespace BetBookGamingMobile.Views;
 public partial class BetSlipPage : ContentPage
 {
     private readonly BetSlipViewModel _viewModel;
-    private readonly BetSlipState _betSlip;
+    private readonly BetSlip _betSlip;
 
-    public BetSlipPage(BetSlipViewModel viewModel, BetSlipState betSlip)
+    public BetSlipPage(BetSlipViewModel viewModel, BetSlip betSlip)
 	{
 		InitializeComponent();
 		BindingContext = _viewModel = viewModel;
@@ -18,6 +18,6 @@ public partial class BetSlipPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        _viewModel.BetSlip = _betSlip.GetBetSlipState();
+        _viewModel.BetSlipState = _betSlip.GetBetSlipState();
     }
 }

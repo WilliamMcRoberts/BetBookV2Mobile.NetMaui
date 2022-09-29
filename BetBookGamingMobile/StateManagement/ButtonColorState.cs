@@ -2,7 +2,7 @@
 
 namespace BetBookGamingMobile.Models;
 
-public class ButtonColorStateModel
+public class ButtonColorState
 {
     public Color ApColor { get; set; }
     public Color HpColor { get; set; }

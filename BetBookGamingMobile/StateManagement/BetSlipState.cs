@@ -6,7 +6,7 @@ using BetBookGamingMobile.Services;
 
 namespace BetBookGamingMobile.StateManagement;
 
-public class BetSlipState
+public class BetSlip
 {
     public List<CreateBetModel> preBets = new();
     public UserModel loggedInUser;
@@ -24,7 +24,7 @@ public class BetSlipState
     public readonly IParleyBetSlipService _parleyBetSlipService;
     public readonly ISingleBetService _singleBetService;
 
-    public BetSlipState(IGameService gameService,
+    public BetSlip(IGameService gameService,
                         ISingleBetService singleBetService,
                         IParleyBetSlipService parleyBetSlipService)
     {
@@ -61,8 +61,8 @@ public class BetSlipState
         conflictingBetsForParley = CheckForConflictingBets();
     }
 
-    public ButtonColorStateModel GetButtonColorState(GameDto gameDto) =>
-        new ButtonColorStateModel
+    public ButtonColorState GetButtonColorState(GameDto gameDto) =>
+        new ButtonColorState
         {
             ApColor = preBets.Contains(preBets.Where(b => 
                 b.Winner == gameDto.AwayTeam && b.Game.ScoreID == gameDto.ScoreID && b.BetType == BetType.POINTSPREAD)
@@ -84,9 +84,9 @@ public class BetSlipState
                 .FirstOrDefault()) ? Colors.DarkRed : Colors.DarkBlue
         };
 
-    public BetSlipStateModel GetBetSlipState()
+    public BetSlipState GetBetSlipState()
     {
-        var betSlipState = new BetSlipStateModel();
+        var betSlipState = new BetSlipState();
 
         foreach(var bet in preBets)
             betSlipState.BetsInBetSlip.Add(bet);
@@ -307,4 +307,9 @@ public class BetSlipState
          createBetModel.Winner == createBetModel.Game.HomeTeam ?
          $"{createBetModel.Winner} {Convert.ToDecimal(createBetModel.Game.PointSpread):+#.0;-#.0}"
          : $"{createBetModel.Winner} {Convert.ToDecimal(createBetModel.Game.PointSpread):-#.0;+#.0;}";
+}
+
+public class BetSlipState
+{
+    public List<CreateBetModel> BetsInBetSlip { get; set; } = new();
 }

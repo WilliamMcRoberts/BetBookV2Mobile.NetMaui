@@ -20,7 +20,7 @@ public partial class GameDetailsPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        (_viewModel.BetSlip, _viewModel.ButtonColorState) =
+        (_viewModel.BetSlipState, _viewModel.ButtonColorState) =
             _viewModel.GetButtonColorAndBetSlipStates();
         _viewModel.ButtonTextState = _viewModel.GetButtonTextState();
     }

@@ -42,7 +42,7 @@ public static class MauiProgram
         builder.Services.AddTransient<IParleyBetSlipService, ParleyBetSlipService>();
         builder.Services.AddTransient<IUserService, UserService>();
 
-        builder.Services.AddScoped<BetSlipState>();
+        builder.Services.AddScoped<BetSlip>();
 
         builder.Services.AddTransient<MainViewModel>();
         builder.Services.AddTransient<GameDetailsViewModel>();

@@ -33,7 +33,9 @@
     
     <ScrollView>
 
-        <VerticalStackLayout  BackgroundColor="DimGray">
+        <VerticalStackLayout  
+                        BackgroundColor="DimGray"
+                        >
 
 
             <HorizontalStackLayout Spacing="50" 
@@ -130,7 +132,8 @@
             </Frame>
 
             <VerticalStackLayout Spacing="5" 
-                                 x:Name="verticalStackLayout">
+                                 x:Name="verticalStackLayout"
+                                 Margin="0,0,0,50">
 
                 <Label Text="Point Spread"
                        Style="{StaticResource WagerLabel}"/>
@@ -234,22 +237,6 @@
                     <Button.Shadow>
 
                         <Shadow Brush="DarkRed" 
-                                Offset="5, 5" 
-                                Radius="10"/>
-
-                    </Button.Shadow>
-
-                </Button>
-
-                <Button Command="{Binding GoToCurrentBetSlipCommand}"
-                        Text="Go To Bet Slip"
-                        BackgroundColor="DarkRed" 
-                        Style="{StaticResource WagerButtonStyle}"
-                        Margin="30">
-
-                    <Button.Shadow>
-
-                        <Shadow Brush="DarkBlue" 
                                 Offset="5, 5" 
                                 Radius="10"/>
 

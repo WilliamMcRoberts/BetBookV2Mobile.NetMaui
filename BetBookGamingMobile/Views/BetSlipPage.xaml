@@ -10,7 +10,7 @@
     
     <VerticalStackLayout>
         
-        <CollectionView ItemsSource="{Binding BetSlip.BetsInBetSlip}">
+        <CollectionView ItemsSource="{Binding BetSlipState.BetsInBetSlip}">
             
             <CollectionView.ItemTemplate>
 
