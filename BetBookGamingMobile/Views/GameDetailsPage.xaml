@@ -6,7 +6,7 @@
              xmlns:models="clr-namespace:BetBookGamingMobile.Models"
              xmlns:dto="clr-namespace:BetBookGamingMobile.Dto"
              x:DataType="viewModels:GameDetailsViewModel"
-             Title="GameDetailsPage">
+             Title="{Binding GameDto.GameTitle}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -38,8 +38,7 @@
                         >
 
 
-            <HorizontalStackLayout Spacing="50" 
-                                   Margin="20" 
+            <HorizontalStackLayout Spacing="25" 
                                    HorizontalOptions="Center" >
 
                 <Image HeightRequest="160"
@@ -57,34 +56,45 @@
             </HorizontalStackLayout>
 
             <Frame BackgroundColor="DarkRed"
-                   WidthRequest="385"
-                   HeightRequest="300"
+                   WidthRequest="340"
+                   HeightRequest="260"
                    BorderColor="DarkBlue"
                    CornerRadius="15"
-                   Style="{StaticResource CardView}">
-                
-                <Border Stroke="DarkBlue"
-                        StrokeThickness="3">
-                    
-                    <Border.StrokeShape>
-                        
-                        <RoundRectangle CornerRadius="25, 25, 25, 25"/>
-                        
-                    </Border.StrokeShape>
+                   Margin="0,15,0,0"
+                   Padding="2">
 
-                    <Border.Shadow>
-                        
-                        <Shadow Brush="DarkBlue" 
-                                Offset="20, 20" 
-                                Opacity=".7"/>
-                        
-                    </Border.Shadow>
+
+                <Border Stroke="DarkBlue"
+                        StrokeThickness="3"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand">
+
+                    <Border.StrokeShape>
+
+                        <RoundRectangle CornerRadius="15"/>
+
+                    </Border.StrokeShape>
                     
+                    <Border.Background>
+
+                        <LinearGradientBrush EndPoint="1,0">
+
+                            <GradientStop Color="Azure"
+                                            Offset="0.1" />
+
+                            <GradientStop Color="IndianRed"
+                                            Offset="1.0" />
+
+                        </LinearGradientBrush>
+
+                    </Border.Background>
+
                     <VerticalStackLayout Margin="15" 
-                                         Spacing="10">
+                                         Spacing="10"
+                                         VerticalOptions="Center">
                         
                         <Label FontSize="40" 
-                               TextColor="Navy" 
+                               TextColor="DarkRed" 
                                FontAttributes="Bold"
                                VerticalOptions="Center"
                                HorizontalOptions="Center"  
@@ -98,21 +108,21 @@
                             <Label FontSize="40" 
                                    VerticalOptions="Center"
                                    FontAttributes="Bold"
-                                   TextColor="Navy"  
+                                   TextColor="DarkRed"  
                                    Style="{StaticResource MediumLabel}" 
                                    Text="{Binding GameDto.AwayTeam}" />
 
                             <Label FontSize="40" 
                                    FontAttributes="Bold"
                                    VerticalOptions="Center"
-                                   TextColor="Navy"  
+                                   TextColor="DarkRed"  
                                    Style="{StaticResource MediumLabel}" 
                                    Text="@" />
 
                             <Label FontSize="40" 
                                    FontAttributes="Bold"
                                    VerticalOptions="Center"
-                                   TextColor="Navy"
+                                   TextColor="DarkRed"
                                    Style="{StaticResource MediumLabel}" 
                                    Text="{Binding GameDto.HomeTeam}" />
 
@@ -120,7 +130,7 @@
 
                         <Label FontSize="40" 
                                FontAttributes="Bold"
-                               TextColor="Navy"
+                               TextColor="DarkRed"
                                HorizontalOptions="Center"  
                                Style="{StaticResource MediumLabel}" 
                                Text="{Binding GameDto.TimeOfGameOnly}" />

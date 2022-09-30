@@ -21,7 +21,8 @@ public partial class MainPage : ContentPage
         {
             _viewModel.Season = DateTime.Now.CalculateSeason();
             _viewModel.WeekNumber = _viewModel.Season.CalculateWeek(DateTime.Now);
-            _viewModel.Title = $"Games {_viewModel.Season} Season Week {_viewModel.WeekNumber}";
+            _viewModel.Title = _viewModel.Season == SeasonType.REG ? $"Regular Season Week {_viewModel.WeekNumber}" 
+                 : $"Post Season Week {_viewModel.WeekNumber}";
             await _viewModel.GetGamesCommand.ExecuteAsync(null);
         }
     }

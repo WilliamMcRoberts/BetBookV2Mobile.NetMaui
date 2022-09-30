@@ -50,7 +50,7 @@
                Margin="5"/>
         
         <Entry Text="{Binding ParlyWagerAmount}"
-               HorizontalTextAlignment="Center"/>
+               HorizontalTextAlignment="Center" />
 
             <Button Command="{Binding SubmitSinglesWagerCommand}" 
                         Text="Submit Singles Wager"
@@ -79,6 +79,7 @@
                         BorderWidth="3"
                         CornerRadius="15"
                         WidthRequest="300">
+            
             <Button.Shadow>
 
                 <Shadow Brush="DarkBlue" 

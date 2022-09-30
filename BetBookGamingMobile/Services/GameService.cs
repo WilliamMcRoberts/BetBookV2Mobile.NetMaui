@@ -20,21 +20,37 @@ public class GameService : IGameService
     public async Task<GameDto[]> GetGamesByWeek(
         SeasonType season, int week)
     {
-        GameDto[] games = new GameDto[16];
-
-        try
+        // Sample Data
+        return new GameDto[2]
         {
-            var client = _httpClientFactory.CreateClient("sportsdata");
+            new GameDto
+            {
+                AwayTeam = "CIN", HomeTeam = "PIT", PointSpread = (float)5.5, OverUnder = (float)55.5, AwayTeamMoneyLine = 150, HomeTeamMoneyLine = -150, PointSpreadAwayTeamMoneyLine = 150, PointSpreadHomeTeamMoneyLine = -150, OverPayout = 150, UnderPayout = -150, DateTime = new DateTime(2022, 10, 2, 19, 30, 0)
+            },
+            new GameDto
+            {
+                AwayTeam = "DAL", HomeTeam = "WAS", PointSpread = (float)3.5, OverUnder = (float)33.5, AwayTeamMoneyLine = 350, HomeTeamMoneyLine = -350, PointSpreadAwayTeamMoneyLine = 350, PointSpreadHomeTeamMoneyLine = -350, OverPayout = 350, UnderPayout = -350, DateTime = new DateTime(2022, 10, 2, 19, 30, 0)
+            }
+        };
 
-            games = await client.GetFromJsonAsync<GameDto[]>(
-                    $"scores/json/ScoresByWeek/2022{season}/{week}?key=");
-        }
 
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
+        //    GameDto[] games = new GameDto[16];
 
-        return games!;
+        //    try
+        //    {
+        //        var client = _httpClientFactory.CreateClient("sportsdata");
+
+        //        games = await client.GetFromJsonAsync<GameDto[]>(
+        //                $"scores/json/ScoresByWeek/2022{season}/{week}?key=");
+        //    }
+
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //    }
+
+        //    return games!;
+
+        //}
     }
 }

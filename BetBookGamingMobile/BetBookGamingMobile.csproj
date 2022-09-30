@@ -79,6 +79,7 @@
 	  <None Remove="Resources\Images\phi.svg" />
 	  <None Remove="Resources\Images\pit.svg" />
 	  <None Remove="Resources\Images\profilesolid.svg" />
+	  <None Remove="Resources\Images\receiptsolid.svg" />
 	  <None Remove="Resources\Images\sea.svg" />
 	  <None Remove="Resources\Images\sf.svg" />
 	  <None Remove="Resources\Images\tb.svg" />

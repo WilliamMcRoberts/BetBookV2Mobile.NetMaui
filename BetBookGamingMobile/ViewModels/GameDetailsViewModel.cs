@@ -61,12 +61,12 @@ public partial class GameDetailsViewModel : BaseViewModel
     public ButtonTextState GetButtonTextState() =>
         new ButtonTextState
         {
-            ApText = $"{GameDto.AwayTeam} {GameDto.AwayTeamPointSpreadForDisplay} Payout: {GameDto.PointSpreadAwayTeamMoneyLine}",
-            HpText = $"{GameDto.HomeTeam} {GameDto.HomeTeamPointSpreadForDisplay} Payout: {GameDto.PointSpreadHomeTeamMoneyLine}",
-            AmText = $"Payout: {GameDto.AwayTeamMoneyLine}",
-            HmText = $"Payout: {GameDto.HomeTeamMoneyLine}",
-            OText = $"Over {GameDto.OverUnder} Payout: {GameDto.OverPayout}",
-            UText = $"Over {GameDto.OverUnder} Payout: {GameDto.UnderPayout}"
+            ApText = $"{GameDto.AwayTeam} {GameDto.AwayTeamPointSpreadForDisplay} | {GameDto.PointSpreadAwayTeamMoneyLine}",
+            HpText = $"{GameDto.HomeTeam} {GameDto.HomeTeamPointSpreadForDisplay} | {GameDto.PointSpreadHomeTeamMoneyLine}",
+            AmText = $"{GameDto.AwayTeamMoneyLine}",
+            HmText = $"{GameDto.HomeTeamMoneyLine}",
+            OText = $"Over {GameDto.OverUnder} | {GameDto.OverPayout}",
+            UText = $"Over {GameDto.OverUnder} | {GameDto.UnderPayout}"
 
         };
 

@@ -1,23 +1,25 @@
+using BetBookGamingMobile.Queries;
 using BetBookGamingMobile.StateManagement;
 using BetBookGamingMobile.ViewModels;
+using MediatR;
 
 namespace BetBookGamingMobile.Views;
 
 public partial class BetSlipPage : ContentPage
 {
     private readonly BetSlipViewModel _viewModel;
-    private readonly BetSlip _betSlip;
+    private readonly IMediator _mediator;
 
-    public BetSlipPage(BetSlipViewModel viewModel, BetSlip betSlip)
+    public BetSlipPage(BetSlipViewModel viewModel, IMediator mediator)
 	{
 		InitializeComponent();
 		BindingContext = _viewModel = viewModel;
-        _betSlip = betSlip;
+        _mediator = mediator;
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
-        _viewModel.BetSlipState = _betSlip.GetBetSlipState();
+        _viewModel.BetSlipState = await _mediator.Send(new GetBetSlipStateQuery());
     }
 }

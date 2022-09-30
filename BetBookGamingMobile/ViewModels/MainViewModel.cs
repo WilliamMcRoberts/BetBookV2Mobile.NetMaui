@@ -68,6 +68,8 @@ public partial class MainViewModel : BaseViewModel
 
         IsBusy = false;
         IsRefreshing = false;
+
+        
     }
 
     [RelayCommand]

@@ -15,7 +15,7 @@
                 <ShellContent
                         Title="Available Games"
                         ContentTemplate="{DataTemplate local:MainPage}"
-                        Route="MainPage" />
+                        Route="MainPage"/>
 
             </Tab>
         

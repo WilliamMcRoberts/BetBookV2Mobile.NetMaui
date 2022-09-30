@@ -160,7 +160,8 @@ public class BetSlip
         return true;
     }
 
-    public async Task<bool> OnSubmitBetsFromParleyBetSlip(UserModel loggedInUser, decimal parleyWagerAmount)
+    public async Task<bool> OnSubmitBetsFromParleyBetSlip(
+            UserModel loggedInUser, decimal parleyWagerAmount)
     {
         if (preBets.Count < 1 || conflictingBetsForParley)
             return false;
