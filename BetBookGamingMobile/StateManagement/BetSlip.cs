@@ -3,6 +3,9 @@ using BetBookGamingMobile.Dto;
 using BetBookGamingMobile.Models;
 using BetBookGamingMobile.Helpers;
 using BetBookGamingMobile.Services;
+using MediatR;
+using BetBookGamingMobile.Queries;
+using BetBookGamingMobile.Commands;
 
 namespace BetBookGamingMobile.StateManagement;
 
@@ -22,15 +25,18 @@ public class BetSlip
     public string startedGameDescription;
     public readonly IGameService _gameService;
     public readonly IParleyBetSlipService _parleyBetSlipService;
+    private readonly IMediator _mediator;
     public readonly ISingleBetService _singleBetService;
 
     public BetSlip(IGameService gameService,
                         ISingleBetService singleBetService,
-                        IParleyBetSlipService parleyBetSlipService)
+                        IParleyBetSlipService parleyBetSlipService,
+                        IMediator mediator)
     {
         _gameService = gameService;
         _singleBetService = singleBetService;
         _parleyBetSlipService = parleyBetSlipService;
+        _mediator = mediator;
     }
 
 
@@ -61,6 +67,9 @@ public class BetSlip
         conflictingBetsForParley = CheckForConflictingBets();
     }
 
+    public (BetSlipState, ButtonColorState, ButtonTextState) GetAllStates(GameDto gameDto) =>
+        (GetBetSlipState(), GetButtonColorState(gameDto), GetButtonTextState(gameDto));
+
     public ButtonColorState GetButtonColorState(GameDto gameDto) =>
         new ButtonColorState
         {
@@ -82,6 +91,18 @@ public class BetSlip
             UColor = preBets.Contains(preBets.Where(b => 
                 b.Winner == string.Concat("Under", gameDto.ScoreID.ToString()) && b.Game.ScoreID == gameDto.ScoreID && b.BetType == BetType.OVERUNDER)
                 .FirstOrDefault()) ? Colors.DarkRed : Colors.DarkBlue
+        };
+
+    public ButtonTextState GetButtonTextState(GameDto gameDto) =>
+        new ButtonTextState
+        {
+            ApText = $"{gameDto.AwayTeam} {gameDto.AwayTeamPointSpreadForDisplay} | {gameDto.PointSpreadAwayTeamMoneyLine}",
+            HpText = $"{gameDto.HomeTeam} {gameDto.HomeTeamPointSpreadForDisplay} | {gameDto.PointSpreadHomeTeamMoneyLine}",
+            AmText = $"{gameDto.AwayTeamMoneyLine}",
+            HmText = $"{gameDto.HomeTeamMoneyLine}",
+            OText = $"Over {gameDto.OverUnder} | {gameDto.OverPayout}",
+            UText = $"Over {gameDto.OverUnder} | {gameDto.UnderPayout}"
+
         };
 
     public BetSlipState GetBetSlipState()
@@ -113,7 +134,7 @@ public class BetSlip
         week = season.CalculateWeek(DateTime.Now);
 
         GameDto[] gameCheckArray =
-            await _gameService.GetGamesByWeek(season, week);
+            await _mediator.Send(new GetGamesByWeekAndSeasonQuery(week,season));
 
         foreach (CreateBetModel createBetModel in preBets)
         {
@@ -123,8 +144,8 @@ public class BetSlip
                 return false;
             }
 
-            GameDto game = gameCheckArray.Where(g => g.ScoreID == createBetModel.Game.ScoreID)
-                .FirstOrDefault()!;
+            GameDto game = gameCheckArray.Where(
+                g => g.ScoreID == createBetModel.Game.ScoreID).FirstOrDefault()!;
 
             if (game.HasStarted)
             {
@@ -153,7 +174,11 @@ public class BetSlip
                             createBetModel.Game, createBetModel.Winner)
             };
 
-            await _singleBetService.CreateSingleBet(singleBet);
+            bool singleBetGood = 
+                await _mediator.Send(new PostSingleBetCommand(singleBet));
+
+            if(!singleBetGood)
+                return false;
         }
 
         preBets.Clear();
@@ -176,14 +201,14 @@ public class BetSlip
         week = season.CalculateWeek(DateTime.Now);
 
         GameDto[] gameCheckArray =
-            await _gameService.GetGamesByWeek(season, week);
+            await _mediator.Send(new GetGamesByWeekAndSeasonQuery(week, season));
 
         var parleyBetSlip = new ParleyBetSlipModel();
 
         foreach (CreateBetModel createBetModel in preBets)
         {
-            GameDto game = gameCheckArray.Where(g => g.ScoreID == createBetModel.Game.ScoreID)
-                .FirstOrDefault()!;
+            GameDto game = gameCheckArray.Where(
+                g => g.ScoreID == createBetModel.Game.ScoreID).FirstOrDefault()!;
 
             if (game.HasStarted)
             {
@@ -215,7 +240,7 @@ public class BetSlip
         parleyBetSlip.ParleyBetSlipPayoutStatus = ParleyBetSlipPayoutStatus.UNPAID;
 
         bool parleyBetGood =
-            await _parleyBetSlipService.CreateParleyBet(parleyBetSlip);
+            await _mediator.Send(new PostParleyBetCommand(parleyBetSlip));
 
         preBets.Clear();
 

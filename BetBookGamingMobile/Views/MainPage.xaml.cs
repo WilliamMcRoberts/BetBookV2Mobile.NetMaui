@@ -17,14 +17,17 @@ public partial class MainPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        if(_viewModel.Games.Count < 1)
-        {
-            _viewModel.Season = DateTime.Now.CalculateSeason();
-            _viewModel.WeekNumber = _viewModel.Season.CalculateWeek(DateTime.Now);
-            _viewModel.Title = _viewModel.Season == SeasonType.REG ? $"Regular Season Week {_viewModel.WeekNumber}" 
-                 : $"Post Season Week {_viewModel.WeekNumber}";
-            await _viewModel.GetGamesCommand.ExecuteAsync(null);
-        }
+
+        if (_viewModel.Games.Count >= 1)
+            return;
+
+        _viewModel.Season = DateTime.Now.CalculateSeason();
+        _viewModel.WeekNumber = _viewModel.Season.CalculateWeek(DateTime.Now);
+        _viewModel.Title = _viewModel.Season == SeasonType.REG ? $"Regular Season Week {_viewModel.WeekNumber}"
+             : _viewModel.Season == SeasonType.POST ? $"Post Season Week {_viewModel.WeekNumber}"
+             : $"Pre Season Week {_viewModel.WeekNumber}";
+
+        await _viewModel.GetGamesCommand.ExecuteAsync(null);
     }
 }
 

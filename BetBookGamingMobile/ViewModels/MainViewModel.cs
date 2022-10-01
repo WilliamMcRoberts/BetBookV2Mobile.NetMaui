@@ -3,11 +3,13 @@
 using BetBookGamingMobile.Dto;
 using BetBookGamingMobile.Helpers;
 using BetBookGamingMobile.Models;
+using BetBookGamingMobile.Queries;
 using BetBookGamingMobile.Services;
 using BetBookGamingMobile.StateManagement;
 using BetBookGamingMobile.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MediatR;
 using System.Collections.ObjectModel;
 
 namespace BetBookGamingMobile.ViewModels;
@@ -15,8 +17,7 @@ namespace BetBookGamingMobile.ViewModels;
 public partial class MainViewModel : BaseViewModel
 {
     private readonly IConnectivity _connectivity;
-
-    private readonly IGameService _gameService;
+    private readonly IMediator _mediator;
 
     public ObservableCollection<GameDto> Games { get; } = new();
 
@@ -30,10 +31,10 @@ public partial class MainViewModel : BaseViewModel
     int weekNumber;
 
     public MainViewModel(IConnectivity connectivity, 
-                         IGameService gameService)
+                         IMediator mediator)
     {
         _connectivity = connectivity;
-        _gameService = gameService;
+        _mediator = mediator;
     }
 
     [RelayCommand]
@@ -52,7 +53,7 @@ public partial class MainViewModel : BaseViewModel
         IsBusy = true;
 
         GameDto[] gamesArray =
-            await _gameService.GetGamesByWeek(Season, WeekNumber);
+            await _mediator.Send(new GetGamesByWeekAndSeasonQuery(WeekNumber, Season));
 
         if (gamesArray is null)
             return;

@@ -1,10 +1,8 @@
 ﻿
 
 using BetBookGamingMobile.Commands;
-using BetBookGamingMobile.Handlers;
 using BetBookGamingMobile.Models;
 using BetBookGamingMobile.Queries;
-using BetBookGamingMobile.Services;
 using BetBookGamingMobile.StateManagement;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -21,8 +19,8 @@ public partial class BetSlipViewModel : BaseViewModel
         _mediator = mediator;
     }
 
-    [ObservableProperty]
-    decimal parlyWagerAmount;
+    //[ObservableProperty]
+    //decimal parlyWagerAmount;
 
     [ObservableProperty]
     BetSlipState betSlipState;
@@ -33,24 +31,31 @@ public partial class BetSlipViewModel : BaseViewModel
         UserModel user = 
             await _mediator.Send(new GetUserByIdQuery("632395fdc17912bd030e4162"));
 
-        BetSlipState =
-            await _mediator.Send(new SubmitSinglesBetSlipCommand(user));
+        if (user is null || user.AccountBalance == 0)
+            return;
+
+        bool singlesBetSlipGood = await _mediator.Send(new SubmitBetsFromSinglesBetSlipCommand(user));
+
+        if (singlesBetSlipGood) BetSlipState = await _mediator.Send(new GetBetSlipStateQuery());
     }
 
     [RelayCommand]
-    private async Task SubmitParleyWager()
+    private async Task SubmitParleyWager(decimal parleyWagerAmount)
     {
         UserModel user =
             await _mediator.Send(new GetUserByIdQuery("632395fdc17912bd030e4162"));
 
-        BetSlipState = 
-            await _mediator.Send(new SubmitParleyBetSlipCommand(user, ParlyWagerAmount));
+        if (user is null || user.AccountBalance == 0)
+            return;
+
+        bool parleyBetSlipGood = await _mediator.Send(new SubmitBetsFromParleyBetSlipCommand(user, parleyWagerAmount));
+
+        if (parleyBetSlipGood) BetSlipState = await _mediator.Send(new GetBetSlipStateQuery());
+
+        parleyWagerAmount = 0;
     }
 
     [RelayCommand]
-    async Task RemoveBetFromPreBets(CreateBetModel createBet)
-    {
-        BetSlipState = 
-            await _mediator.Send(new DeleteBetCommand(createBet));
-    }
+    async Task RemoveBetFromPreBets(CreateBetModel createBet) => 
+        BetSlipState = await _mediator.Send(new DeleteBetCommand(createBet));
 }

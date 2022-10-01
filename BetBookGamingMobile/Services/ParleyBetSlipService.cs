@@ -26,6 +26,7 @@ public class ParleyBetSlipService : IParleyBetSlipService
                 new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
             await client.PostAsync("ParleyBetSlips", httpContent);
+
             return true;
         }
         catch (Exception ex)

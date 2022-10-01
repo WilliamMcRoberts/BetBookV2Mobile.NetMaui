@@ -88,7 +88,7 @@ public class GameDto
     public StadiumDetailsDto? StadiumDetails { get; set; }
     public string? AwayTeamImage { get => $"{AwayTeam.ToLower()}.svg"; }
     public string? HomeTeamImage { get => $"{HomeTeam.ToLower()}.svg"; }
-    public string? GameTitle { get => $"{AwayTeam} @ {HomeTeam} {DateOfGameOnly} {TimeOfGameOnly}pm"; }
+    public string? GameTitle { get => $"{AwayTeam} @ {HomeTeam} {DateOfGameOnly} {TimeOfGameOnly}"; }
     public string? DateOfGameOnly { get => Date.ToString("MM-dd"); }
     public string? TimeOfGameOnly { get => Date.ToString("hh:mm"); }
     public string? AwayTeamPointSpreadForDisplay { get => $"{PointSpread?.ToString("-#.0;+#.0;+0")}"; }

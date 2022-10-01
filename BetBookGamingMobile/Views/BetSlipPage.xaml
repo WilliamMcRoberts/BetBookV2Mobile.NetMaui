@@ -26,15 +26,21 @@
                                     FontAttributes="Bold"
                                     CommandParameter="{Binding .}"/>
                         
-                        <Label  HorizontalOptions="Center" 
-                                FontSize="20" 
-                                Text="{Binding BetAmount}"
-                                TextColor="Black"/>
+                        <Label Text="Enter Wager Amount" 
+                               TextColor="DarkRed" 
+                               FontSize="15"
+                               HorizontalTextAlignment="Center"
+                               Margin="5"/>
+                        
+                        <Entry Text="{Binding BetAmount}"
+                               Placeholder="Single Bet Wager Amount"
+                               HorizontalTextAlignment="Center"/>
+
 
                         <Label  HorizontalOptions="Center" 
                                 FontSize="20" 
                                 Text="{Binding WinnerSummary}"/>
-                        
+
                     </VerticalStackLayout>
 
                 </DataTemplate>
@@ -42,17 +48,18 @@
             </CollectionView.ItemTemplate>
             
         </CollectionView>
-
-        <Label Text="Enter Parley Wager Amount" 
-               TextColor="DarkRed" 
-               FontSize="20"
-               HorizontalTextAlignment="Center"
-               Margin="5"/>
         
-        <Entry Text="{Binding ParlyWagerAmount}"
-               HorizontalTextAlignment="Center" />
+        <Label Text="Enter Parley Wager Amount" 
+                                   TextColor="DarkRed" 
+                                   FontSize="20"
+                                   HorizontalTextAlignment="Center"
+                                   Margin="5"/>
 
-            <Button Command="{Binding SubmitSinglesWagerCommand}" 
+        <Entry Text="Parley Wager Amout"
+                               HorizontalTextAlignment="Center"
+                               Placeholder="0"/>
+
+        <Button Command="{Binding SubmitSinglesWagerCommand}" 
                         Text="Submit Singles Wager"
                         FontAttributes="Bold"
                         BackgroundColor="DarkRed" 
@@ -61,15 +68,15 @@
                         CornerRadius="15"
                         WidthRequest="300">
 
-                <Button.Shadow>
-                    
-                    <Shadow Brush="DarkBlue" 
+            <Button.Shadow>
+
+                <Shadow Brush="DarkBlue" 
                             Offset="5, 5" 
                             Radius="10"/>
-                    
-                </Button.Shadow>
-                
-            </Button>
+
+            </Button.Shadow>
+
+        </Button>
 
         <Button Command="{Binding SubmitParleyWagerCommand}" 
                         Text="Submit Parley Wager"
@@ -79,7 +86,7 @@
                         BorderWidth="3"
                         CornerRadius="15"
                         WidthRequest="300">
-            
+
             <Button.Shadow>
 
                 <Shadow Brush="DarkBlue" 

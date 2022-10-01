@@ -14,7 +14,7 @@ public class SingleBetService : ISingleBetService
         _httpClientFactory = httpClientFactory;
     }
 
-    public async Task CreateSingleBet(SingleBetModel singleBet)
+    public async Task<bool> CreateSingleBet(SingleBetModel singleBet)
     {
         var client = _httpClientFactory.CreateClient("vortex");
 
@@ -26,11 +26,12 @@ public class SingleBetService : ISingleBetService
                 new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
             await client.PostAsync("SingleBets", httpContent);
+            return true;
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message); ;
+            Console.WriteLine(ex.Message);
+            return false;
         }
-        
     }
 }

@@ -17,10 +17,10 @@ public class GameService : IGameService
         _configuration = configuration;
     }
 
-    public async Task<GameDto[]> GetGamesByWeek(
-        SeasonType season, int week)
+    public async Task<GameDto[]> GetGamesByWeekAndSeason(
+        int week, SeasonType season)
     {
-        // Sample Data
+        //Sample Data
         return new GameDto[2]
         {
             new GameDto
@@ -34,23 +34,21 @@ public class GameService : IGameService
         };
 
 
-        //    GameDto[] games = new GameDto[16];
+        //GameDto[] games = new GameDto[16];
 
-        //    try
-        //    {
-        //        var client = _httpClientFactory.CreateClient("sportsdata");
+        //try
+        //{
+        //    var client = _httpClientFactory.CreateClient("sportsdata");
 
-        //        games = await client.GetFromJsonAsync<GameDto[]>(
-        //                $"scores/json/ScoresByWeek/2022{season}/{week}?key=");
-        //    }
-
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine(ex.Message);
-        //    }
-
-        //    return games!;
-
+        //    games = await client.GetFromJsonAsync<GameDto[]>(
+        //            $"scores/json/ScoresByWeek/2022{season}/{week}?key=");
         //}
+
+        //catch (Exception ex)
+        //{
+        //    Console.WriteLine(ex.Message);
+        //}
+
+        //return games!;
     }
 }

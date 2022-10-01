@@ -12,13 +12,14 @@
         <ResourceDictionary>
             
             <Style x:Key="WagerButtonStyle" TargetType="Button">
-                <Setter Property="BorderColor" Value="DimGray"/>
+                <Setter Property="BorderColor" Value="White"/>
                 <Setter Property="CornerRadius" Value="15"/>
                 <Setter Property="WidthRequest" Value="300"/>
                 <Setter Property="BorderWidth" Value="3"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="TextColor" Value="White"/>
             </Style>
+            
             
             <Style x:Key="WagerLabel" TargetType="Label">
                 <Setter Property="Margin" Value="15"/>
@@ -33,13 +34,11 @@
     
     <ScrollView>
 
-        <VerticalStackLayout  
-                        BackgroundColor="DimGray"
-                        >
+        <VerticalStackLayout BackgroundColor="DimGray">
 
 
             <HorizontalStackLayout Spacing="25" 
-                                   HorizontalOptions="Center" >
+                                   HorizontalOptions="Center">
 
                 <Image HeightRequest="160"
                        HorizontalOptions="End"
@@ -157,9 +156,9 @@
 
                     <Button.Shadow>
 
-                        <Shadow Brush="DarkRed" 
-                                Offset="5, 5" 
-                                Radius="10"/>
+                        <Shadow Brush="Black" 
+                                Offset="10, 10" 
+                                Radius="15"/>
 
                     </Button.Shadow>
 
@@ -174,9 +173,9 @@
 
                     <Button.Shadow>
 
-                        <Shadow Brush="DarkRed" 
-                                Offset="5, 5" 
-                                Radius="10"/>
+                        <Shadow Brush="Black" 
+                                Offset="10, 10" 
+                                Radius="15"/>
 
                     </Button.Shadow>
 
@@ -194,9 +193,9 @@
 
                     <Button.Shadow>
 
-                        <Shadow Brush="DarkRed" 
-                                Offset="5, 5" 
-                                Radius="10"/>
+                        <Shadow Brush="Black" 
+                                Offset="10, 10" 
+                                Radius="15"/>
 
                     </Button.Shadow>
 
@@ -208,11 +207,12 @@
                         Text="{Binding ButtonTextState.HmText}"
                         BackgroundColor="{Binding ButtonColorState.HmColor}"
                         Style="{StaticResource WagerButtonStyle}">
+                    
                     <Button.Shadow>
 
-                        <Shadow Brush="DarkRed" 
-                                Offset="5, 5" 
-                                Radius="10"/>
+                        <Shadow Brush="Black" 
+                                Offset="10, 10" 
+                                Radius="15"/>
 
                     </Button.Shadow>
 
@@ -230,9 +230,10 @@
 
                     <Button.Shadow>
 
-                        <Shadow Brush="DarkRed" 
-                                Offset="5, 5" 
-                                Radius="10"/>
+                        <Shadow Brush="Black" 
+                                Offset="10, 10" 
+                                Radius="15"
+                                Opacity=".8"/>
 
                     </Button.Shadow>
 
@@ -244,11 +245,13 @@
                         Text="{Binding ButtonTextState.UText}"
                         BackgroundColor="{Binding ButtonColorState.UColor}" 
                         Style="{StaticResource WagerButtonStyle}">
+                    
                     <Button.Shadow>
 
-                        <Shadow Brush="DarkRed" 
-                                Offset="5, 5" 
-                                Radius="10"/>
+                        <Shadow Brush="Black" 
+                                Offset="10, 10" 
+                                Radius="15"
+                                Opacity=".8"/>
 
                     </Button.Shadow>
 

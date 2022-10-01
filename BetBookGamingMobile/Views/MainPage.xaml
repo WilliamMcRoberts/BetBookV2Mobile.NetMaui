@@ -8,8 +8,7 @@
              Title="{Binding Title}">
     <Grid ColumnDefinitions="Auto"
           RowDefinitions="*,Auto"
-          BackgroundColor="DimGray"
-          >
+          BackgroundColor="DimGray">
         
         <RefreshView
             Grid.ColumnSpan="2"

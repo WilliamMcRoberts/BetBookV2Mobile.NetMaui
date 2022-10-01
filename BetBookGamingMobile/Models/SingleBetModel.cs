@@ -1,6 +1,8 @@
 ﻿
 
 
+using BetBookGamingMobile.Dto;
+
 namespace BetBookGamingMobile.Models;
 
 #nullable enable
@@ -15,7 +17,6 @@ public class SingleBetModel
     public decimal BetPayout { get; set; }
     public decimal PointsAfterSpread { get; set; }
     public GameSnapshotModel GameSnapshot { get; set; }
-
 
     public BetType BetType { get; set; }
 

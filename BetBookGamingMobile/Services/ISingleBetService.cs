@@ -1,10 +1,9 @@
-﻿
-using BetBookGamingMobile.Models;
+﻿using BetBookGamingMobile.Models;
 
 namespace BetBookGamingMobile.Services
 {
     public interface ISingleBetService
     {
-        Task CreateSingleBet(SingleBetModel singleBet);
+        Task<bool> CreateSingleBet(SingleBetModel singleBet);
     }
 }
