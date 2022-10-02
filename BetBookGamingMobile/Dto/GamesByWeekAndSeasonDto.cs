@@ -2,10 +2,10 @@
 
 namespace BetBookGamingMobile.Dto;
 #nullable enable
-public class GamesByWeekAndSeasonDto
-{
-    public GameDto[]? GamesInWeek { get; set; }
-}
+//public class GamesByWeekAndSeasonDto
+//{
+//    public GameDto[]? GamesInWeek { get; set; }
+//}
 
 public class GameDto
 {

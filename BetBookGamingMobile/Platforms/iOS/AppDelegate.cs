@@ -1,4 +1,6 @@
 ﻿using Foundation;
+using Microsoft.Identity.Client;
+using UIKit;
 
 namespace BetBookGamingMobile;
 

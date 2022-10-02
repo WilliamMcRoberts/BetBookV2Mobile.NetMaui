@@ -18,6 +18,11 @@ public partial class MainViewModel : BaseViewModel
 {
     private readonly IConnectivity _connectivity;
     private readonly IMediator _mediator;
+    [ObservableProperty]
+    public UserModel loggedInUser;
+
+    [ObservableProperty]
+    public string email;
 
     public ObservableCollection<GameDto> Games { get; } = new();
 

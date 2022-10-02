@@ -50,5 +50,22 @@ public class GameService : IGameService
         //}
 
         //return games!;
+
+        //GameDto[] games = new GameDto[16];
+
+        //try
+        //{
+        //    var client = _httpClientFactory.CreateClient("vortex");
+
+        //    games = await client.GetFromJsonAsync<GameDto[]>(
+        //            $"Games/REG/4");
+        //}
+
+        //catch (Exception ex)
+        //{
+        //    Console.WriteLine(ex.Message);
+        //}
+
+        //return games!;
     }
 }

@@ -1,10 +1,12 @@
-﻿
-using BetBookGamingMobile.Models;
+﻿using BetBookGamingMobile.Models;
 
 namespace BetBookGamingMobile.Services
 {
     public interface IUserService
     {
-        Task<UserModel> GetUserByUserId(string userId = "632395fdc17912bd030e4162");
+        Task<bool> CreateUser(UserModel user);
+        Task<UserModel> GetUserByObjectId(string objectId);
+        Task<UserModel> GetUserByUserId(string userId);
+        Task<bool> UpdateUser(UserModel user);
     }
 }

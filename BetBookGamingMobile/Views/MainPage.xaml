@@ -7,7 +7,7 @@
              x:DataType="viewModels:MainViewModel"
              Title="{Binding Title}">
     <Grid ColumnDefinitions="Auto"
-          RowDefinitions="*,Auto"
+          RowDefinitions="4*,1*,1*"
           BackgroundColor="DimGray">
         
         <RefreshView
@@ -115,7 +115,8 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </RefreshView>
-
+        <Label Grid.Row="1" x:Name="LoginResultLabel"/>
+        <Button Grid.Row="2" x:Name="LoginButton" Text="Login" Clicked="LoginButton_Clicked"></Button>
         <ActivityIndicator
             Grid.RowSpan="2"
             Grid.ColumnSpan="2"
@@ -123,6 +124,10 @@
             IsRunning="{Binding IsBusy}"
             IsVisible="{Binding IsBusy}"
             VerticalOptions="CenterAndExpand" />
+
+        <ActivityIndicator x:Name="RunningIndicator"
+                               IsRunning="True"
+                               HorizontalOptions="Center"/>
     </Grid>
 
 </ContentPage>
