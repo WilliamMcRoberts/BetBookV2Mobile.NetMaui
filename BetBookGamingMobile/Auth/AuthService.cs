@@ -1,20 +1,21 @@
 ﻿
 
-using BetBookGamingMobile.Helpers;
+using BetBookGamingMobile.Commands;
+using BetBookGamingMobile.Queries;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Identity.Client;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net.Http.Json;
 
 namespace BetBookGamingMobile.Auth;
 
 public class AuthService : IAuthService
 {
-
     private readonly IPublicClientApplication authenticationClient;
+
     public AuthService()
     {
         authenticationClient = PublicClientApplicationBuilder.Create(Constants.ClientId)
-            .WithB2CAuthority(Constants.AuthoritySignIn) // uncomment to support B2C
+            .WithB2CAuthority(Constants.AuthoritySignIn)
 #if WINDOWS
             .WithRedirectUri("http://localhost")
 #else
@@ -44,5 +45,18 @@ public class AuthService : IAuthService
         {
             return null;
         }
+    }
+
+    public async Task<JwtSecurityToken> GetAuthClaims()
+    {
+        var result = await LoginAsync(CancellationToken.None);
+        var token = result?.IdToken;
+
+        if (token is null) return null;
+
+        var handler = new JwtSecurityTokenHandler();
+        var data = handler.ReadJwtToken(token);
+
+        return data;
     }
 }

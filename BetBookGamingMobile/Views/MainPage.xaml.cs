@@ -1,17 +1,12 @@
 ﻿using BetBookGamingMobile.Auth;
 using BetBookGamingMobile.Commands;
-using BetBookGamingMobile.Dto;
 using BetBookGamingMobile.Helpers;
-using BetBookGamingMobile.Models;
 using BetBookGamingMobile.Queries;
+using BetBookGamingMobile.StateManagement;
 using BetBookGamingMobile.ViewModels;
-using Java.Lang;
 using MediatR;
 using Microsoft.AspNetCore.Components.Authorization;
-using Org.Apache.Http.Authentication;
 using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-using StringBuilder = System.Text.StringBuilder;
 
 namespace BetBookGamingMobile;
 
@@ -20,99 +15,93 @@ public partial class MainPage : ContentPage
     private readonly MainViewModel _viewModel;
     private readonly IAuthService _authService;
     private readonly IMediator _mediator;
+    private readonly AuthState _authState;
 
-    public MainPage(MainViewModel viewModel, IAuthService authService, IMediator mediator)
+    public MainPage(
+        MainViewModel viewModel, IAuthService authService, IMediator mediator, AuthState authState)
     {
         InitializeComponent();
         BindingContext = _viewModel = viewModel;
         _authService = authService;
         _mediator = mediator;
-    }
-
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-
-        if (_viewModel.Games.Count >= 1)
-            return;
-
-        _viewModel.Season = DateTime.Now.CalculateSeason();
-        _viewModel.WeekNumber = _viewModel.Season.CalculateWeek(DateTime.Now);
-        _viewModel.Title = _viewModel.Season == SeasonType.REG ? $"Regular Season Week {_viewModel.WeekNumber}"
-             : _viewModel.Season == SeasonType.POST ? $"Post Season Week {_viewModel.WeekNumber}"
-             : $"Pre Season Week {_viewModel.WeekNumber}";
-
-        await _viewModel.GetGamesCommand.ExecuteAsync(null);
+        _authState = authState;
     }
 
     private async void LoginButton_Clicked(object sender, EventArgs e)
     {
-        var result = await _authService.LoginAsync(CancellationToken.None);
-        var token = result?.IdToken;
-        // Access Token ??
-        if (token is null) return;
+        var data = await _authService.GetAuthClaims();
 
-        var handler = new JwtSecurityTokenHandler();
-        var data = handler.ReadJwtToken(token);
+        await LoadAndVerifyUser(data);
 
-        if (data is null) return;
+        if (_authState.LoggedInUser is not null) 
+            await _viewModel.GoToAvailableGamesPageAsync();
+    }
 
-        string objectId = data.Claims.FirstOrDefault(c => c.Type.Contains("oid"))?.Value;
+    public async Task LoadAndVerifyUser(JwtSecurityToken data)
+    {
+        _authState.ObjectId = data.Claims.FirstOrDefault(c => c.Type.Contains("oid"))?.Value;
 
-        if (string.IsNullOrWhiteSpace(objectId) == false)
+        if (string.IsNullOrWhiteSpace(_authState.ObjectId) == false)
         {
-            _viewModel.LoggedInUser = 
-                await _mediator.Send(new GetUserByObjectIdQuery(objectId)) ?? new();
+            _authState.LoggedInUser =
+                await _mediator.Send(new GetUserByObjectIdQuery(_authState.ObjectId)) ?? new();
 
-            string displayName = data.Claims.FirstOrDefault(c => c.Type.Contains("name"))?.Value;
-            string firstName = data.Claims.FirstOrDefault(c => c.Type.Contains("given_name"))?.Value;
-            string lastName = data.Claims.FirstOrDefault(c => c.Type.Contains("family_name"))?.Value;
-            string jobTitle = data.Claims.FirstOrDefault(c => c.Type.Contains("jobTitle"))?.Value;
-            string emailAddress = data.Claims.FirstOrDefault(c => c.Type.Contains("emails"))?.Value;
+            _authState.DisplayName = data.Claims.FirstOrDefault(c => c.Type.Contains("name"))?.Value;
+            _authState.FirstName = data.Claims.FirstOrDefault(c => c.Type.Contains("given_name"))?.Value;
+            _authState.LastName = data.Claims.FirstOrDefault(c => c.Type.Contains("family_name"))?.Value;
+            _authState.EmailAddress = data.Claims.FirstOrDefault(c => c.Type.Contains("emails"))?.Value;
+            _authState.JobTitle = data.Claims.FirstOrDefault(c => c.Type.Contains("jobTitle"))?.Value;
 
             bool isDirty = false;
 
-            if (objectId.Equals(_viewModel.LoggedInUser.ObjectIdentifier) == false)
+            if (!_authState.ObjectId.Equals(_authState.LoggedInUser.ObjectIdentifier))
             {
                 isDirty = true;
-                _viewModel.LoggedInUser.ObjectIdentifier = objectId;
-            }
-            if (firstName.Equals(_viewModel.LoggedInUser.FirstName) == false)
-            {
-                isDirty = true;
-                _viewModel.LoggedInUser.FirstName = firstName;
+                _authState.LoggedInUser.ObjectIdentifier = _authState.ObjectId;
             }
 
-            if (lastName.Equals(_viewModel.LoggedInUser.LastName) == false)
+            if (!_authState.FirstName.Equals(_authState.LoggedInUser.FirstName))
             {
                 isDirty = true;
-                _viewModel.LoggedInUser.LastName = lastName;
+                _authState.LoggedInUser.FirstName = _authState.FirstName;
             }
 
-            if (displayName.Equals(_viewModel.LoggedInUser.DisplayName) == false)
+            if (!_authState.LastName.Equals(_authState.LoggedInUser.LastName))
             {
                 isDirty = true;
-                _viewModel.LoggedInUser.DisplayName = displayName;
+                _authState.LoggedInUser.LastName = _authState.LastName;
             }
 
-            if (emailAddress.Equals(_viewModel.LoggedInUser.EmailAddress) == false)
+            if (!_authState.DisplayName.Equals(_authState.LoggedInUser.DisplayName))
             {
                 isDirty = true;
-                _viewModel.LoggedInUser.EmailAddress = emailAddress;
+                _authState.LoggedInUser.DisplayName = _authState.DisplayName;
+            }
+
+            if (!_authState.EmailAddress.Equals(_authState.LoggedInUser.EmailAddress))
+            {
+                isDirty = true;
+                _authState.LoggedInUser.EmailAddress = _authState.EmailAddress;
+            }
+
+            if (_authState.LoggedInUser.AccountBalance <= 0)
+            {
+                isDirty = true;
+                _authState.LoggedInUser.AccountBalance = 10000;
             }
 
             if (isDirty)
             {
-                if (string.IsNullOrWhiteSpace(_viewModel.LoggedInUser.UserId))
+                if (string.IsNullOrWhiteSpace(_authState.LoggedInUser.UserId))
                 {
                     // New user recieves 10,000 in account
-                    _viewModel.LoggedInUser.AccountBalance = 10000;
+                    _authState.LoggedInUser.AccountBalance = 10000;
 
-                    await _mediator.Send(new PostUserCommand(_viewModel.LoggedInUser));
-                    return; 
+                    await _mediator.Send(new PostUserCommand(_authState.LoggedInUser));
+                    return;
                 }
 
-                await _mediator.Send(new PutUserCommand(_viewModel.LoggedInUser));
+                await _mediator.Send(new PutUserCommand(_authState.LoggedInUser));
             }
         }
     }

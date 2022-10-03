@@ -52,6 +52,7 @@
 	  <None Remove="Resources\Images\ari.svg" />
 	  <None Remove="Resources\Images\atl.svg" />
 	  <None Remove="Resources\Images\bal.svg" />
+	  <None Remove="Resources\Images\betslipsolid.svg" />
 	  <None Remove="Resources\Images\booksolid.svg" />
 	  <None Remove="Resources\Images\buf.svg" />
 	  <None Remove="Resources\Images\car.svg" />
@@ -64,6 +65,7 @@
 	  <None Remove="Resources\Images\footballsolid.svg" />
 	  <None Remove="Resources\Images\gb.svg" />
 	  <None Remove="Resources\Images\hou.svg" />
+	  <None Remove="Resources\Images\idcardsolid.svg" />
 	  <None Remove="Resources\Images\ind.svg" />
 	  <None Remove="Resources\Images\jax.svg" />
 	  <None Remove="Resources\Images\kc.svg" />
@@ -106,13 +108,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\MyBetsPage.xaml.cs">
+	    <DependentUpon>MyBetsPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\AvailableGamesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\BetSlipPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\GameDetailsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\ProfilePage.xaml">
+	  <MauiXaml Update="Views\MyBetsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

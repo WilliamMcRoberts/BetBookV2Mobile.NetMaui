@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BetBookGamingMobile.Views.AvailableGamesPage"
+             x:DataType="viewModels:AvailableGamesViewModel"
+             xmlns:dto="clr-namespace:BetBookGamingMobile.Dto"
+             xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
+             Title="{Binding Title}">
+    
+    <Grid ColumnDefinitions="Auto"
+          RowDefinitions="*,Auto"
+          BackgroundColor="DimGray">
+
+        <RefreshView
+            Grid.ColumnSpan="2"
+            Command="{Binding GetGamesCommand}"
+            IsRefreshing="{Binding IsRefreshing}"
+            Margin="0,10,0,10">
+
+            <CollectionView
+                ItemsSource="{Binding Games}"
+                SelectionMode="None">
+
+                <CollectionView.ItemTemplate>
+
+                    <DataTemplate x:DataType="dto:GameDto">
+
+                        <Grid>
+
+                            <Frame 
+                                   Margin="0,1.5,0,1.5"
+                                   Padding="1"
+                                   WidthRequest="355"
+                                    HeightRequest="160"
+                                   BackgroundColor="DarkRed"
+                                   BorderColor="DarkBlue"
+                                   CornerRadius="15">
+
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:AvailableGamesViewModel}}, Path=GoToGameDetailsCommand}" 
+                                            CommandParameter="{Binding .}" />
+                                </Frame.GestureRecognizers>
+
+                                <Border Stroke="DarkBlue"
+                                        StrokeThickness="3"
+                                        HorizontalOptions="FillAndExpand"
+                                        VerticalOptions="FillAndExpand">
+
+                                    <Border.StrokeShape>
+
+                                        <RoundRectangle CornerRadius="15"/>
+
+                                    </Border.StrokeShape>
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="1,0">
+
+                                            <GradientStop Color="Azure"
+                                            Offset="0.1" />
+
+                                            <GradientStop Color="IndianRed"
+                                            Offset="1.0" />
+
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Border.Shadow>
+                                        <Shadow Brush="DarkRed"
+                                            Offset="10, 40"
+                                                Radius="50"
+                                                Opacity=".9">
+
+                                        </Shadow>
+                                    </Border.Shadow>
+
+                                    <HorizontalStackLayout 
+                                        HorizontalOptions="Center"
+                                        Spacing="15">
+
+                                        <Image Aspect="AspectFill"
+                                        HeightRequest="120"
+                                        Source="{Binding AwayTeamImage}"
+                                        WidthRequest="115" />
+
+                                        <VerticalStackLayout  Spacing="4" VerticalOptions="Center">
+
+                                            <Label HorizontalTextAlignment="Center" 
+                                            Text="{Binding DateOfGameOnly}"
+                                            TextColor="DarkRed"
+                                            FontSize="20"
+                                            FontAttributes="Bold"/>
+
+                                            <Label HorizontalTextAlignment="Center" 
+                                            TextColor="DarkRed"
+                                            FontSize="35"
+                                            FontAttributes="Bold"
+                                            Text="@"/>
+
+                                            <Label HorizontalTextAlignment="Center" 
+                                            TextColor="DarkRed"
+                                            FontSize="20"
+                                            FontAttributes="Bold"
+                                            Text="{Binding TimeOfGameOnly}" />
+
+                                        </VerticalStackLayout>
+
+                                        <Image  Aspect="AspectFill"
+                                        HeightRequest="120"
+                                        Source="{Binding HomeTeamImage}"
+                                        WidthRequest="115" />
+
+                                    </HorizontalStackLayout>
+                                </Border>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        
+
+        <ActivityIndicator
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="2"
+            HorizontalOptions="FillAndExpand"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="CenterAndExpand" />
+
+
+    </Grid>
+</ContentPage>

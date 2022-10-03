@@ -39,24 +39,24 @@ public partial class GameDetailsViewModel : BaseViewModel
     [RelayCommand]
     private async Task AddOrRemoveWagerForPointSpreadAsync(string winner)
     {
-        BetSlipState =
-            await _mediator.Send(new SelectOrRemoveWinnerAndGameForBetCommand(winner, GameDto, BetType.POINTSPREAD));
+        BetSlipState = await _mediator.Send(
+            new SelectOrRemoveWinnerAndGameForBetCommand(winner, GameDto, BetType.POINTSPREAD));
         ButtonColorState = await _mediator.Send(new GetButtonColorStateQuery(GameDto));
     }
 
     [RelayCommand]
     private async Task AddOrRemoveWagerForMoneylineAsync(string winner)
     {
-        BetSlipState =
-            await _mediator.Send(new SelectOrRemoveWinnerAndGameForBetCommand(winner, GameDto, BetType.MONEYLINE));
+        BetSlipState = await _mediator.Send(
+                new SelectOrRemoveWinnerAndGameForBetCommand(winner, GameDto, BetType.MONEYLINE));
         ButtonColorState = await _mediator.Send(new GetButtonColorStateQuery(GameDto));
     }
 
     [RelayCommand]
-    private async Task AddOrRemoveWagerForOverUnderAsync(string overUnder)
+    private async Task AddOrRemoveWagerForOverUnderAsync(string winner)
     {
         BetSlipState = await _mediator.Send(new SelectOrRemoveWinnerAndGameForBetCommand(
-            string.Concat(overUnder, GameDto.ScoreID.ToString()), GameDto, BetType.OVERUNDER));
+            string.Concat(winner, GameDto.ScoreID.ToString()), GameDto, BetType.OVERUNDER));
         ButtonColorState = await _mediator.Send(new GetButtonColorStateQuery(GameDto));
     }
 }

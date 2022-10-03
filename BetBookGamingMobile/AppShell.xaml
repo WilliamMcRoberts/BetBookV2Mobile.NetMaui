@@ -6,38 +6,43 @@
     xmlns:views="clr-namespace:BetBookGamingMobile.Views"
     xmlns:local="clr-namespace:BetBookGamingMobile"
     Shell.FlyoutBehavior="Disabled">
-
+    
+    <ShellContent
+                Title="Login"
+                ContentTemplate="{DataTemplate local:MainPage}"
+                Route="MainPage"/>
+    
     <TabBar>
-        
-            <Tab Title="Games" 
+
+        <Tab Title="Games" 
                  Icon="footballsolid.svg">
-            
-                <ShellContent
+
+            <ShellContent
                         Title="Available Games"
-                        ContentTemplate="{DataTemplate local:MainPage}"
-                        Route="MainPage"/>
+                        ContentTemplate="{DataTemplate views:AvailableGamesPage}"
+                        Route="AvailableGamesPage"/>
 
-            </Tab>
-        
-            <Tab Title="Bet Slip" 
-                 Icon="booksolid.svg">
+        </Tab>
 
-                <ShellContent
+        <Tab Title="Bet Slip" 
+                 Icon="betslipsolid.svg">
+
+            <ShellContent
                     Title="Potential Wagers"
                     ContentTemplate="{DataTemplate views:BetSlipPage}"
                     Route="BetSlipPage" />
 
-            </Tab>
+        </Tab>
 
-            <Tab Title="Profile" 
-                 Icon="profilesolid.svg">
+        <Tab Title="My Bets" 
+                 Icon="booksolid.svg">
 
-                <ShellContent
-                        Title="Profile"
-                        ContentTemplate="{DataTemplate views:ProfilePage}"
-                        Route="ProfilePage" />
+            <ShellContent
+                    Title="My Bets"
+                    ContentTemplate="{DataTemplate views:MyBetsPage}"
+                    Route="MyBetsPage" />
 
-            </Tab>
+        </Tab>
 
     </TabBar>
 
