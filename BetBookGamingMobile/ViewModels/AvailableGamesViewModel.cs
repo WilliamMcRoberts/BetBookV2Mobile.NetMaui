@@ -1,6 +1,5 @@
 ﻿
 
-using AndroidX.Lifecycle;
 using BetBookGamingMobile.Dto;
 using BetBookGamingMobile.Helpers;
 using BetBookGamingMobile.Queries;
@@ -50,9 +49,6 @@ public partial class AvailableGamesViewModel : BaseViewModel
 
         IsBusy = true;
 
-        Season = DateTime.Now.CalculateSeason();
-        WeekNumber = Season.CalculateWeek(DateTime.Now);
-
         GameDto[] gamesArray =
             await _mediator.Send(new GetGamesByWeekAndSeasonQuery(WeekNumber, Season));
 
@@ -82,4 +78,9 @@ public partial class AvailableGamesViewModel : BaseViewModel
                     {"GameDto", gameDto }
                 });
     }
+
+    public string GetTitle() =>
+        Season == SeasonType.REG ? $"Regular Season Week {WeekNumber}"
+             : Season == SeasonType.POST ? $"Post Season Week {WeekNumber}"
+             : $"Pre Season Week {WeekNumber}";
 }

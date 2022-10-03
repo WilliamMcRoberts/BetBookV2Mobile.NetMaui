@@ -101,8 +101,7 @@ public class BetSlip
             AmText = $"{gameDto.AwayTeamMoneyLine}",
             HmText = $"{gameDto.HomeTeamMoneyLine}",
             OText = $"Over {gameDto.OverUnder} | {gameDto.OverPayout}",
-            UText = $"Over {gameDto.OverUnder} | {gameDto.UnderPayout}"
-
+            UText = $"Under {gameDto.OverUnder} | {gameDto.UnderPayout}"
         };
 
     public BetSlipState GetBetSlipState()

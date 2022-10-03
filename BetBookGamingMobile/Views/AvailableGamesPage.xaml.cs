@@ -21,6 +21,11 @@ public partial class AvailableGamesPage : ContentPage
         if (_viewModel.Games.Count > 0)
             return;
 
+        _viewModel.Season = DateTime.Now.CalculateSeason();
+        _viewModel.WeekNumber = _viewModel.Season.CalculateWeek(DateTime.Now);
+
         await _viewModel.GetGamesCommand.ExecuteAsync(null);
+
+        _viewModel.Title = _viewModel.GetTitle();
     }
 }

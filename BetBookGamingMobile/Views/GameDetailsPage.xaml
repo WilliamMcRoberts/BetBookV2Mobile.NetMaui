@@ -5,22 +5,13 @@
              xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
              xmlns:models="clr-namespace:BetBookGamingMobile.Models"
              xmlns:dto="clr-namespace:BetBookGamingMobile.Dto"
+             xmlns:controls="clr-namespace:BetBookGamingMobile.Controls"
              x:DataType="viewModels:GameDetailsViewModel"
              Title="{Binding GameDto.GameTitle}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            
-            <Style x:Key="WagerButtonStyle" TargetType="Button">
-                <Setter Property="BorderColor" Value="White"/>
-                <Setter Property="CornerRadius" Value="15"/>
-                <Setter Property="WidthRequest" Value="300"/>
-                <Setter Property="BorderWidth" Value="1"/>
-                <Setter Property="FontAttributes" Value="Bold"/>
-                <Setter Property="TextColor" Value="White"/>
-            </Style>
-            
-            
+
             <Style x:Key="WagerLabel" TargetType="Label">
                 <Setter Property="Margin" Value="15"/>
                 <Setter Property="HorizontalTextAlignment" Value="Center"/>
@@ -61,7 +52,6 @@
                    CornerRadius="15"
                    Margin="0,15,0,0"
                    Padding="2">
-
 
                 <Border Stroke="DarkBlue"
                         StrokeThickness="3"
@@ -147,115 +137,42 @@
                 <Label Text="Point Spread"
                        Style="{StaticResource WagerLabel}"/>
 
-                <Button x:Name="buttonAP" 
-                        Command="{Binding AddOrRemoveWagerForPointSpreadCommand}"
-                        CommandParameter="{Binding GameDto.AwayTeam}"
-                        Text="{Binding ButtonTextState.ApText}"
-                        BackgroundColor="{Binding ButtonColorState.ApColor}" 
-                        Style="{StaticResource WagerButtonStyle}">
+                <controls:WagerSelectionButtonControl CustomCommand="{Binding AddOrRemoveWagerForPointSpreadCommand}"
+                                                      CustomCommandParameter="{Binding GameDto.AwayTeam}"
+                                                      CustomBackgroundColor="{Binding ButtonColorState.ApColor}"
+                                                      CustomText="{Binding ButtonTextState.ApText}"/>
 
-                    <Button.Shadow>
-
-                        <Shadow Brush="Black" 
-                                Offset="10, 10" 
-                                Radius="15"/>
-
-                    </Button.Shadow>
-
-                </Button>
-
-                <Button x:Name="buttonHP" 
-                        Command="{Binding AddOrRemoveWagerForPointSpreadCommand}" 
-                        CommandParameter="{Binding GameDto.HomeTeam}"
-                        Text="{Binding ButtonTextState.HpText}"
-                        BackgroundColor="{Binding ButtonColorState.HpColor}" 
-                        Style="{StaticResource WagerButtonStyle}">
-
-                    <Button.Shadow>
-
-                        <Shadow Brush="Black" 
-                                Offset="10, 10" 
-                                Radius="15"/>
-
-                    </Button.Shadow>
-
-                </Button>
+                <controls:WagerSelectionButtonControl CustomCommand="{Binding AddOrRemoveWagerForPointSpreadCommand}"
+                                                      CustomCommandParameter="{Binding GameDto.HomeTeam}"
+                                                      CustomBackgroundColor="{Binding ButtonColorState.HpColor}"
+                                                      CustomText="{Binding ButtonTextState.HpText}"/>
 
                 <Label Text="Moneyline"
                        Style="{StaticResource WagerLabel}"/>
 
-                <Button x:Name="buttonAM" 
-                        Command="{Binding AddOrRemoveWagerForMoneylineCommand}" 
-                        CommandParameter="{Binding GameDto.AwayTeam}"
-                        Text="{Binding ButtonTextState.AmText}"
-                        BackgroundColor="{Binding ButtonColorState.AmColor}"
-                        Style="{StaticResource WagerButtonStyle}">
+                <controls:WagerSelectionButtonControl CustomCommand="{Binding AddOrRemoveWagerForMoneylineCommand}"
+                                                      CustomCommandParameter="{Binding GameDto.AwayTeam}"
+                                                      CustomBackgroundColor="{Binding ButtonColorState.AmColor}"
+                                                      CustomText="{Binding ButtonTextState.AmText}"/>
 
-                    <Button.Shadow>
-
-                        <Shadow Brush="Black" 
-                                Offset="10, 10" 
-                                Radius="15"/>
-
-                    </Button.Shadow>
-
-                </Button>
-
-                <Button x:Name="buttonHM" 
-                        Command="{Binding AddOrRemoveWagerForMoneylineCommand}" 
-                        CommandParameter="{Binding GameDto.HomeTeam}"
-                        Text="{Binding ButtonTextState.HmText}"
-                        BackgroundColor="{Binding ButtonColorState.HmColor}"
-                        Style="{StaticResource WagerButtonStyle}">
-                    
-                    <Button.Shadow>
-
-                        <Shadow Brush="Black" 
-                                Offset="10, 10" 
-                                Radius="15"/>
-
-                    </Button.Shadow>
-
-                </Button>
+                <controls:WagerSelectionButtonControl CustomCommand="{Binding AddOrRemoveWagerForMoneylineCommand}"
+                                                      CustomCommandParameter="{Binding GameDto.HomeTeam}"
+                                                      CustomBackgroundColor="{Binding ButtonColorState.HmColor}"
+                                                      CustomText="{Binding ButtonTextState.HmText}"/>
 
                 <Label Text="Over/Under"
                        Style="{StaticResource WagerLabel}"/>
 
-                <Button x:Name="buttonO" 
-                        Command="{Binding AddOrRemoveWagerForOverUnderCommand}" 
-                        CommandParameter="Over"
-                        Text="{Binding ButtonTextState.OText}"
-                        BackgroundColor="{Binding ButtonColorState.OColor}" 
-                        Style="{StaticResource WagerButtonStyle}">
 
-                    <Button.Shadow>
-
-                        <Shadow Brush="Black" 
-                                Offset="10, 10" 
-                                Radius="15"
-                                Opacity=".8"/>
-
-                    </Button.Shadow>
-
-                </Button>
-
-                <Button x:Name="buttonU" 
-                        Command="{Binding AddOrRemoveWagerForOverUnderCommand}" 
-                        CommandParameter="Under"
-                        Text="{Binding ButtonTextState.UText}"
-                        BackgroundColor="{Binding ButtonColorState.UColor}" 
-                        Style="{StaticResource WagerButtonStyle}">
-                    
-                    <Button.Shadow>
-
-                        <Shadow Brush="Black" 
-                                Offset="10, 10" 
-                                Radius="15"
-                                Opacity=".8"/>
-
-                    </Button.Shadow>
-
-                </Button>
+                <controls:WagerSelectionButtonControl CustomCommand="{Binding AddOrRemoveWagerForOverUnderCommand}"
+                                                      CustomCommandParameter="Over"
+                                                      CustomBackgroundColor="{Binding ButtonColorState.OColor}"
+                                                      CustomText="{Binding ButtonTextState.OText}"/>
+                
+                <controls:WagerSelectionButtonControl CustomCommand="{Binding AddOrRemoveWagerForOverUnderCommand}"
+                                                      CustomCommandParameter="Under"
+                                                      CustomBackgroundColor="{Binding ButtonColorState.UColor}"
+                                                      CustomText="{Binding ButtonTextState.UText}"/>
 
             </VerticalStackLayout>
 

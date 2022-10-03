@@ -6,7 +6,7 @@
              xmlns:models="clr-namespace:BetBookGamingMobile.Models"
              x:DataType="viewModels:BetSlipViewModel"
              x:Class="BetBookGamingMobile.Views.BetSlipPage"
-             Title="BetSlipPage">
+             Title="Bet Slip">
     
     <VerticalStackLayout>
         

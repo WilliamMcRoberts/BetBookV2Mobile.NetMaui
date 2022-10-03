@@ -29,11 +29,11 @@ public partial class MainPage : ContentPage
 
     private async void LoginButton_Clicked(object sender, EventArgs e)
     {
-        var data = await _authService.GetAuthClaims();
+        //var data = await _authService.GetAuthClaims();
 
-        await LoadAndVerifyUser(data);
+        //await LoadAndVerifyUser(data);
 
-        if (_authState.LoggedInUser is not null) 
+        //if (_authState.LoggedInUser is not null) 
             await _viewModel.GoToAvailableGamesPageAsync();
     }
 
