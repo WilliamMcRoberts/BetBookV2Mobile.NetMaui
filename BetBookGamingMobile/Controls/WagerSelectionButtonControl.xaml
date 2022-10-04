@@ -10,29 +10,34 @@
     <ContentView.Resources>
         <ResourceDictionary>
             <Style x:Key="WagerButtonStyle" TargetType="Button">
-        <Setter Property="BorderColor" Value="White"/>
-        <Setter Property="CornerRadius" Value="15"/>
-        <Setter Property="WidthRequest" Value="300"/>
-        <Setter Property="BorderWidth" Value="1"/>
-        <Setter Property="FontAttributes" Value="Bold"/>
-        <Setter Property="TextColor" Value="White"/>
-    </Style>
+                <Setter Property="BorderColor" Value="White"/>
+                <Setter Property="CornerRadius" Value="15"/>
+                <Setter Property="WidthRequest" Value="300"/>
+                <Setter Property="BorderWidth" Value="1"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="TextTransform" Value="Uppercase"/>
+                <Setter Property="FontSize" Value="16"/>
+            </Style>
         </ResourceDictionary>
     </ContentView.Resources>
-
+    
     <VerticalStackLayout>
+        
         <Button x:Name="WagerSelectionButton" 
-                        Style="{StaticResource WagerButtonStyle}">
-
+                Style="{StaticResource WagerButtonStyle}">
+            
             <Button.Shadow>
-
+                
                 <Shadow Brush="Black" 
-                                Offset="10, 10" 
-                                Radius="15"
-                                Opacity=".8"/>
+                        Offset="10, 10" 
+                        Radius="15"
+                        Opacity=".8"/>
 
             </Button.Shadow>
 
         </Button>
+        
     </VerticalStackLayout>
+    
 </ContentView>

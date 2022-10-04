@@ -9,7 +9,7 @@ public partial class BetSlipPage : ContentPage
 {
     private readonly BetSlipViewModel _viewModel;
 
-    public BetSlipPage(BetSlipViewModel viewModel, IMediator mediator, AuthState authState)
+    public BetSlipPage(BetSlipViewModel viewModel)
 	{
 		InitializeComponent();
 		BindingContext = _viewModel = viewModel;
@@ -18,6 +18,6 @@ public partial class BetSlipPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await _viewModel.GetBetSlipStateCommand.ExecuteAsync(null);
+        await _viewModel.SetStateCommand.ExecuteAsync(null);
     }
 }

@@ -6,4 +6,4 @@ using MediatR;
 namespace BetBookGamingMobile.Queries;
 
 
-public record GetAllStatesQuery(GameDto gameDto) : IRequest<(BetSlipState,ButtonColorState,ButtonTextState)>;
+public record GetStateForGameDetailsPageQuery(GameDto gameDto) : IRequest<(BetSlipStateModel, ButtonColorStateModel, ButtonTextStateModel)>;

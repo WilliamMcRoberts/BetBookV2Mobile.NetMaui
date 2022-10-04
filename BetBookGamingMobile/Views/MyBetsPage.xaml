@@ -1,12 +1,156 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
+             xmlns:models="clr-namespace:BetBookGamingMobile.Models"
+             x:DataType="viewModels:MyBetsViewModel"
              x:Class="BetBookGamingMobile.Views.MyBetsPage"
              Title="My Bets">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    
+    <ScrollView>
+        <VerticalStackLayout>
+            
+            <Label Text="Single Bets In Progress" 
+                   FontSize="25" 
+                   FontAttributes="Bold" 
+                   TextColor="Black"/>
+            
+            <CollectionView ItemsSource="{Binding BettorSingleBetsInProgress}"
+                SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:SingleBetModel">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding WinnerChosen}"/>
+                            <Label Text="{Binding BetPayout}"/>
+                            <Label Text="{Binding BetAmount}"/>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            
+            <Label Text="Single Winning Bets" 
+                   FontSize="25" 
+                   FontAttributes="Bold"
+                   TextColor="Black"/>
+            
+            <CollectionView ItemsSource="{Binding BettorSingleBetsWinners}"
+                SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:SingleBetModel">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding WinnerChosen}"/>
+                            <Label Text="{Binding BetPayout}"/>
+                            <Label Text="{Binding BetAmount}"/>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            
+            <Label Text="Single Losing Bets" 
+                   FontSize="25" 
+                   FontAttributes="Bold" 
+                   TextColor="Black"/>
+            
+            <CollectionView ItemsSource="{Binding BettorSingleBetsLosers}"
+                SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:SingleBetModel">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding WinnerChosen}"/>
+                            <Label Text="{Binding BetPayout}"/>
+                            <Label Text="{Binding BetAmount}"/>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            
+            <Label Text="Single Push Bets" 
+                   FontSize="25" 
+                   FontAttributes="Bold" 
+                   TextColor="Black"/>
+            
+            <CollectionView ItemsSource="{Binding BettorSingleBetsPush}"
+                SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:SingleBetModel">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding WinnerChosen}"/>
+                            <Label Text="{Binding BetPayout}"/>
+                            <Label Text="{Binding BetAmount}"/>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            
+            <Label Text="Parley In Progress Bets" 
+                   FontSize="25" 
+                   FontAttributes="Bold" 
+                   TextColor="Black"/>
+            
+            <CollectionView ItemsSource="{Binding BettorParleyBetsInProgress}"
+                SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:ParleyBetSlipModel">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding ParleyBetPayout}"/>
+                            <Label Text="{Binding ParleyBetAmount}"/>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            
+            <Label Text="Parley Winning Bets" 
+                   FontSize="25" 
+                   FontAttributes="Bold" 
+                   TextColor="Black"/>
+            
+            <CollectionView ItemsSource="{Binding BettorParleyBetsWinners}"
+                SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:ParleyBetSlipModel">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding ParleyBetPayout}"/>
+                            <Label Text="{Binding ParleyBetAmount}"/>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            
+            <Label Text="Parley Losing Bets" 
+                   FontSize="25" 
+                   FontAttributes="Bold" 
+                   TextColor="Black"/>
+            
+            <CollectionView ItemsSource="{Binding BettorParleyBetsLosers}"
+                            SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:ParleyBetSlipModel">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding ParleyBetPayout}"/>
+                            <Label Text="{Binding ParleyBetAmount}"/>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            
+            <Label Text="Parley Push Bets" 
+                   FontSize="25" 
+                   FontAttributes="Bold" 
+                   TextColor="Black"/>
+            
+            <CollectionView ItemsSource="{Binding BettorParleyBetsPush}"
+                            SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:ParleyBetSlipModel">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding ParleyBetPayout}"/>
+                            <Label Text="{Binding ParleyBetAmount}"/>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            
+        </VerticalStackLayout>
+    </ScrollView>
+    
 </ContentPage>

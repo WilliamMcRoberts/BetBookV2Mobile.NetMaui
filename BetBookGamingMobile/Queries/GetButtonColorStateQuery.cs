@@ -5,5 +5,5 @@ using MediatR;
 
 namespace BetBookGamingMobile.Queries;
 
-public record GetButtonColorStateQuery(GameDto gameDto) : IRequest<ButtonColorState>;
+public record GetButtonColorStateQuery(GameDto gameDto) : IRequest<ButtonColorStateModel>;
 

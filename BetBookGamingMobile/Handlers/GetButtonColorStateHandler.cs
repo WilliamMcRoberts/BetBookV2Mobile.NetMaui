@@ -7,7 +7,7 @@ using MediatR;
 
 namespace BetBookGamingMobile.Handlers;
 
-public class GetButtonColorStateHandler : IRequestHandler<GetButtonColorStateQuery, ButtonColorState>
+public class GetButtonColorStateHandler : IRequestHandler<GetButtonColorStateQuery, ButtonColorStateModel>
 {
 	private readonly BetSlip _betSlip;
 
@@ -16,7 +16,7 @@ public class GetButtonColorStateHandler : IRequestHandler<GetButtonColorStateQue
 		_betSlip = betSlip;
 	}
 
-	public async Task<ButtonColorState> Handle(GetButtonColorStateQuery request, CancellationToken cancellationToken)
+	public async Task<ButtonColorStateModel> Handle(GetButtonColorStateQuery request, CancellationToken cancellationToken)
 	{
 		return await Task.FromResult(_betSlip.GetButtonColorState(request.gameDto));
 	}

@@ -2,6 +2,7 @@
 
 using BetBookGamingMobile.Models;
 using Newtonsoft.Json;
+using System.Net.Http.Json;
 
 namespace BetBookGamingMobile.Services;
 
@@ -12,6 +13,25 @@ public class ParleyBetSlipService : IParleyBetSlipService
     public ParleyBetSlipService(IHttpClientFactory httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;
+    }
+
+    public async Task<List<ParleyBetSlipModel>> GetAllBettorParleyBets(string userId)
+    {
+        List<ParleyBetSlipModel> bettorParleyBets = new();
+        try
+        {
+            var client = _httpClientFactory.CreateClient("vortex");
+
+            bettorParleyBets =
+                await client.GetFromJsonAsync<List<ParleyBetSlipModel>>(
+                    $"ParleyBetSlips/BettorId={userId}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
+        return bettorParleyBets;
     }
 
     public async Task<bool> CreateParleyBet(ParleyBetSlipModel parleyBet)

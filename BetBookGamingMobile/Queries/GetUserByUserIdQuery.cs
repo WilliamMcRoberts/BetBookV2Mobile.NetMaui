@@ -5,5 +5,5 @@ using MediatR;
 
 namespace BetBookGamingMobile.Queries;
 
-public record GetUserByIdQuery(string id) : IRequest<UserModel>;
+public record GetUserByUserIdQuery(string id) : IRequest<UserModel>;
 

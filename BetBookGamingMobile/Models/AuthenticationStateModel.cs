@@ -1,10 +1,8 @@
 ﻿
 
-using BetBookGamingMobile.Models;
+namespace BetBookGamingMobile.Models;
 
-namespace BetBookGamingMobile.StateManagement;
-
-public class AuthState
+public class AuthenticationStateModel
 {
     public UserModel LoggedInUser { get; set; }
     public string ObjectId { get; set; }

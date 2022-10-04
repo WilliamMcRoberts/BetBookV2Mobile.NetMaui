@@ -62,11 +62,13 @@
         <Button Command="{Binding SubmitSinglesWagerCommand}" 
                         Text="Submit Singles Wager"
                         FontAttributes="Bold"
+                        FontSize="16"
                         BackgroundColor="DarkRed" 
                         BorderColor="DimGray"
                         BorderWidth="3"
                         CornerRadius="15"
-                        WidthRequest="300">
+                        WidthRequest="300"
+                TextColor="White">
 
             <Button.Shadow>
 
@@ -79,13 +81,16 @@
         </Button>
 
         <Button Command="{Binding SubmitParleyWagerCommand}" 
+                CommandParameter="{Binding ParlyWagerAmount}"
                         Text="Submit Parley Wager"
                         FontAttributes="Bold"
+                        FontSize="16"
                         BackgroundColor="DarkRed" 
                         BorderColor="DimGray"
                         BorderWidth="3"
                         CornerRadius="15"
-                        WidthRequest="300">
+                        WidthRequest="300"
+                TextColor="White">
 
             <Button.Shadow>
 

@@ -1,40 +1,42 @@
 ﻿
 
 using BetBookGamingMobile.Commands;
+using BetBookGamingMobile.Dto;
 using BetBookGamingMobile.Models;
 using BetBookGamingMobile.Queries;
 using BetBookGamingMobile.StateManagement;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MediatR;
+using System.Collections.ObjectModel;
 
 namespace BetBookGamingMobile.ViewModels;
 
 public partial class BetSlipViewModel : BaseViewModel
 {
     private readonly IMediator _mediator;
-    private readonly AuthState _authState;
+    private readonly AuthenticationState _authenticationState;
 
-    public BetSlipViewModel(IMediator mediator, AuthState authState)
+    public BetSlipViewModel(IMediator mediator, AuthenticationState authenticationState)
 	{
         _mediator = mediator;
-        _authState = authState;
+        _authenticationState = authenticationState;
     }
 
     [ObservableProperty]
     decimal parlyWagerAmount;
 
     [ObservableProperty]
-    BetSlipState betSlipState;
+    BetSlipStateModel betSlipState;
 
     [RelayCommand]
     private async Task SubmitSinglesWager()
     {
-        if (_authState.LoggedInUser is null)
+        if (_authenticationState.CurrentAuthenticationState.LoggedInUser is null)
             return;
 
         bool singlesBetSlipGood = 
-            await _mediator.Send(new SubmitBetsFromSinglesBetSlipCommand(_authState.LoggedInUser));
+            await _mediator.Send(new SubmitBetsFromSinglesBetSlipCommand(_authenticationState.CurrentAuthenticationState.LoggedInUser));
 
         if (singlesBetSlipGood) 
             BetSlipState = await _mediator.Send(new GetBetSlipStateQuery());
@@ -43,11 +45,11 @@ public partial class BetSlipViewModel : BaseViewModel
     [RelayCommand]
     private async Task SubmitParleyWager(decimal parleyWagerAmount)
     {
-        if (_authState.LoggedInUser is null)
+        if (_authenticationState.CurrentAuthenticationState.LoggedInUser is null)
             return;
 
         bool parleyBetSlipGood = await _mediator.Send(new SubmitBetsFromParleyBetSlipCommand(
-                _authState.LoggedInUser, parleyWagerAmount));
+                _authenticationState.CurrentAuthenticationState.LoggedInUser, parleyWagerAmount));
 
         if (parleyBetSlipGood) 
             BetSlipState = await _mediator.Send(new GetBetSlipStateQuery());
@@ -56,10 +58,10 @@ public partial class BetSlipViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    async Task RemoveBetFromPreBets(CreateBetModel createBet) => 
-        BetSlipState = await _mediator.Send(new DeleteBetCommand(createBet));
+    private async Task RemoveBetFromPreBets(CreateBetModel createBet) =>
+        await _mediator.Send(new DeleteBetCommand(createBet));
 
     [RelayCommand]
-    async Task GetBetSlipStateAsync() =>
+    private async Task SetStateAsync() =>
         BetSlipState = await _mediator.Send(new GetBetSlipStateQuery());
 }

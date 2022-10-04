@@ -12,6 +12,6 @@
             BackgroundColor="DarkBlue" 
             x:Name="LoginButton" 
             Text="Login" 
-            Clicked="LoginButton_Clicked"/>
+            Command="{Binding LoginCommand}"/>
 
 </ContentPage>

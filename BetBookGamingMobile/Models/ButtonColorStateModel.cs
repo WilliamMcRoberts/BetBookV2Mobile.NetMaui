@@ -1,8 +1,10 @@
 ﻿
 
+using BetBookGamingMobile.Dto;
+
 namespace BetBookGamingMobile.Models;
 
-public class ButtonColorState
+public class ButtonColorStateModel
 {
     public Color ApColor { get; set; }
     public Color HpColor { get; set; }

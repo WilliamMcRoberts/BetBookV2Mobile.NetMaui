@@ -18,6 +18,4 @@ public class UserModel
     public string DisplayName { get; set; }
 
     public decimal AccountBalance { get; set; }
-
-    public string JobTitle { get; set; }
 }

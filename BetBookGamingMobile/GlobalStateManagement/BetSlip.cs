@@ -39,8 +39,7 @@ public class BetSlip
         _mediator = mediator;
     }
 
-
-    public void SelectOrRemoveWinnerAndGameForBet(string winner, GameDto game, BetType betType)
+    public (BetSlipStateModel, ButtonColorStateModel) SelectOrRemoveWinnerAndGameForBet(string winner, GameDto game, BetType betType)
     {
         if (preBets.Contains(preBets.Where(b => b.Winner == winner && b.Game.ScoreID == game.ScoreID && b.BetType == betType)
                    .FirstOrDefault()!))
@@ -50,7 +49,8 @@ public class BetSlip
                    .FirstOrDefault()!);
 
             conflictingBetsForParley = CheckForConflictingBets();
-            return;
+
+            return (GetBetSlipState(), GetButtonColorState(game));
         }
 
         preBets.Add(new CreateBetModel
@@ -65,13 +65,14 @@ public class BetSlip
         });
 
         conflictingBetsForParley = CheckForConflictingBets();
+        return (GetBetSlipState(), GetButtonColorState(game));
     }
 
-    public (BetSlipState, ButtonColorState, ButtonTextState) GetAllStates(GameDto gameDto) =>
+    public (BetSlipStateModel, ButtonColorStateModel, ButtonTextStateModel) GetAllStates(GameDto gameDto) =>
         (GetBetSlipState(), GetButtonColorState(gameDto), GetButtonTextState(gameDto));
 
-    public ButtonColorState GetButtonColorState(GameDto gameDto) =>
-        new ButtonColorState
+    public ButtonColorStateModel GetButtonColorState(GameDto gameDto) =>
+        new ButtonColorStateModel
         {
             ApColor = preBets.Contains(preBets.Where(b => 
                 b.Winner == gameDto.AwayTeam && b.Game.ScoreID == gameDto.ScoreID && b.BetType == BetType.POINTSPREAD)
@@ -93,20 +94,20 @@ public class BetSlip
                 .FirstOrDefault()) ? Colors.DarkRed : Colors.DarkBlue
         };
 
-    public ButtonTextState GetButtonTextState(GameDto gameDto) =>
-        new ButtonTextState
+    public ButtonTextStateModel GetButtonTextState(GameDto gameDto) =>
+        new ButtonTextStateModel
         {
-            ApText = $"{gameDto.AwayTeam} {gameDto.AwayTeamPointSpreadForDisplay} | {gameDto.PointSpreadAwayTeamMoneyLine}",
-            HpText = $"{gameDto.HomeTeam} {gameDto.HomeTeamPointSpreadForDisplay} | {gameDto.PointSpreadHomeTeamMoneyLine}",
+            ApText = $"{gameDto.AwayTeam} {gameDto.AwayTeamPointSpreadForDisplay}    {gameDto.PointSpreadAwayTeamMoneyLine}",
+            HpText = $"{gameDto.HomeTeam} {gameDto.HomeTeamPointSpreadForDisplay}    {gameDto.PointSpreadHomeTeamMoneyLine}",
             AmText = $"{gameDto.AwayTeamMoneyLine}",
             HmText = $"{gameDto.HomeTeamMoneyLine}",
-            OText = $"Over {gameDto.OverUnder} | {gameDto.OverPayout}",
-            UText = $"Under {gameDto.OverUnder} | {gameDto.UnderPayout}"
+            OText = $"Over {gameDto.OverUnder}    {gameDto.OverPayout}",
+            UText = $"Under {gameDto.OverUnder}    {gameDto.UnderPayout}"
         };
 
-    public BetSlipState GetBetSlipState()
+    public BetSlipStateModel GetBetSlipState()
     {
-        var betSlipState = new BetSlipState();
+        var betSlipState = new BetSlipStateModel();
 
         foreach(var bet in preBets)
             betSlipState.BetsInBetSlip.Add(bet);
@@ -293,9 +294,12 @@ public class BetSlip
          moneylinePayout < 0 ? (100 / (decimal)moneylinePayout * -1) + (decimal)1
          : ((decimal)moneylinePayout / 100) + 1;
 
-    public void RemoveBetFromPreBetsList(CreateBetModel createBetModel) =>
-            preBets.Remove(createBetModel);
-        
+    public BetSlipStateModel RemoveBetFromPreBetsList(CreateBetModel createBetModel)
+    {
+        preBets.Remove(createBetModel);
+        return GetBetSlipState();
+    }
+
 
     public decimal GetPayoutForTotalBetsSingles()
     {
@@ -334,7 +338,4 @@ public class BetSlip
          : $"{createBetModel.Winner} {Convert.ToDecimal(createBetModel.Game.PointSpread):-#.0;+#.0;}";
 }
 
-public class BetSlipState
-{
-    public List<CreateBetModel> BetsInBetSlip { get; set; } = new();
-}
+

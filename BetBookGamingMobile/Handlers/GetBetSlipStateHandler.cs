@@ -5,7 +5,7 @@ using MediatR;
 
 namespace BetBookGamingMobile.Handlers;
 
-public class GetBetSlipStateHandler : IRequestHandler<GetBetSlipStateQuery, BetSlipState>
+public class GetBetSlipStateHandler : IRequestHandler<GetBetSlipStateQuery, BetSlipStateModel>
 {
 	private readonly BetSlip _betSlip;
 
@@ -14,7 +14,7 @@ public class GetBetSlipStateHandler : IRequestHandler<GetBetSlipStateQuery, BetS
 		_betSlip = betSlip;
 	}
 
-	public Task<BetSlipState> Handle(
+	public Task<BetSlipStateModel> Handle(
 		GetBetSlipStateQuery request, CancellationToken cancellationToken)
 	{
 		return Task.FromResult(_betSlip.GetBetSlipState());

@@ -25,7 +25,7 @@ public partial class AvailableGamesViewModel : BaseViewModel
     SeasonType season;
 
     [ObservableProperty]
-    int weekNumber;
+    int week;
 
     public AvailableGamesViewModel(IConnectivity connectivity,
                          IMediator mediator)
@@ -50,7 +50,7 @@ public partial class AvailableGamesViewModel : BaseViewModel
         IsBusy = true;
 
         GameDto[] gamesArray =
-            await _mediator.Send(new GetGamesByWeekAndSeasonQuery(WeekNumber, Season));
+            await _mediator.Send(new GetGamesByWeekAndSeasonQuery(Week, Season));
 
         if (gamesArray is null)
             return;
@@ -79,8 +79,22 @@ public partial class AvailableGamesViewModel : BaseViewModel
                 });
     }
 
-    public string GetTitle() =>
-        Season == SeasonType.REG ? $"Regular Season Week {WeekNumber}"
-             : Season == SeasonType.POST ? $"Post Season Week {WeekNumber}"
-             : $"Pre Season Week {WeekNumber}";
+    [RelayCommand]
+    private void SetState()
+    {
+        SetSeason();
+        SetWeek();
+        SetTitle();
+    }
+
+    private void SetSeason() =>
+        Season = DateTime.Now.CalculateSeason();
+
+    private void SetWeek() =>
+        Week = Season.CalculateWeek(DateTime.Now);
+
+    private void SetTitle() =>
+        Title = Season == SeasonType.REG ? $"Regular Season Week {Week}"
+             : Season == SeasonType.POST ? $"Post Season Week {Week}"
+             : $"Pre Season Week {Week}";
 }

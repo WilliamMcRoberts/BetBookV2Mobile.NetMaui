@@ -1,9 +1,10 @@
 ﻿
 
+using BetBookGamingMobile.Models;
 using BetBookGamingMobile.StateManagement;
 using MediatR;
 
 namespace BetBookGamingMobile.Queries;
 
-public record GetBetSlipStateQuery() : IRequest<BetSlipState>;
+public record GetBetSlipStateQuery() : IRequest<BetSlipStateModel>;
 

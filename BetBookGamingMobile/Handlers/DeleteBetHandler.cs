@@ -7,7 +7,7 @@ using MediatR;
 
 namespace BetBookGamingMobile.Handlers;
 
-public class DeleteBetHandler : IRequestHandler<DeleteBetCommand, BetSlipState>
+public class DeleteBetHandler : IRequestHandler<DeleteBetCommand, BetSlipStateModel>
 {
     private readonly BetSlip _betSlip;
 
@@ -16,10 +16,9 @@ public class DeleteBetHandler : IRequestHandler<DeleteBetCommand, BetSlipState>
         _betSlip = betSlip;
     }
 
-    public Task<BetSlipState> Handle(
+    public async Task<BetSlipStateModel> Handle(
         DeleteBetCommand request, CancellationToken cancellationToken)
     {
-        _betSlip.RemoveBetFromPreBetsList(request.bet);
-        return Task.FromResult(_betSlip.GetBetSlipState());
+        return await Task.FromResult(_betSlip.RemoveBetFromPreBetsList(request.bet));
     }
 }

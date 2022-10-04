@@ -13,9 +13,13 @@ public partial class MyBetsPage : ContentPage
 		BindingContext = _viewModel = viewModel;
 	}
 
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-        // TODO - Call Get Bettor Single Bets and Get Bettor Parley Bets Methods
+	protected override async void OnAppearing()
+	{
+		base.OnAppearing();
+
+		if(_viewModel.bettorSingleBets.Count < 1)
+			await _viewModel.GetAllBettorSingleBetsCommand.ExecuteAsync(null);
+        if (_viewModel.bettorParleyBets.Count < 1)
+            await _viewModel.GetAllBettorParleyBetsCommand.ExecuteAsync(null);
     }
 }

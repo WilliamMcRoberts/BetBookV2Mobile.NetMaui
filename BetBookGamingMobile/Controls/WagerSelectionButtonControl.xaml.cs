@@ -5,6 +5,11 @@ namespace BetBookGamingMobile.Controls;
 
 public partial class WagerSelectionButtonControl : ContentView
 {
+    public WagerSelectionButtonControl()
+    {
+        InitializeComponent();
+    }
+
     public static readonly BindableProperty CustomCommandProperty = BindableProperty.Create(nameof(CustomCommand), typeof(ICommand), typeof(WagerSelectionButtonControl), propertyChanged: (bindable, oldValue, newValue) =>
     {
         var control = (WagerSelectionButtonControl)bindable;
@@ -32,11 +37,6 @@ public partial class WagerSelectionButtonControl : ContentView
 
         control.WagerSelectionButton.Text = newValue as string;
     });
-
-    public WagerSelectionButtonControl()
-	{
-		InitializeComponent();
-	}
 
     public ICommand CustomCommand
     {

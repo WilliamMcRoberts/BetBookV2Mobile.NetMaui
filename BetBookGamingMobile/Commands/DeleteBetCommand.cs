@@ -5,5 +5,5 @@ using MediatR;
 
 namespace BetBookGamingMobile.Commands;
 
-public record DeleteBetCommand(CreateBetModel bet) : IRequest<BetSlipState>;
+public record DeleteBetCommand(CreateBetModel bet) : IRequest<BetSlipStateModel>;
 

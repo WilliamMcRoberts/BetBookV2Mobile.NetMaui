@@ -52,7 +52,7 @@ public static class MauiProgram
         /**********************    State      *****************************************/
 
         builder.Services.AddScoped<BetSlip>();
-        builder.Services.AddScoped<AuthState>();
+        builder.Services.AddScoped<AuthenticationState>();
 
         /***********************   View Models  ***************************************/
 

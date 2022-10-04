@@ -7,16 +7,16 @@ using MediatR;
 
 namespace BetBookGamingMobile.Handlers;
 
-public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, UserModel>
+public class GetUserByUserIdHandler : IRequestHandler<GetUserByUserIdQuery, UserModel>
 {
 	private readonly IUserService _userService;
 
-	public GetUserByIdHandler(IUserService userService)
+	public GetUserByUserIdHandler(IUserService userService)
 	{
 		_userService = userService;
 	}
 
-	public async Task<UserModel> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
+	public async Task<UserModel> Handle(GetUserByUserIdQuery request, CancellationToken cancellationToken)
 	{
 		return await _userService.GetUserByUserId(request.id);
 	}
