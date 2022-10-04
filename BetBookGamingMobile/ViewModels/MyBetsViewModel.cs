@@ -33,14 +33,13 @@ public partial class MyBetsViewModel : BaseViewModel
         _mediator = mediator;
     }
 
-    [RelayCommand]
     public async Task GetAllBettorSingleBetsAsync()
     {
-        string userId = _authenticationState.CurrentAuthenticationState.LoggedInUser.UserId;
+        AuthenticationStateModel authState = _authenticationState.GetCurrentAuthenticationState();
 
-        if (string.IsNullOrWhiteSpace(userId)) return;
+        if (authState.LoggedInUser is null) return;
 
-        bettorSingleBets = await _mediator.Send(new GetBettorSingleBetsQuery(userId));
+        bettorSingleBets = await _mediator.Send(new GetBettorSingleBetsQuery(authState.LoggedInUser.UserId));
 
         foreach (var singleBet in bettorSingleBets.Where(b => b.SingleBetStatus == SingleBetStatus.IN_PROGRESS))
             BettorSingleBetsInProgress.Add(singleBet);
@@ -55,14 +54,13 @@ public partial class MyBetsViewModel : BaseViewModel
             BettorSingleBetsPush.Add(singleBet);
     }
 
-    [RelayCommand]
     public async Task GetAllBettorParleyBetsAsync()
     {
-        string userId = _authenticationState.CurrentAuthenticationState.LoggedInUser.UserId;
+        AuthenticationStateModel authState = _authenticationState.GetCurrentAuthenticationState();
 
-        if (string.IsNullOrWhiteSpace(userId)) return;
+        if (authState.LoggedInUser is null) return;
 
-        bettorParleyBets = await _mediator.Send(new GetBettorParleyBetsQuery(userId));
+        bettorParleyBets = await _mediator.Send(new GetBettorParleyBetsQuery(authState.LoggedInUser.UserId));
 
         foreach (var parleyBet in bettorParleyBets.Where(b => b.ParleyBetSlipStatus == ParleyBetSlipStatus.IN_PROGRESS))
             BettorParleyBetsInProgress.Add(parleyBet);
@@ -75,5 +73,12 @@ public partial class MyBetsViewModel : BaseViewModel
 
         foreach (var parleyBet in bettorParleyBets.Where(b => b.ParleyBetSlipStatus == ParleyBetSlipStatus.PUSH))
             BettorParleyBetsPush.Add(parleyBet);
+    }
+
+    [RelayCommand]
+    private async Task SetStateAsync()
+    {
+        await GetAllBettorSingleBetsAsync();
+        await GetAllBettorParleyBetsAsync();
     }
 }

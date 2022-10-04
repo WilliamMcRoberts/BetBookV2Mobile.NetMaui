@@ -15,9 +15,10 @@ public partial class BetSlipPage : ContentPage
 		BindingContext = _viewModel = viewModel;
     }
 
-    protected override async void OnAppearing()
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
-        base.OnAppearing();
+        base.OnNavigatedTo(args);
+
         await _viewModel.SetStateCommand.ExecuteAsync(null);
     }
 }
