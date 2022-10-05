@@ -21,17 +21,17 @@ public class GameService : IGameService
         int week, SeasonType season)
     {
         //Sample Data
-        return new GameDto[2]
-        {
-            new GameDto
-            {
-                AwayTeam = "CIN", HomeTeam = "PIT", PointSpread = (float)5.5, OverUnder = (float)55.5, AwayTeamMoneyLine = 150, HomeTeamMoneyLine = -150, PointSpreadAwayTeamMoneyLine = 150, PointSpreadHomeTeamMoneyLine = -150, OverPayout = 150, UnderPayout = -150, DateTime = new DateTime(2022, 10, 2, 19, 30, 0)
-            },
-            new GameDto
-            {
-                AwayTeam = "DAL", HomeTeam = "WAS", PointSpread = (float)3.5, OverUnder = (float)33.5, AwayTeamMoneyLine = 350, HomeTeamMoneyLine = -350, PointSpreadAwayTeamMoneyLine = 350, PointSpreadHomeTeamMoneyLine = -350, OverPayout = 350, UnderPayout = -350, DateTime = new DateTime(2022, 10, 2, 19, 30, 0)
-            }
-        };
+        //return new GameDto[2]
+        //{
+        //    new GameDto
+        //    {
+        //        AwayTeam = "CIN", HomeTeam = "PIT", PointSpread = (float)5.5, OverUnder = (float)55.5, AwayTeamMoneyLine = 150, HomeTeamMoneyLine = -150, PointSpreadAwayTeamMoneyLine = 150, PointSpreadHomeTeamMoneyLine = -150, OverPayout = 150, UnderPayout = -150, DateTime = new DateTime(2022, 10, 2, 19, 30, 0)
+        //    },
+        //    new GameDto
+        //    {
+        //        AwayTeam = "DAL", HomeTeam = "WAS", PointSpread = (float)3.5, OverUnder = (float)33.5, AwayTeamMoneyLine = 350, HomeTeamMoneyLine = -350, PointSpreadAwayTeamMoneyLine = 350, PointSpreadHomeTeamMoneyLine = -350, OverPayout = 350, UnderPayout = -350, DateTime = new DateTime(2022, 10, 2, 19, 30, 0)
+        //    }
+        //};
 
 
         //GameDto[] games = new GameDto[16];
@@ -51,21 +51,21 @@ public class GameService : IGameService
 
         //return games!;
 
-        //GameDto[] games = new GameDto[16];
+        GameDto[] games = new GameDto[16];
 
-        //try
-        //{
-        //    var client = _httpClientFactory.CreateClient("vortex");
+        try
+        {
+            var client = _httpClientFactory.CreateClient("vortex");
 
-        //    games = await client.GetFromJsonAsync<GameDto[]>(
-        //            $"Games/REG/4");
-        //}
+            games = await client.GetFromJsonAsync<GameDto[]>(
+                    $"Games/REG/5");
+        }
 
-        //catch (Exception ex)
-        //{
-        //    Console.WriteLine(ex.Message);
-        //}
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
 
-        //return games!;
+        return games!;
     }
 }
