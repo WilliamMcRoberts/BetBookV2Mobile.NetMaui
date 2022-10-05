@@ -12,7 +12,9 @@ using BetBookGamingMobile.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MediatR;
+using Microsoft.AspNetCore.Components.Authorization;
 using System.IdentityModel.Tokens.Jwt;
+using AuthenticationState = BetBookGamingMobile.StateManagement.AuthenticationState;
 
 namespace BetBookGamingMobile.ViewModels;
 
@@ -20,8 +22,7 @@ public partial class MainViewModel : BaseViewModel
 {
     private readonly IMediator _mediator;
     private readonly AuthenticationState _authenticationState;
-
-    public delegate bool GetBoolFromStringsDelegate(string userState, string authState);
+    private UserModel loggedInUser;
 
     public MainViewModel(
         IMediator mediator, AuthenticationState authenticationState)
@@ -37,7 +38,7 @@ public partial class MainViewModel : BaseViewModel
 
         await LoadAndVerifyUserAsync(data);
 
-        if (!string.IsNullOrWhiteSpace(_authenticationState.CurrentAuthenticationState.LoggedInUser.UserId))
+        if (!string.IsNullOrWhiteSpace(loggedInUser.UserId))
             await GoToAvailableGamesPageAsync();
     }
 
@@ -46,67 +47,60 @@ public partial class MainViewModel : BaseViewModel
 
     public async Task LoadAndVerifyUserAsync(JwtSecurityToken data)
     {
-        _authenticationState.CurrentAuthenticationState.ObjectId = 
+        var currentAuthState = _authenticationState.GetCurrentAuthenticationState();
+
+        currentAuthState.ObjectId = 
             data.Claims.FirstOrDefault(c => c.Type.Contains("oid"))?.Value;
 
-        if (string.IsNullOrWhiteSpace(_authenticationState.CurrentAuthenticationState.ObjectId))
+        if (string.IsNullOrWhiteSpace(currentAuthState.ObjectId))
             return;
 
-        _authenticationState.CurrentAuthenticationState.LoggedInUser = await _mediator.Send(
-            new GetUserByObjectIdQuery(_authenticationState.CurrentAuthenticationState.ObjectId)) ?? new();
+        loggedInUser = await _mediator.Send(
+            new GetUserByObjectIdQuery(currentAuthState.ObjectId)) ?? new();
 
-        _authenticationState.CurrentAuthenticationState.DisplayName = 
+        currentAuthState.DisplayName =
             data.Claims.FirstOrDefault(c => c.Type.Contains("name"))?.Value;
-
-        _authenticationState.CurrentAuthenticationState.FirstName = 
+        currentAuthState.FirstName =
             data.Claims.FirstOrDefault(c => c.Type.Contains("given_name"))?.Value;
-
-        _authenticationState.CurrentAuthenticationState.LastName = 
+        currentAuthState.LastName =
             data.Claims.FirstOrDefault(c => c.Type.Contains("family_name"))?.Value;
-
-        _authenticationState.CurrentAuthenticationState.EmailAddress = 
+        currentAuthState.EmailAddress =
             data.Claims.FirstOrDefault(c => c.Type.Contains("emails"))?.Value;
-
-        _authenticationState.CurrentAuthenticationState.JobTitle = 
+        currentAuthState.JobTitle =
             data.Claims.FirstOrDefault(c => c.Type.Contains("jobTitle"))?.Value;
 
         bool isDirty = false;
 
-        (isDirty, _authenticationState.CurrentAuthenticationState.LoggedInUser.ObjectIdentifier) = 
-            !_authenticationState.CurrentAuthenticationState.ObjectId.Equals(_authenticationState.CurrentAuthenticationState.LoggedInUser.ObjectIdentifier) ? 
-            (true, _authenticationState.CurrentAuthenticationState.ObjectId) : (isDirty, _authenticationState.CurrentAuthenticationState.LoggedInUser.ObjectIdentifier);
+        (isDirty, loggedInUser.ObjectIdentifier) = !currentAuthState.ObjectId.Equals(loggedInUser.ObjectIdentifier) ?
+            (true, currentAuthState.ObjectId) : (isDirty, loggedInUser.ObjectIdentifier);
 
-        (isDirty, _authenticationState.CurrentAuthenticationState.LoggedInUser.FirstName) = 
-            !_authenticationState.CurrentAuthenticationState.FirstName.Equals(_authenticationState.CurrentAuthenticationState.LoggedInUser.FirstName) ?
-            (true, _authenticationState.CurrentAuthenticationState.FirstName) : (isDirty, _authenticationState.CurrentAuthenticationState.LoggedInUser.FirstName);
+        (isDirty, loggedInUser.FirstName) = !currentAuthState.FirstName.Equals(loggedInUser.FirstName) ?
+            (true, currentAuthState.FirstName) : (isDirty, loggedInUser.FirstName);
 
-        (isDirty, _authenticationState.CurrentAuthenticationState.LoggedInUser.LastName) = 
-            !_authenticationState.CurrentAuthenticationState.LastName.Equals(_authenticationState.CurrentAuthenticationState.LoggedInUser.LastName) ?
-            (true, _authenticationState.CurrentAuthenticationState.LastName) : (isDirty, _authenticationState.CurrentAuthenticationState.LoggedInUser.LastName);
+        (isDirty, loggedInUser.LastName) = !currentAuthState.LastName.Equals(loggedInUser.LastName) ?
+            (true, currentAuthState.LastName) : (isDirty, loggedInUser.LastName);
 
-        (isDirty, _authenticationState.CurrentAuthenticationState.LoggedInUser.DisplayName) = 
-            !_authenticationState.CurrentAuthenticationState.DisplayName.Equals(_authenticationState.CurrentAuthenticationState.LoggedInUser.DisplayName) ?
-            (true, _authenticationState.CurrentAuthenticationState.DisplayName) : (isDirty, _authenticationState.CurrentAuthenticationState.LoggedInUser.DisplayName);
+        (isDirty, loggedInUser.DisplayName) = !currentAuthState.DisplayName.Equals(loggedInUser.DisplayName) ?
+            (true, currentAuthState.DisplayName) : (isDirty, loggedInUser.DisplayName);
 
-        (isDirty, _authenticationState.CurrentAuthenticationState.LoggedInUser.EmailAddress) = 
-            !_authenticationState.CurrentAuthenticationState.EmailAddress.Equals(_authenticationState.CurrentAuthenticationState.LoggedInUser.EmailAddress) ?
-            (true, _authenticationState.CurrentAuthenticationState.EmailAddress) : (isDirty, _authenticationState.CurrentAuthenticationState.LoggedInUser.EmailAddress);
+        (isDirty, loggedInUser.EmailAddress) = !currentAuthState.EmailAddress.Equals(loggedInUser.EmailAddress) ?
+            (true, currentAuthState.EmailAddress) : (isDirty, loggedInUser.EmailAddress);
 
-        (isDirty, _authenticationState.CurrentAuthenticationState.LoggedInUser.AccountBalance) = 
-            _authenticationState.CurrentAuthenticationState.LoggedInUser.AccountBalance <= 0 ? 
-            (true, 10000) : (isDirty, _authenticationState.CurrentAuthenticationState.LoggedInUser.AccountBalance);
+        (isDirty, loggedInUser.AccountBalance) = loggedInUser.AccountBalance <= 0 ? 
+            (true, 10000) : (isDirty, loggedInUser.AccountBalance);
 
-        if (!isDirty)
-            return;
+        _authenticationState.CurrentAuthenticationState = currentAuthState;
+        _authenticationState.CurrentAuthenticationState.LoggedInUser = loggedInUser;
 
-        if(!string.IsNullOrWhiteSpace(_authenticationState.CurrentAuthenticationState.LoggedInUser.UserId))
+        if (string.IsNullOrWhiteSpace(loggedInUser.UserId))
         {
-            await _mediator.Send(new PutUserCommand(_authenticationState.CurrentAuthenticationState.LoggedInUser));
+            // New user recieves 10,000 in account
+            loggedInUser.AccountBalance = 10000;
+            await _mediator.Send(new PostUserCommand(loggedInUser));
+            _authenticationState.CurrentAuthenticationState.LoggedInUser = loggedInUser;
             return;
         }
-            
-        // New user recieves 10,000 in account
-        _authenticationState.CurrentAuthenticationState.LoggedInUser.AccountBalance = 10000;
-        await _mediator.Send(new PostUserCommand(_authenticationState.CurrentAuthenticationState.LoggedInUser));
+
+        await _mediator.Send(new PutUserCommand(loggedInUser));
     }
 }

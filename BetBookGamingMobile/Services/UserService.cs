@@ -25,7 +25,8 @@ public class UserService : IUserService
         {
             var client = _httpClientFactory.CreateClient("vortex");
 
-            user = await client.GetFromJsonAsync<UserModel>($"Users/UserId/{userId}");
+            user = 
+                await client.GetFromJsonAsync<UserModel>($"Users/UserId/{userId}");
         }
         catch (Exception ex)
         {
@@ -41,7 +42,8 @@ public class UserService : IUserService
         {
             var client = _httpClientFactory.CreateClient("vortex");
 
-            user = await client.GetFromJsonAsync<UserModel>($"Users/ObjectId/{objectId}");
+            user = 
+                await client.GetFromJsonAsync<UserModel>($"Users/ObjectId/{objectId}");
         }
         catch (Exception ex)
         {

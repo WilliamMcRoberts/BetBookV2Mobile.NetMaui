@@ -17,7 +17,7 @@ public partial class MyBetsPage : ContentPage
     {
         base.OnNavigatedTo(args);
 
-		if(_viewModel.bettorSingleBets.Count < 1 || _viewModel.bettorParleyBets.Count < 1)
+		if(_viewModel.bettorSingleBets.Count < 1 && _viewModel.bettorParleyBets.Count < 1)
 			await _viewModel.SetStateCommand.ExecuteAsync(null);
     }
 }
