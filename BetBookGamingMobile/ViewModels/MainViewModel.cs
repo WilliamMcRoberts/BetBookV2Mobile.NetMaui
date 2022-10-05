@@ -1,5 +1,6 @@
 ﻿
 
+using Android.Service.Autofill;
 using BetBookGamingMobile.Auth;
 using BetBookGamingMobile.Commands;
 using BetBookGamingMobile.Dto;
@@ -22,7 +23,6 @@ public partial class MainViewModel : BaseViewModel
 {
     private readonly IMediator _mediator;
     private readonly AuthenticationState _authenticationState;
-    private UserModel loggedInUser;
 
     public MainViewModel(
         IMediator mediator, AuthenticationState authenticationState)
@@ -38,8 +38,11 @@ public partial class MainViewModel : BaseViewModel
 
         await LoadAndVerifyUserAsync(data);
 
-        if (!string.IsNullOrWhiteSpace(loggedInUser.UserId))
-            await GoToAvailableGamesPageAsync();
+        if (string.IsNullOrWhiteSpace(LoggedInUser.UserId))
+            return;
+
+        IsLoggedIn = true;
+        await GoToAvailableGamesPageAsync();
     }
 
     public async Task GoToAvailableGamesPageAsync() =>
@@ -55,7 +58,7 @@ public partial class MainViewModel : BaseViewModel
         if (string.IsNullOrWhiteSpace(currentAuthState.ObjectId))
             return;
 
-        loggedInUser = await _mediator.Send(
+        LoggedInUser = await _mediator.Send(
             new GetUserByObjectIdQuery(currentAuthState.ObjectId)) ?? new();
 
         currentAuthState.DisplayName =
@@ -71,36 +74,39 @@ public partial class MainViewModel : BaseViewModel
 
         bool isDirty = false;
 
-        (isDirty, loggedInUser.ObjectIdentifier) = !currentAuthState.ObjectId.Equals(loggedInUser.ObjectIdentifier) ?
-            (true, currentAuthState.ObjectId) : (isDirty, loggedInUser.ObjectIdentifier);
+        (isDirty, LoggedInUser.ObjectIdentifier) = !currentAuthState.ObjectId.Equals(LoggedInUser.ObjectIdentifier) ?
+            (true, currentAuthState.ObjectId) : (isDirty, LoggedInUser.ObjectIdentifier);
 
-        (isDirty, loggedInUser.FirstName) = !currentAuthState.FirstName.Equals(loggedInUser.FirstName) ?
-            (true, currentAuthState.FirstName) : (isDirty, loggedInUser.FirstName);
+        (isDirty, LoggedInUser.FirstName) = !currentAuthState.FirstName.Equals(LoggedInUser.FirstName) ?
+            (true, currentAuthState.FirstName) : (isDirty, LoggedInUser.FirstName);
 
-        (isDirty, loggedInUser.LastName) = !currentAuthState.LastName.Equals(loggedInUser.LastName) ?
-            (true, currentAuthState.LastName) : (isDirty, loggedInUser.LastName);
+        (isDirty, LoggedInUser.LastName) = !currentAuthState.LastName.Equals(LoggedInUser.LastName) ?
+            (true, currentAuthState.LastName) : (isDirty, LoggedInUser.LastName);
 
-        (isDirty, loggedInUser.DisplayName) = !currentAuthState.DisplayName.Equals(loggedInUser.DisplayName) ?
-            (true, currentAuthState.DisplayName) : (isDirty, loggedInUser.DisplayName);
+        (isDirty, LoggedInUser.DisplayName) = !currentAuthState.DisplayName.Equals(LoggedInUser.DisplayName) ?
+            (true, currentAuthState.DisplayName) : (isDirty, LoggedInUser.DisplayName);
 
-        (isDirty, loggedInUser.EmailAddress) = !currentAuthState.EmailAddress.Equals(loggedInUser.EmailAddress) ?
-            (true, currentAuthState.EmailAddress) : (isDirty, loggedInUser.EmailAddress);
+        (isDirty, LoggedInUser.EmailAddress) = !currentAuthState.EmailAddress.Equals(LoggedInUser.EmailAddress) ?
+            (true, currentAuthState.EmailAddress) : (isDirty, LoggedInUser.EmailAddress);
 
-        (isDirty, loggedInUser.AccountBalance) = loggedInUser.AccountBalance <= 0 ? 
-            (true, 10000) : (isDirty, loggedInUser.AccountBalance);
+        (isDirty, LoggedInUser.AccountBalance) = LoggedInUser.AccountBalance <= 0 ? 
+            (true, 10000) : (isDirty, LoggedInUser.AccountBalance);
 
         _authenticationState.CurrentAuthenticationState = currentAuthState;
-        _authenticationState.CurrentAuthenticationState.LoggedInUser = loggedInUser;
+        _authenticationState.CurrentAuthenticationState.LoggedInUser = LoggedInUser;
 
-        if (string.IsNullOrWhiteSpace(loggedInUser.UserId))
+        if (!isDirty)
+            return;
+
+        if (!string.IsNullOrWhiteSpace(LoggedInUser.UserId))
         {
-            // New user recieves 10,000 in account
-            loggedInUser.AccountBalance = 10000;
-            await _mediator.Send(new PostUserCommand(loggedInUser));
-            _authenticationState.CurrentAuthenticationState.LoggedInUser = loggedInUser;
+            await _mediator.Send(new PutUserCommand(LoggedInUser));
             return;
         }
 
-        await _mediator.Send(new PutUserCommand(loggedInUser));
+        // New user recieves 10,000 in account
+        LoggedInUser.AccountBalance = 10000;
+        await _mediator.Send(new PostUserCommand(LoggedInUser));
+        _authenticationState.CurrentAuthenticationState.LoggedInUser = LoggedInUser;
     }
 }

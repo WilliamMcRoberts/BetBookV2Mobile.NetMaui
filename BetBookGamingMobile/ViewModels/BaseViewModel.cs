@@ -21,6 +21,10 @@ public partial class BaseViewModel : ObservableObject
     [ObservableProperty]
     public UserModel loggedInUser;
 
+    [ObservableProperty]
+    bool isLoggedIn;
+
+    public bool IsNotLoggedIn => !isLoggedIn;
     public bool IsNotBusy => !IsBusy;
 
 }
