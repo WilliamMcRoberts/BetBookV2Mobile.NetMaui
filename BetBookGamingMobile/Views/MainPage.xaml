@@ -12,6 +12,7 @@
             BackgroundColor="DarkBlue" 
             x:Name="LoginButton" 
             Text="Login" 
+            IsVisible="{Binding IsNotLoggedIn}"
             Command="{Binding LoginCommand}"/>
 
 </ContentPage>

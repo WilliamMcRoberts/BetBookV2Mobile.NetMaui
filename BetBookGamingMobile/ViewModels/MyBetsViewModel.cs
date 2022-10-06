@@ -13,7 +13,6 @@ namespace BetBookGamingMobile.ViewModels;
 public partial class MyBetsViewModel : BaseViewModel
 {
     private readonly IMediator _mediator;
-    private AuthenticationStateModel _currentAuthenticationState;
 
     public List<SingleBetModel> bettorSingleBets = new();
     public ObservableCollection<SingleBetModel> BettorSingleBetsInProgress { get; } = new();
@@ -35,11 +34,11 @@ public partial class MyBetsViewModel : BaseViewModel
     [RelayCommand]
     private async Task SetStateAsync()
     {
-        _currentAuthenticationState =
-             await _mediator.Send(new GetCurrentAuthenticationStateQuery());
+        var authState = await _mediator.Send(new GetCurrentAuthenticationStateQuery());
 
-        if (string.IsNullOrEmpty(_currentAuthenticationState.LoggedInUser.UserId))
-            return;
+        LoggedInUser = authState.LoggedInUser;
+
+        if (string.IsNullOrEmpty(LoggedInUser.UserId)) return;
 
         await GetAllBettorSingleBetsAsync();
         await GetAllBettorParleyBetsAsync();
@@ -48,7 +47,7 @@ public partial class MyBetsViewModel : BaseViewModel
     private async Task GetAllBettorSingleBetsAsync()
     {
         bettorSingleBets = await _mediator.Send(
-            new GetBettorSingleBetsQuery(_currentAuthenticationState.LoggedInUser.UserId));
+            new GetBettorSingleBetsQuery(LoggedInUser.UserId));
 
         PopulateSingleBetObservableCollectionsFromBettorSingleBetsList(bettorSingleBets);
     }
@@ -56,7 +55,7 @@ public partial class MyBetsViewModel : BaseViewModel
     private async Task GetAllBettorParleyBetsAsync()
     {
         bettorParleyBets = await _mediator.Send(
-            new GetBettorParleyBetsQuery(_currentAuthenticationState.LoggedInUser.UserId));
+            new GetBettorParleyBetsQuery(LoggedInUser.UserId));
 
         PopulateParleyBetObservableCollectionsFromBettorParleyBetsList(bettorParleyBets);
     }

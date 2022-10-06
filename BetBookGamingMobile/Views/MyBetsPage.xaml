@@ -9,8 +9,8 @@
     
     <ScrollView>
         <VerticalStackLayout>
-            
-            <Label Text="Single Bets In Progress" 
+
+            <Label Text="In Progress Single Bets" 
                    FontSize="25" 
                    FontAttributes="Bold" 
                    TextColor="Black"/>
@@ -27,8 +27,8 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            
-            <Label Text="Single Winning Bets" 
+
+            <Label Text="Winning Single Bets" 
                    FontSize="25" 
                    FontAttributes="Bold"
                    TextColor="Black"/>
@@ -45,8 +45,8 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            
-            <Label Text="Single Losing Bets" 
+
+            <Label Text="Losing Single Bets" 
                    FontSize="25" 
                    FontAttributes="Bold" 
                    TextColor="Black"/>
@@ -63,8 +63,8 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            
-            <Label Text="Single Push Bets" 
+
+            <Label Text="Push Single Bets" 
                    FontSize="25" 
                    FontAttributes="Bold" 
                    TextColor="Black"/>
@@ -81,8 +81,8 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            
-            <Label Text="Parley In Progress Bets" 
+
+            <Label Text="In Progress Parley Bets" 
                    FontSize="25" 
                    FontAttributes="Bold" 
                    TextColor="Black"/>
@@ -98,8 +98,8 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            
-            <Label Text="Parley Winning Bets" 
+
+            <Label Text="Winning Parley Bets" 
                    FontSize="25" 
                    FontAttributes="Bold" 
                    TextColor="Black"/>
@@ -115,8 +115,8 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            
-            <Label Text="Parley Losing Bets" 
+
+            <Label Text="Losing Parley Bets" 
                    FontSize="25" 
                    FontAttributes="Bold" 
                    TextColor="Black"/>
@@ -132,8 +132,8 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            
-            <Label Text="Parley Push Bets" 
+
+            <Label Text="Push Parley Bets" 
                    FontSize="25" 
                    FontAttributes="Bold" 
                    TextColor="Black"/>

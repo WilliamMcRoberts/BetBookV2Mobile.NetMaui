@@ -17,10 +17,7 @@ public partial class AvailableGamesPage : ContentPage
     {
         base.OnNavigatedTo(args);
 
-        if (_viewModel.Games.Count > 0)
-            return;
-
-        _viewModel.SetStateCommand.Execute(null);
-        await _viewModel.GetGamesCommand.ExecuteAsync(null);
+        if (_viewModel.Games.Count <= 0)
+            await _viewModel.SetStateCommand.ExecuteAsync(null);
     }
 }

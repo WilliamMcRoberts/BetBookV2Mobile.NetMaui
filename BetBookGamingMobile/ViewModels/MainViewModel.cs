@@ -1,6 +1,5 @@
 ﻿
 
-using Android.Service.Autofill;
 using BetBookGamingMobile.Auth;
 using BetBookGamingMobile.Commands;
 using BetBookGamingMobile.Dto;
@@ -13,6 +12,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MediatR;
 using Microsoft.AspNetCore.Components.Authorization;
+using Org.Apache.Http.Authentication;
 using System.IdentityModel.Tokens.Jwt;
 using AuthenticationState = BetBookGamingMobile.GlobalStateManagement.AuthenticationState;
 
@@ -21,13 +21,11 @@ namespace BetBookGamingMobile.ViewModels;
 public partial class MainViewModel : BaseViewModel
 {
     private readonly IMediator _mediator;
-    private readonly AuthenticationState _authenticationState;
 
     public MainViewModel(
-        IMediator mediator, AuthenticationState authenticationState)
+        IMediator mediator)
     {
         _mediator = mediator;
-        _authenticationState = authenticationState;
     }
     
     [RelayCommand]
@@ -49,63 +47,54 @@ public partial class MainViewModel : BaseViewModel
 
     public async Task LoadAndVerifyUserAsync(JwtSecurityToken data)
     {
-        var currentAuthState = _authenticationState.GetCurrentAuthenticationState();
+        var authState = await _mediator.Send(new GetCurrentAuthenticationStateQuery());
 
-        currentAuthState.ObjectId = 
+        authState.ObjectId = 
             data.Claims.FirstOrDefault(c => c.Type.Contains("oid"))?.Value;
 
-        if (string.IsNullOrWhiteSpace(currentAuthState.ObjectId))
+        if (string.IsNullOrWhiteSpace(authState.ObjectId))
             return;
 
-        LoggedInUser = await _mediator.Send(
-            new GetUserByObjectIdQuery(currentAuthState.ObjectId)) ?? new();
+        LoggedInUser = authState.LoggedInUser = await _mediator.Send(
+            new GetUserByObjectIdQuery(authState.ObjectId)) ?? new();
 
-        currentAuthState.DisplayName =
-            data.Claims.FirstOrDefault(c => c.Type.Contains("name"))?.Value;
-        currentAuthState.FirstName =
-            data.Claims.FirstOrDefault(c => c.Type.Contains("given_name"))?.Value;
-        currentAuthState.LastName =
-            data.Claims.FirstOrDefault(c => c.Type.Contains("family_name"))?.Value;
-        currentAuthState.EmailAddress =
-            data.Claims.FirstOrDefault(c => c.Type.Contains("emails"))?.Value;
-        currentAuthState.JobTitle =
-            data.Claims.FirstOrDefault(c => c.Type.Contains("jobTitle"))?.Value;
+        authState.DisplayName = data.Claims.FirstOrDefault(c => c.Type.Contains("name"))?.Value;
+        authState.FirstName = data.Claims.FirstOrDefault(c => c.Type.Contains("given_name"))?.Value;
+        authState.LastName = data.Claims.FirstOrDefault(c => c.Type.Contains("family_name"))?.Value;
+        authState.EmailAddress = data.Claims.FirstOrDefault(c => c.Type.Contains("emails"))?.Value;
+        authState.JobTitle = data.Claims.FirstOrDefault(c => c.Type.Contains("jobTitle"))?.Value;
 
         bool isDirty = false;
 
-        (isDirty, LoggedInUser.ObjectIdentifier) = !currentAuthState.ObjectId.Equals(LoggedInUser.ObjectIdentifier) ?
-            (true, currentAuthState.ObjectId) : (isDirty, LoggedInUser.ObjectIdentifier);
+        (isDirty, authState.LoggedInUser.ObjectIdentifier) = !authState.ObjectId.Equals(authState.LoggedInUser.ObjectIdentifier) ?
+            (true, authState.ObjectId) : (isDirty, authState.LoggedInUser.ObjectIdentifier);
 
-        (isDirty, LoggedInUser.FirstName) = !currentAuthState.FirstName.Equals(LoggedInUser.FirstName) ?
-            (true, currentAuthState.FirstName) : (isDirty, LoggedInUser.FirstName);
+        (isDirty, authState.LoggedInUser.FirstName) = !authState.FirstName.Equals(authState.LoggedInUser.FirstName) ?
+            (true, authState.FirstName) : (isDirty, authState.LoggedInUser.FirstName);
 
-        (isDirty, LoggedInUser.LastName) = !currentAuthState.LastName.Equals(LoggedInUser.LastName) ?
-            (true, currentAuthState.LastName) : (isDirty, LoggedInUser.LastName);
+        (isDirty, authState.LoggedInUser.LastName) = !authState.LastName.Equals(authState.LoggedInUser.LastName) ?
+            (true, authState.LastName) : (isDirty, authState.LoggedInUser.LastName);
 
-        (isDirty, LoggedInUser.DisplayName) = !currentAuthState.DisplayName.Equals(LoggedInUser.DisplayName) ?
-            (true, currentAuthState.DisplayName) : (isDirty, LoggedInUser.DisplayName);
+        (isDirty, authState.LoggedInUser.DisplayName) = !authState.DisplayName.Equals(authState.LoggedInUser.DisplayName) ?
+            (true, authState.DisplayName) : (isDirty, authState.LoggedInUser.DisplayName);
 
-        (isDirty, LoggedInUser.EmailAddress) = !currentAuthState.EmailAddress.Equals(LoggedInUser.EmailAddress) ?
-            (true, currentAuthState.EmailAddress) : (isDirty, LoggedInUser.EmailAddress);
+        (isDirty, authState.LoggedInUser.EmailAddress) = !authState.EmailAddress.Equals(authState.LoggedInUser.EmailAddress) ?
+            (true, authState.EmailAddress) : (isDirty, authState.LoggedInUser.EmailAddress);
 
-        (isDirty, LoggedInUser.AccountBalance) = LoggedInUser.AccountBalance <= 0 ? 
-            (true, 10000) : (isDirty, LoggedInUser.AccountBalance);
+        (isDirty, authState.LoggedInUser.AccountBalance) = authState.LoggedInUser.AccountBalance <= 0 ? 
+            (true, 10000) : (isDirty, authState.LoggedInUser.AccountBalance);
 
-        _authenticationState.CurrentAuthenticationState = currentAuthState;
-        _authenticationState.CurrentAuthenticationState.LoggedInUser = LoggedInUser;
+        await _mediator.Send(new SetCurrentAuthenticationStateCommand(authState));
 
         if (!isDirty)
             return;
 
-        if (!string.IsNullOrWhiteSpace(LoggedInUser.UserId))
+        if (!string.IsNullOrWhiteSpace(authState.LoggedInUser.UserId))
         {
-            await _mediator.Send(new PutUserCommand(LoggedInUser));
+            await _mediator.Send(new PutUserCommand(authState.LoggedInUser));
             return;
         }
 
-        // New user recieves 10,000 in account
-        LoggedInUser.AccountBalance = 10000;
-        await _mediator.Send(new PostUserCommand(LoggedInUser));
-        _authenticationState.CurrentAuthenticationState.LoggedInUser = LoggedInUser;
+        await _mediator.Send(new PostUserCommand(authState.LoggedInUser));
     }
 }

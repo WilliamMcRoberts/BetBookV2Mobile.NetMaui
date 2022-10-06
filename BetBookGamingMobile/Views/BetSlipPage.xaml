@@ -33,7 +33,6 @@
                                Margin="5"/>
                         
                         <Entry Text="{Binding BetAmount}"
-                               Placeholder="Single Bet Wager Amount"
                                HorizontalTextAlignment="Center"/>
 
 
@@ -55,9 +54,8 @@
                                    HorizontalTextAlignment="Center"
                                    Margin="5"/>
 
-        <Entry Text="Parley Wager Amout"
-                               HorizontalTextAlignment="Center"
-                               Placeholder="0"/>
+        <Entry Text="{Binding ParleyWagerAmount}"
+               HorizontalTextAlignment="Center"/>
 
         <Button Command="{Binding SubmitSinglesWagerCommand}" 
                         Text="Submit Singles Wager"
@@ -81,7 +79,6 @@
         </Button>
 
         <Button Command="{Binding SubmitParleyWagerCommand}" 
-                CommandParameter="{Binding ParlyWagerAmount}"
                         Text="Submit Parley Wager"
                         FontAttributes="Bold"
                         FontSize="16"

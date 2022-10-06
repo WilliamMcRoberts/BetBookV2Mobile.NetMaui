@@ -8,7 +8,6 @@ using BetBookGamingMobile.GlobalStateManagement;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MediatR;
-using System.Collections.ObjectModel;
 
 namespace BetBookGamingMobile.ViewModels;
 
@@ -24,39 +23,43 @@ public partial class BetSlipViewModel : BaseViewModel
     }
 
     [ObservableProperty]
-    decimal parlyWagerAmount;
+    decimal parleyWagerAmount;
 
     [ObservableProperty]
     BetSlipStateModel betSlipState;
 
     [RelayCommand]
-    private async Task SubmitSinglesWager()
+    private async Task SubmitSinglesWagerAsync()
     {
-        AuthenticationStateModel authState = _authenticationState.GetCurrentAuthenticationState();
+        var authState = await _mediator.Send(new GetCurrentAuthenticationStateQuery());
 
-        if (authState.LoggedInUser is null) return;
+        LoggedInUser = authState.LoggedInUser;        
+            
+        if (string.IsNullOrEmpty(LoggedInUser.UserId)) return;
 
         bool singlesBetSlipGood = 
-            await _mediator.Send(new SubmitBetsFromSinglesBetSlipCommand(authState.LoggedInUser));
+            await _mediator.Send(new SubmitBetsFromSinglesBetSlipCommand(LoggedInUser));
 
         if (singlesBetSlipGood) 
             BetSlipState = await _mediator.Send(new GetBetSlipStateQuery());
     }
 
     [RelayCommand]
-    private async Task SubmitParleyWager(decimal parleyWagerAmount)
+    private async Task SubmitParleyWagerAsync()
     {
-        AuthenticationStateModel authState = _authenticationState.GetCurrentAuthenticationState();
+        var authState = await _mediator.Send(new GetCurrentAuthenticationStateQuery());
 
-        if (authState.LoggedInUser is null) return;
+        LoggedInUser = authState.LoggedInUser;
+
+        if (string.IsNullOrEmpty(LoggedInUser.UserId)) return;
 
         bool parleyBetSlipGood = await _mediator.Send(new SubmitBetsFromParleyBetSlipCommand(
-                authState.LoggedInUser, parleyWagerAmount));
+                LoggedInUser, ParleyWagerAmount));
 
         if (parleyBetSlipGood) 
             BetSlipState = await _mediator.Send(new GetBetSlipStateQuery());
 
-        parleyWagerAmount = 0;
+        ParleyWagerAmount = 0;
     }
 
     [RelayCommand]

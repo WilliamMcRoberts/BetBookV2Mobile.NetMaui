@@ -19,10 +19,10 @@ public partial class BaseViewModel : ObservableObject
     string title;
 
     [ObservableProperty]
-    public UserModel loggedInUser;
+    bool isLoggedIn;
 
     [ObservableProperty]
-    bool isLoggedIn;
+    UserModel loggedInUser;
 
     public bool IsNotLoggedIn => !isLoggedIn;
     public bool IsNotBusy => !IsBusy;

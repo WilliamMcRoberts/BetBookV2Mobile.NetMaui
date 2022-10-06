@@ -1,5 +1,6 @@
 ﻿
 
+using AndroidX.Lifecycle;
 using BetBookGamingMobile.Dto;
 using BetBookGamingMobile.Helpers;
 using BetBookGamingMobile.Queries;
@@ -35,7 +36,7 @@ public partial class AvailableGamesViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    public async Task GetGamesAsync(string text)
+    public async Task GetGamesAsync()
     {
         if (IsBusy)
             return;
@@ -80,11 +81,12 @@ public partial class AvailableGamesViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private void SetState()
+    private async Task SetStateAsync()
     {
         SetSeason();
         SetWeek();
         SetTitle();
+        await GetGamesAsync();
     }
 
     private void SetSeason() =>
