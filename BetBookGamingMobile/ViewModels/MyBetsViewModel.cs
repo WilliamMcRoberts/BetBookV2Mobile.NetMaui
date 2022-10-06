@@ -40,53 +40,52 @@ public partial class MyBetsViewModel : BaseViewModel
 
         if (string.IsNullOrEmpty(LoggedInUser.UserId)) return;
 
-        await GetAllBettorSingleBetsAsync();
-        await GetAllBettorParleyBetsAsync();
+        AddSinglesDelegate addSingles = AddSingleBetsToObservableCollection;
+        AddParleysDelegate addParleys = AddParleyBetsToObservableCollection;
+
+        await GetAllBettorSingleBetsAsync(addSingles);
+        await GetAllBettorParleyBetsAsync(addParleys);
     }
 
-    private async Task GetAllBettorSingleBetsAsync()
+    private async Task GetAllBettorSingleBetsAsync(AddSinglesDelegate add)
     {
         bettorSingleBets = await _mediator.Send(
             new GetBettorSingleBetsQuery(LoggedInUser.UserId));
 
-        PopulateSingleBetObservableCollectionsFromBettorSingleBetsList(bettorSingleBets);
+        add(BettorSingleBetsInProgress, SingleBetStatus.IN_PROGRESS);
+        add(BettorSingleBetsWinners, SingleBetStatus.WINNER);
+        add(BettorSingleBetsLosers, SingleBetStatus.LOSER);
+        add(BettorSingleBetsPush, SingleBetStatus.PUSH);
     }
 
-    private async Task GetAllBettorParleyBetsAsync()
+    private async Task GetAllBettorParleyBetsAsync(AddParleysDelegate add)
     {
         bettorParleyBets = await _mediator.Send(
             new GetBettorParleyBetsQuery(LoggedInUser.UserId));
 
-        PopulateParleyBetObservableCollectionsFromBettorParleyBetsList(bettorParleyBets);
+        add(BettorParleyBetsInProgress, ParleyBetSlipStatus.IN_PROGRESS);
+        add(BettorParleyBetsWinners, ParleyBetSlipStatus.WINNER);
+        add(BettorParleyBetsLosers, ParleyBetSlipStatus.LOSER);
+        add(BettorParleyBetsPush, ParleyBetSlipStatus.PUSH);
     }
 
-    private void PopulateSingleBetObservableCollectionsFromBettorSingleBetsList(List<SingleBetModel> bettorSingleBets)
+    private delegate void AddSinglesDelegate(
+        ObservableCollection<SingleBetModel> collection, SingleBetStatus status);
+
+    private delegate void AddParleysDelegate(
+        ObservableCollection<ParleyBetSlipModel> collection, ParleyBetSlipStatus status);
+
+    private void AddSingleBetsToObservableCollection(
+        ObservableCollection<SingleBetModel> collection, SingleBetStatus status)
     {
-        foreach (var singleBet in bettorSingleBets.Where(b => b.SingleBetStatus == SingleBetStatus.IN_PROGRESS))
-            BettorSingleBetsInProgress.Add(singleBet);
-
-        foreach (var singleBet in bettorSingleBets.Where(b => b.SingleBetStatus == SingleBetStatus.WINNER))
-            BettorSingleBetsWinners.Add(singleBet);
-
-        foreach (var singleBet in bettorSingleBets.Where(b => b.SingleBetStatus == SingleBetStatus.LOSER))
-            BettorSingleBetsLosers.Add(singleBet);
-
-        foreach (var singleBet in bettorSingleBets.Where(b => b.SingleBetStatus == SingleBetStatus.PUSH))
-            BettorSingleBetsPush.Add(singleBet);
+        foreach (var bet in bettorSingleBets.Where(b => b.SingleBetStatus == status))
+            collection.Add(bet);
     }
 
-    private void PopulateParleyBetObservableCollectionsFromBettorParleyBetsList(List<ParleyBetSlipModel> bettorParleyBets)
+    private void AddParleyBetsToObservableCollection(
+        ObservableCollection<ParleyBetSlipModel> collection, ParleyBetSlipStatus status)
     {
-        foreach (var parleyBet in bettorParleyBets.Where(b => b.ParleyBetSlipStatus == ParleyBetSlipStatus.IN_PROGRESS))
-            BettorParleyBetsInProgress.Add(parleyBet);
-
-        foreach (var parleyBet in bettorParleyBets.Where(b => b.ParleyBetSlipStatus == ParleyBetSlipStatus.WINNER))
-            BettorParleyBetsWinners.Add(parleyBet);
-
-        foreach (var parleyBet in bettorParleyBets.Where(b => b.ParleyBetSlipStatus == ParleyBetSlipStatus.LOSER))
-            BettorParleyBetsLosers.Add(parleyBet);
-
-        foreach (var parleyBet in bettorParleyBets.Where(b => b.ParleyBetSlipStatus == ParleyBetSlipStatus.PUSH))
-            BettorParleyBetsPush.Add(parleyBet);
+        foreach (var bet in bettorParleyBets.Where(b => b.ParleyBetSlipStatus == status))
+            collection.Add(bet);
     }
 }
