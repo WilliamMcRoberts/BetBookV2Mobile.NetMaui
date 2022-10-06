@@ -7,7 +7,7 @@ using MediatR;
 
 namespace BetBookGamingMobile.Handlers;
 
-public class SelectOrRemoveWinnerAndGameForBetHandler : IRequestHandler<SelectOrRemoveWinnerAndGameForBetCommand, (BetSlipStateModel, ButtonColorStateModel)>
+public class SelectOrRemoveWinnerAndGameForBetHandler : IRequestHandler<SelectOrRemoveWinnerAndGameForBetCommand, ButtonColorStateModel>
 {
 	private readonly BetSlip _betSlip;
 
@@ -16,9 +16,8 @@ public class SelectOrRemoveWinnerAndGameForBetHandler : IRequestHandler<SelectOr
 		_betSlip = betSlip;
 	}
 
-	public async Task<(BetSlipStateModel, ButtonColorStateModel)> Handle(SelectOrRemoveWinnerAndGameForBetCommand request, CancellationToken cancellationToken)
+	public async Task<ButtonColorStateModel> Handle(SelectOrRemoveWinnerAndGameForBetCommand request, CancellationToken cancellationToken)
 	{
 		return await Task.FromResult(_betSlip.SelectOrRemoveWinnerAndGameForBet(request.winner, request.gameDto, request.betType));
-		
 	}
 }

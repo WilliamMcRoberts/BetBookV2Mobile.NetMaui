@@ -39,7 +39,7 @@ public class BetSlip
         _mediator = mediator;
     }
 
-    public (BetSlipStateModel, ButtonColorStateModel) SelectOrRemoveWinnerAndGameForBet(string winner, GameDto game, BetType betType)
+    public ButtonColorStateModel SelectOrRemoveWinnerAndGameForBet(string winner, GameDto game, BetType betType)
     {
         if (preBets.Contains(preBets.Where(b => b.Winner == winner && b.Game.ScoreID == game.ScoreID && b.BetType == betType)
                    .FirstOrDefault()!))
@@ -50,7 +50,7 @@ public class BetSlip
 
             conflictingBetsForParley = CheckForConflictingBets();
 
-            return (GetBetSlipState(), GetButtonColorState(game));
+            return GetButtonColorState(game);
         }
 
         preBets.Add(new CreateBetModel
@@ -65,7 +65,7 @@ public class BetSlip
         });
 
         conflictingBetsForParley = CheckForConflictingBets();
-        return (GetBetSlipState(), GetButtonColorState(game));
+        return GetButtonColorState(game);
     }
 
     public (BetSlipStateModel, ButtonColorStateModel, ButtonTextStateModel) GetAllStates(GameDto gameDto) =>

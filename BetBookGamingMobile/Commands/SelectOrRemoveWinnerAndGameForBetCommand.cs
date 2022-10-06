@@ -8,4 +8,4 @@ using MediatR;
 namespace BetBookGamingMobile.Commands;
 
 public record SelectOrRemoveWinnerAndGameForBetCommand(
-    string winner, GameDto gameDto, BetType betType) : IRequest<(BetSlipStateModel, ButtonColorStateModel)>;
+    string winner, GameDto gameDto, BetType betType) : IRequest<ButtonColorStateModel>;

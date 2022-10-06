@@ -1,8 +1,9 @@
 ﻿
 
-using AndroidX.Lifecycle;
 using BetBookGamingMobile.Commands;
+using BetBookGamingMobile.Controls;
 using BetBookGamingMobile.Dto;
+using BetBookGamingMobile.GlobalStateManagement;
 using BetBookGamingMobile.Handlers;
 using BetBookGamingMobile.Models;
 using BetBookGamingMobile.Queries;
@@ -37,20 +38,21 @@ public partial class GameDetailsViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task AddOrRemoveWagerForPointSpreadAsync(string winner) => (BetSlipState, ButtonColorState) = 
-        await _mediator.Send( new SelectOrRemoveWinnerAndGameForBetCommand(winner, GameDto, BetType.POINTSPREAD));
+    private async Task AddOrRemoveWagerForPointSpreadAsync(string winner) =>
+        ButtonColorState = await _mediator.Send(new SelectOrRemoveWinnerAndGameForBetCommand(
+            winner, GameDto, BetType.POINTSPREAD));
 
     [RelayCommand]
-    private async Task AddOrRemoveWagerForMoneylineAsync(string winner) => (BetSlipState, ButtonColorState) = 
-        await _mediator.Send(  new SelectOrRemoveWinnerAndGameForBetCommand(winner, GameDto, BetType.MONEYLINE));
+    private async Task AddOrRemoveWagerForMoneylineAsync(string winner) =>
+        ButtonColorState = await _mediator.Send(new SelectOrRemoveWinnerAndGameForBetCommand(
+            winner, GameDto, BetType.MONEYLINE));
 
     [RelayCommand]
-    private async Task AddOrRemoveWagerForOverUnderAsync(string winner) => (BetSlipState, ButtonColorState) = 
-        await _mediator.Send( new SelectOrRemoveWinnerAndGameForBetCommand(
+    private async Task AddOrRemoveWagerForOverUnderAsync(string winner) =>
+        ButtonColorState = await _mediator.Send(new SelectOrRemoveWinnerAndGameForBetCommand(
             string.Concat(winner, GameDto.ScoreID.ToString()), GameDto, BetType.OVERUNDER));
-
+        
     [RelayCommand]
-    private async Task SetStateAsync() =>
-        (BetSlipState, ButtonColorState, ButtonTextState) = 
+    private async Task SetStateAsync() => (BetSlipState, ButtonColorState, ButtonTextState) = 
             await _mediator.Send(new GetStateForGameDetailsPageQuery(GameDto));
 }
