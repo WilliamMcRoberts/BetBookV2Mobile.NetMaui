@@ -1,7 +1,7 @@
 ﻿
 
 using BetBookGamingMobile.Models;
-using BetBookGamingMobile.StateManagement;
+using BetBookGamingMobile.GlobalStateManagement;
 using MediatR;
 
 namespace BetBookGamingMobile.Queries;

@@ -1,7 +1,7 @@
 ﻿
 
 using BetBookGamingMobile.Commands;
-using BetBookGamingMobile.StateManagement;
+using BetBookGamingMobile.GlobalStateManagement;
 using MediatR;
 
 namespace BetBookGamingMobile.Handlers;

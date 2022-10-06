@@ -7,7 +7,7 @@ using MediatR;
 using BetBookGamingMobile.Queries;
 using BetBookGamingMobile.Commands;
 
-namespace BetBookGamingMobile.StateManagement;
+namespace BetBookGamingMobile.GlobalStateManagement;
 
 public class BetSlip
 {

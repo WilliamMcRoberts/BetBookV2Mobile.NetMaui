@@ -8,14 +8,13 @@ using BetBookGamingMobile.Helpers;
 using BetBookGamingMobile.Models;
 using BetBookGamingMobile.Queries;
 using BetBookGamingMobile.Services;
-using BetBookGamingMobile.StateManagement;
 using BetBookGamingMobile.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MediatR;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.IdentityModel.Tokens.Jwt;
-using AuthenticationState = BetBookGamingMobile.StateManagement.AuthenticationState;
+using AuthenticationState = BetBookGamingMobile.GlobalStateManagement.AuthenticationState;
 
 namespace BetBookGamingMobile.ViewModels;
 

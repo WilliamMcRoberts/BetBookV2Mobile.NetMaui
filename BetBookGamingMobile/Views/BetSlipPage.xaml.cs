@@ -1,5 +1,5 @@
 using BetBookGamingMobile.Queries;
-using BetBookGamingMobile.StateManagement;
+using BetBookGamingMobile.GlobalStateManagement;
 using BetBookGamingMobile.ViewModels;
 using MediatR;
 

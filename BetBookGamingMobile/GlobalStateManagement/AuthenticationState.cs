@@ -1,6 +1,6 @@
 ﻿using BetBookGamingMobile.Models;
 
-namespace BetBookGamingMobile.StateManagement;
+namespace BetBookGamingMobile.GlobalStateManagement;
 
 public class AuthenticationState
 {

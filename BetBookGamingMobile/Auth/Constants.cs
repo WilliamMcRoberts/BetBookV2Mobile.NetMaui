@@ -9,7 +9,7 @@ public static class Constants
     //Uncomment the next code to add B2C
     public static readonly string TenantName = "betbookgamingauthentication";
     public static readonly string TenantId = $"{TenantName}.onmicrosoft.com";
-    public static readonly string SignInPolicy = "B2C_1_susi"; // Or B2C_1_susi B2C_1_client
+    public static readonly string SignInPolicy = "B2C_1_susi";
     public static readonly string AuthorityBase = $"https://{TenantName}.b2clogin.com/tfp/{TenantId}/";
     public static readonly string AuthoritySignIn = $"{AuthorityBase}{SignInPolicy}";
     //public IPublicClientApplication PublicClientApp { get; set; }

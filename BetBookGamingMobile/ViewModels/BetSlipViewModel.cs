@@ -4,7 +4,7 @@ using BetBookGamingMobile.Commands;
 using BetBookGamingMobile.Dto;
 using BetBookGamingMobile.Models;
 using BetBookGamingMobile.Queries;
-using BetBookGamingMobile.StateManagement;
+using BetBookGamingMobile.GlobalStateManagement;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MediatR;
@@ -61,7 +61,7 @@ public partial class BetSlipViewModel : BaseViewModel
 
     [RelayCommand]
     private async Task RemoveBetFromPreBets(CreateBetModel createBet) =>
-        await _mediator.Send(new DeleteBetCommand(createBet));
+        BetSlipState = await _mediator.Send(new DeleteBetCommand(createBet));
 
     [RelayCommand]
     private async Task SetStateAsync() =>

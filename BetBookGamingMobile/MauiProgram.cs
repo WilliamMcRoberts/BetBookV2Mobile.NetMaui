@@ -1,5 +1,5 @@
 ﻿using BetBookGamingMobile.Services;
-using BetBookGamingMobile.StateManagement;
+using BetBookGamingMobile.GlobalStateManagement;
 using BetBookGamingMobile.ViewModels;
 using BetBookGamingMobile.Views;
 using Microsoft.Extensions.Configuration;
@@ -37,14 +37,14 @@ public static class MauiProgram
                                     new Uri("https://user9f9bd262219b696.app.vtxhub.com/") 
                                     : new Uri("https://localhost:7184/");
             client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Add("XApiKey", "<APIKEY>");
+            client.DefaultRequestHeaders.Add("XApiKey", "uegH7UrOHPx4w46fI~3Uzi6QrtZw1EXt");
         });
 
         builder.Services.AddHttpClient("betbookgamingV2", client =>
         {
             client.BaseAddress = new Uri("https://betbookgamingv2api.azurewebsites.net/");
             client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Add("XApiKey", "<APIKEY>");
+            client.DefaultRequestHeaders.Add("XApiKey", "uegH7UrOHPx4w46fI~3Uzi6QrtZw1EXt");
         });
 
         /**********************    Authentication      ********************************/

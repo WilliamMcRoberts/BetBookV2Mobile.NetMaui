@@ -3,7 +3,7 @@
 using BetBookGamingMobile.Commands;
 using BetBookGamingMobile.Models;
 using BetBookGamingMobile.Services;
-using BetBookGamingMobile.StateManagement;
+using BetBookGamingMobile.GlobalStateManagement;
 using MediatR;
 
 namespace BetBookGamingMobile.Handlers;
