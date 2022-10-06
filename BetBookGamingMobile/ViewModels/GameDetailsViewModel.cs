@@ -51,7 +51,7 @@ public partial class GameDetailsViewModel : BaseViewModel
     private async Task AddOrRemoveWagerForOverUnderAsync(string winner) =>
         ButtonColorState = await _mediator.Send(new SelectOrRemoveWinnerAndGameForBetCommand(
             string.Concat(winner, GameDto.ScoreID.ToString()), GameDto, BetType.OVERUNDER));
-        
+
     [RelayCommand]
     private async Task SetStateAsync() => (BetSlipState, ButtonColorState, ButtonTextState) = 
             await _mediator.Send(new GetStateForGameDetailsPageQuery(GameDto));

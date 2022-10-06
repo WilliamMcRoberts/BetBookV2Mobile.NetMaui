@@ -55,46 +55,51 @@ public partial class MainViewModel : BaseViewModel
         if (string.IsNullOrWhiteSpace(authState.ObjectId))
             return;
 
-        LoggedInUser = authState.LoggedInUser = await _mediator.Send(
+        LoggedInUser = await _mediator.Send(
             new GetUserByObjectIdQuery(authState.ObjectId)) ?? new();
 
         authState.DisplayName = data.Claims.FirstOrDefault(c => c.Type.Contains("name"))?.Value;
         authState.FirstName = data.Claims.FirstOrDefault(c => c.Type.Contains("given_name"))?.Value;
         authState.LastName = data.Claims.FirstOrDefault(c => c.Type.Contains("family_name"))?.Value;
         authState.EmailAddress = data.Claims.FirstOrDefault(c => c.Type.Contains("emails"))?.Value;
-        authState.JobTitle = data.Claims.FirstOrDefault(c => c.Type.Contains("jobTitle"))?.Value;
+        string jobTitle = data.Claims.FirstOrDefault(c => c.Type.Contains("jobTitle"))?.Value;
+        if(!string.IsNullOrEmpty(jobTitle))
+            authState.JobTitle = jobTitle;
 
         bool isDirty = false;
 
-        (isDirty, authState.LoggedInUser.ObjectIdentifier) = !authState.ObjectId.Equals(authState.LoggedInUser.ObjectIdentifier) ?
-            (true, authState.ObjectId) : (isDirty, authState.LoggedInUser.ObjectIdentifier);
+        (isDirty, LoggedInUser.ObjectIdentifier) = !authState.ObjectId.Equals(LoggedInUser.ObjectIdentifier) ?
+            (true, authState.ObjectId) : (isDirty, LoggedInUser.ObjectIdentifier);
 
-        (isDirty, authState.LoggedInUser.FirstName) = !authState.FirstName.Equals(authState.LoggedInUser.FirstName) ?
-            (true, authState.FirstName) : (isDirty, authState.LoggedInUser.FirstName);
+        (isDirty, LoggedInUser.FirstName) = !authState.FirstName.Equals(LoggedInUser.FirstName) ?
+            (true, authState.FirstName) : (isDirty, LoggedInUser.FirstName);
 
-        (isDirty, authState.LoggedInUser.LastName) = !authState.LastName.Equals(authState.LoggedInUser.LastName) ?
-            (true, authState.LastName) : (isDirty, authState.LoggedInUser.LastName);
+        (isDirty, LoggedInUser.LastName) = !authState.LastName.Equals(LoggedInUser.LastName) ?
+            (true, authState.LastName) : (isDirty, LoggedInUser.LastName);
 
-        (isDirty, authState.LoggedInUser.DisplayName) = !authState.DisplayName.Equals(authState.LoggedInUser.DisplayName) ?
-            (true, authState.DisplayName) : (isDirty, authState.LoggedInUser.DisplayName);
+        (isDirty, LoggedInUser.DisplayName) = !authState.DisplayName.Equals(LoggedInUser.DisplayName) ?
+            (true, authState.DisplayName) : (isDirty, LoggedInUser.DisplayName);
 
-        (isDirty, authState.LoggedInUser.EmailAddress) = !authState.EmailAddress.Equals(authState.LoggedInUser.EmailAddress) ?
-            (true, authState.EmailAddress) : (isDirty, authState.LoggedInUser.EmailAddress);
+        (isDirty, LoggedInUser.EmailAddress) = !authState.EmailAddress.Equals(LoggedInUser.EmailAddress) ?
+            (true, authState.EmailAddress) : (isDirty, LoggedInUser.EmailAddress);
 
-        (isDirty, authState.LoggedInUser.AccountBalance) = authState.LoggedInUser.AccountBalance <= 0 ? 
-            (true, 10000) : (isDirty, authState.LoggedInUser.AccountBalance);
+        (isDirty, LoggedInUser.AccountBalance) = LoggedInUser.AccountBalance <= 0 ? 
+            (true, 10000) : (isDirty, LoggedInUser.AccountBalance);
+
+        authState.LoggedInUser = LoggedInUser;
 
         await _mediator.Send(new SetCurrentAuthenticationStateCommand(authState));
 
         if (!isDirty)
             return;
 
-        if (!string.IsNullOrWhiteSpace(authState.LoggedInUser.UserId))
+        if (!string.IsNullOrWhiteSpace(LoggedInUser.UserId))
         {
-            await _mediator.Send(new PutUserCommand(authState.LoggedInUser));
+            await _mediator.Send(new PutUserCommand(LoggedInUser));
             return;
         }
 
-        await _mediator.Send(new PostUserCommand(authState.LoggedInUser));
+        await _mediator.Send(new PostUserCommand(LoggedInUser));
+        await LoginAsync();
     }
 }

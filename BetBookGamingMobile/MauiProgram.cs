@@ -37,14 +37,14 @@ public static class MauiProgram
                                     new Uri("https://user9f9bd262219b696.app.vtxhub.com/") 
                                     : new Uri("https://localhost:7184/");
             client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Add("XApiKey", "<APIKey>");
+            client.DefaultRequestHeaders.Add("XApiKey", "");
         });
 
         builder.Services.AddHttpClient("betbookgamingV2", client =>
         {
             client.BaseAddress = new Uri("https://betbookgamingv2api.azurewebsites.net/");
             client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Add("XApiKey", "<APIKey>");
+            client.DefaultRequestHeaders.Add("XApiKey", "");
         });
 
         /**********************    Authentication      ********************************/

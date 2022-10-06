@@ -10,12 +10,13 @@ namespace BetBookGamingMobile.Auth;
 
 public class AuthService : IAuthService
 {
-    private readonly IPublicClientApplication authenticationClient;
+    private IPublicClientApplication _publicClientApplication;
 
     public AuthService()
     {
-        authenticationClient = PublicClientApplicationBuilder.Create(Constants.ClientId)
+        _publicClientApplication = PublicClientApplicationBuilder.Create(Constants.ClientId)
             .WithB2CAuthority(Constants.AuthoritySignIn)
+
 #if WINDOWS
             .WithRedirectUri("http://localhost")
 #else
@@ -29,7 +30,7 @@ public class AuthService : IAuthService
         AuthenticationResult result;
         try
         {
-            result = await authenticationClient
+            result = await _publicClientApplication
                 .AcquireTokenInteractive(Constants.Scopes)
                 .WithPrompt(Prompt.ForceLogin)
 #if ANDROID
