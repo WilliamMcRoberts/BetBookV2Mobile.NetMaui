@@ -5,5 +5,5 @@ using MediatR;
 
 namespace BetBookGamingMobile.Queries;
 
-public record GetBettorParleyBetsQuery(string userId) : IRequest<List<ParleyBetSlipModel>>;
+public record GetBettorParleyBetsQuery(string userId) : IRequest<IEnumerable<ParleyBetSlipModel>>;
 

@@ -15,7 +15,7 @@ public class ParleyBetSlipService : IParleyBetSlipService
         _httpClientFactory = httpClientFactory;
     }
 
-    public async Task<List<ParleyBetSlipModel>> GetAllBettorParleyBets(string userId)
+    public async Task<IEnumerable<ParleyBetSlipModel>> GetAllBettorParleyBets(string userId)
     {
         List<ParleyBetSlipModel> bettorParleyBets = new();
         try

@@ -31,14 +31,14 @@ public partial class MainViewModel : BaseViewModel
     [RelayCommand]
     async Task LoginAsync()
     {
-        var data = await _mediator.Send(new GetAuthenticationClaimsQuery());
+        //var data = await _mediator.Send(new GetAuthenticationClaimsQuery());
 
-        await LoadAndVerifyUserAsync(data);
+        //await LoadAndVerifyUserAsync(data);
 
-        if (string.IsNullOrWhiteSpace(LoggedInUser.UserId))
-            return;
+        //if (string.IsNullOrWhiteSpace(LoggedInUser.UserId))
+        //    return;
 
-        IsLoggedIn = true;
+        //IsLoggedIn = true;
         await GoToAvailableGamesPageAsync();
     }
 

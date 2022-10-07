@@ -1,13 +1,14 @@
 ﻿
 
-using AndroidX.Lifecycle;
 using BetBookGamingMobile.Dto;
+using BetBookGamingMobile.Extensions;
 using BetBookGamingMobile.Helpers;
 using BetBookGamingMobile.Queries;
 using BetBookGamingMobile.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MediatR;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace BetBookGamingMobile.ViewModels;
@@ -28,8 +29,7 @@ public partial class AvailableGamesViewModel : BaseViewModel
     [ObservableProperty]
     int week;
 
-    public AvailableGamesViewModel(IConnectivity connectivity,
-                         IMediator mediator)
+    public AvailableGamesViewModel(IConnectivity connectivity, IMediator mediator)
     {
         _connectivity = connectivity;
         _mediator = mediator;
@@ -50,18 +50,14 @@ public partial class AvailableGamesViewModel : BaseViewModel
 
         IsBusy = true;
 
-        GameDto[] gamesArray =
+        IEnumerable<GameDto> gameList =
             await _mediator.Send(new GetGamesByWeekAndSeasonQuery(Week, Season));
-
-        if (gamesArray is null)
-            return;
 
         if (Games.Count != 0)
             Games.Clear();
 
-        foreach (var game in gamesArray.OrderBy(g => g.Date))
-            if (!game.HasStarted)
-                Games.Add(game);
+        gameList.Where(g => !g.HasStarted).OrderBy(g => g.Date)
+             .ForEach(game => Games.Add(game));
 
         IsBusy = false;
         IsRefreshing = false;

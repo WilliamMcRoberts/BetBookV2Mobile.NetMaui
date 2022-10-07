@@ -4,6 +4,6 @@ namespace BetBookGamingMobile.Services
 {
     public interface IGameService
     {
-        Task<GameDto[]> GetGamesByWeekAndSeason(int week, SeasonType season);
+        Task<IEnumerable<GameDto>> GetGamesByWeekAndSeason(int week, SeasonType season);
     }
 }

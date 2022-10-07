@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace BetBookGamingMobile.Queries;
 
-public record GetBettorSingleBetsQuery(string userId) : IRequest<List<SingleBetModel>>;
+public record GetBettorSingleBetsQuery(string userId) : IRequest<IEnumerable<SingleBetModel>>;
 

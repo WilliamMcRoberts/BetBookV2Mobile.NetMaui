@@ -15,7 +15,7 @@ public class SingleBetService : ISingleBetService
         _httpClientFactory = httpClientFactory;
     }
 
-    public async Task<List<SingleBetModel>> GetAllBettorSingleBets(string userId)
+    public async Task<IEnumerable<SingleBetModel>> GetAllBettorSingleBets(string userId)
     {
         List<SingleBetModel> bettorSingleBets = new();
         try

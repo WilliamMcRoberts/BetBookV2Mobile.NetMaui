@@ -8,7 +8,7 @@ using MediatR;
 
 namespace BetBookGamingMobile.Handlers;
 
-public class GetGamesByWeekAndSeasonHandler : IRequestHandler<GetGamesByWeekAndSeasonQuery, GameDto[]>
+public class GetGamesByWeekAndSeasonHandler : IRequestHandler<GetGamesByWeekAndSeasonQuery, IEnumerable<GameDto>>
 {
 	private readonly IGameService _gameService;
 
@@ -17,7 +17,7 @@ public class GetGamesByWeekAndSeasonHandler : IRequestHandler<GetGamesByWeekAndS
 		_gameService = gameService;
 	}
 
-	public async Task<GameDto[]> Handle(
+	public async Task<IEnumerable<GameDto>> Handle(
 		GetGamesByWeekAndSeasonQuery request, CancellationToken cancellationToken)
 	{
 		return await _gameService.GetGamesByWeekAndSeason(request.week, request.season);

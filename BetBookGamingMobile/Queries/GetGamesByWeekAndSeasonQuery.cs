@@ -4,5 +4,5 @@ using MediatR;
 
 namespace BetBookGamingMobile.Queries;
 
-public record GetGamesByWeekAndSeasonQuery(int week, SeasonType season) : IRequest<GameDto[]>;
+public record GetGamesByWeekAndSeasonQuery(int week, SeasonType season) : IRequest<IEnumerable<GameDto>>;
 

@@ -133,7 +133,7 @@ public class BetSlip
         season = DateTime.Now.CalculateSeason();
         week = season.CalculateWeek(DateTime.Now);
 
-        GameDto[] gameCheckArray =
+        IEnumerable<GameDto> gameCheckArray =
             await _mediator.Send(new GetGamesByWeekAndSeasonQuery(week,season));
 
         foreach (CreateBetModel createBetModel in preBets)
@@ -200,14 +200,14 @@ public class BetSlip
         season = DateTime.Now.CalculateSeason();
         week = season.CalculateWeek(DateTime.Now);
 
-        GameDto[] gameCheckArray =
+        IEnumerable<GameDto> gameCheck =
             await _mediator.Send(new GetGamesByWeekAndSeasonQuery(week, season));
 
         var parleyBetSlip = new ParleyBetSlipModel();
 
         foreach (CreateBetModel createBetModel in preBets)
         {
-            GameDto game = gameCheckArray.Where(
+            GameDto game = gameCheck.Where(
                 g => g.ScoreID == createBetModel.Game.ScoreID).FirstOrDefault()!;
 
             if (game.HasStarted)

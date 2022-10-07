@@ -7,7 +7,7 @@ using MediatR;
 
 namespace BetBookGamingMobile.Handlers;
 
-public class GetBettorParleyBetsHandler : IRequestHandler<GetBettorParleyBetsQuery, List<ParleyBetSlipModel>>
+public class GetBettorParleyBetsHandler : IRequestHandler<GetBettorParleyBetsQuery, IEnumerable<ParleyBetSlipModel>>
 {
 	private readonly IParleyBetSlipService _parleyBetSlipService;
 
@@ -16,7 +16,7 @@ public class GetBettorParleyBetsHandler : IRequestHandler<GetBettorParleyBetsQue
 		_parleyBetSlipService = parleyBetSlipService;
 	}
 
-	public async Task<List<ParleyBetSlipModel>> Handle(GetBettorParleyBetsQuery request, CancellationToken cancellationToken)
+	public async Task<IEnumerable<ParleyBetSlipModel>> Handle(GetBettorParleyBetsQuery request, CancellationToken cancellationToken)
 	{
 		return await _parleyBetSlipService.GetAllBettorParleyBets(request.userId);
 	}

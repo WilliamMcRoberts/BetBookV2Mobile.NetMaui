@@ -8,7 +8,7 @@ using MediatR;
 
 namespace BetBookGamingMobile.Handlers;
 
-public class GetBettorSingleBetsHandler : IRequestHandler<GetBettorSingleBetsQuery, List<SingleBetModel>>
+public class GetBettorSingleBetsHandler : IRequestHandler<GetBettorSingleBetsQuery, IEnumerable<SingleBetModel>>
 {
 	private readonly ISingleBetService _singleBetService;
 
@@ -17,7 +17,7 @@ public class GetBettorSingleBetsHandler : IRequestHandler<GetBettorSingleBetsQue
 		_singleBetService = singleBetService;
 	}
 
-	public async Task<List<SingleBetModel>> Handle(GetBettorSingleBetsQuery request, CancellationToken cancellationToken)
+	public async Task<IEnumerable<SingleBetModel>> Handle(GetBettorSingleBetsQuery request, CancellationToken cancellationToken)
 	{
 		return await _singleBetService.GetAllBettorSingleBets(request.userId);
 	}

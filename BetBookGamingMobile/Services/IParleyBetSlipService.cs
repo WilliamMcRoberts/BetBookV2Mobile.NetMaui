@@ -5,6 +5,6 @@ namespace BetBookGamingMobile.Services
     public interface IParleyBetSlipService
     {
         Task<bool> CreateParleyBet(ParleyBetSlipModel parleyBet);
-        Task<List<ParleyBetSlipModel>> GetAllBettorParleyBets(string userId);
+        Task<IEnumerable<ParleyBetSlipModel>> GetAllBettorParleyBets(string userId);
     }
 }
