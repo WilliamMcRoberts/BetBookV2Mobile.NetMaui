@@ -1,5 +1,3 @@
-using BetBookGamingMobile.Helpers;
-using BetBookGamingMobile.ViewModels;
 
 namespace BetBookGamingMobile.Views;
 
@@ -17,7 +15,7 @@ public partial class AvailableGamesPage : ContentPage
     {
         base.OnNavigatedTo(args);
 
-        if (_viewModel.Games.Count <= 0)
+        if (!_viewModel.Games.Any())
             await _viewModel.SetStateCommand.ExecuteAsync(null);
     }
 }

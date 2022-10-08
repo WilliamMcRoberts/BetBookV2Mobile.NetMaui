@@ -25,8 +25,7 @@
     
     <ScrollView>
 
-        <VerticalStackLayout BackgroundColor="DimGray">
-
+        <VerticalStackLayout>
 
             <HorizontalStackLayout Spacing="25" 
                                    HorizontalOptions="Center">
@@ -137,12 +136,12 @@
                 <Label Text="Point Spread"
                        Style="{StaticResource WagerLabel}"/>
 
-                <controls:WagerSelectionButtonControl CustomCommand="{Binding AddOrRemoveWagerForPointSpreadCommand}"
+                <controls:WagerSelectionButtonControl CustomCommand="{Binding SelectOrRemoveWagerForPointSpreadCommand}"
                                                       CustomCommandParameter="{Binding GameDto.AwayTeam}"
                                                       CustomBackgroundColor="{Binding ButtonColorState.ApColor}"
                                                       CustomText="{Binding ButtonTextState.ApText}"/>
 
-                <controls:WagerSelectionButtonControl CustomCommand="{Binding AddOrRemoveWagerForPointSpreadCommand}"
+                <controls:WagerSelectionButtonControl CustomCommand="{Binding SelectOrRemoveWagerForPointSpreadCommand}"
                                                       CustomCommandParameter="{Binding GameDto.HomeTeam}"
                                                       CustomBackgroundColor="{Binding ButtonColorState.HpColor}"
                                                       CustomText="{Binding ButtonTextState.HpText}"/>
@@ -150,12 +149,12 @@
                 <Label Text="Moneyline"
                        Style="{StaticResource WagerLabel}"/>
 
-                <controls:WagerSelectionButtonControl CustomCommand="{Binding AddOrRemoveWagerForMoneylineCommand}"
+                <controls:WagerSelectionButtonControl CustomCommand="{Binding SelectOrRemoveWagerForMoneylineCommand}"
                                                       CustomCommandParameter="{Binding GameDto.AwayTeam}"
                                                       CustomBackgroundColor="{Binding ButtonColorState.AmColor}"
                                                       CustomText="{Binding ButtonTextState.AmText}"/>
 
-                <controls:WagerSelectionButtonControl CustomCommand="{Binding AddOrRemoveWagerForMoneylineCommand}"
+                <controls:WagerSelectionButtonControl CustomCommand="{Binding SelectOrRemoveWagerForMoneylineCommand}"
                                                       CustomCommandParameter="{Binding GameDto.HomeTeam}"
                                                       CustomBackgroundColor="{Binding ButtonColorState.HmColor}"
                                                       CustomText="{Binding ButtonTextState.HmText}"/>
@@ -164,12 +163,12 @@
                        Style="{StaticResource WagerLabel}"/>
 
 
-                <controls:WagerSelectionButtonControl CustomCommand="{Binding AddOrRemoveWagerForOverUnderCommand}"
+                <controls:WagerSelectionButtonControl CustomCommand="{Binding SelectOrRemoveWagerForOverUnderCommand}"
                                                       CustomCommandParameter="Over"
                                                       CustomBackgroundColor="{Binding ButtonColorState.OColor}"
                                                       CustomText="{Binding ButtonTextState.OText}"/>
                 
-                <controls:WagerSelectionButtonControl CustomCommand="{Binding AddOrRemoveWagerForOverUnderCommand}"
+                <controls:WagerSelectionButtonControl CustomCommand="{Binding SelectOrRemoveWagerForOverUnderCommand}"
                                                       CustomCommandParameter="Under"
                                                       CustomBackgroundColor="{Binding ButtonColorState.UColor}"
                                                       CustomText="{Binding ButtonTextState.UText}"/>

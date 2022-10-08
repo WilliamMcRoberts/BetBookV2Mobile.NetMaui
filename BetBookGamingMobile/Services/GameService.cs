@@ -1,62 +1,24 @@
 ﻿using BetBookGamingMobile.Dto;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Maui.Networking;
 using System.Net.Http.Json;
-
 
 namespace BetBookGamingMobile.Services;
 
-public class GameService : IGameService
+public class GameService : BaseService, IGameService
 {
-    private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IConfiguration _configuration;
-
-    public GameService(
-        IHttpClientFactory httpClientFactory, IConfiguration configuration)
+    public GameService(IConnectivity connectivity) : base(connectivity)
     {
-        _httpClientFactory = httpClientFactory;
-        _configuration = configuration;
+        SetBaseURL(Constants.GameServiceURL);
     }
 
-    public async Task<IEnumerable<GameDto>> GetGamesByWeekAndSeason(
-        int week, SeasonType season)
+    public async Task<IEnumerable<GameDto>> GetGames(SeasonType season, int week)
     {
-        //Sample Data
-        //return
-        //{
-        //    new GameDto
-        //    {
-        //        AwayTeam = "CIN", HomeTeam = "PIT", PointSpread = (float)5.5, OverUnder = (float)55.5, AwayTeamMoneyLine = 150, HomeTeamMoneyLine = -150, PointSpreadAwayTeamMoneyLine = 150, PointSpreadHomeTeamMoneyLine = -150, OverPayout = 150, UnderPayout = -150, DateTime = new DateTime(2022, 10, 2, 19, 30, 0)
-        //    },
-        //    new GameDto
-        //    {
-        //        AwayTeam = "DAL", HomeTeam = "WAS", PointSpread = (float)3.5, OverUnder = (float)33.5, AwayTeamMoneyLine = 350, HomeTeamMoneyLine = -350, PointSpreadAwayTeamMoneyLine = 350, PointSpreadHomeTeamMoneyLine = -350, OverPayout = 350, UnderPayout = -350, DateTime = new DateTime(2022, 10, 2, 19, 30, 0)
-        //    }
-        //};
+        var resourceUri = $"2022{season}/{week}?key={Constants.GamesApiKey}";
 
-        IEnumerable<GameDto> games;
+        var result = await GetAsync<IEnumerable<GameDto>>(resourceUri);
 
-        var client = _httpClientFactory.CreateClient("sportsdata");
-
-        games = await client.GetFromJsonAsync<IEnumerable<GameDto>>(
-                $"scores/json/ScoresByWeek/2022{season}/{week}?key=");
-
-        return games;
-
-            //GameDto[] games = new GameDto[16];
-
-            //try
-            //{
-            //    var client = _httpClientFactory.CreateClient("vortex");
-
-            //    games = await client.GetFromJsonAsync<GameDto[]>(
-            //            $"Games/REG/5");
-            //}
-
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex.Message);
-            //}
-
-            //return games!;
-        }
+        return result;
+    }
 }
+

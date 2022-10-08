@@ -1,8 +1,4 @@
 
-using BetBookGamingMobile.Queries;
-using BetBookGamingMobile.ViewModels;
-using MediatR;
-
 namespace BetBookGamingMobile.Views;
 
 public partial class GameDetailsPage : ContentPage
@@ -15,10 +11,10 @@ public partial class GameDetailsPage : ContentPage
         BindingContext = _viewModel = viewModel;
     }
 
-    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
 
-        await _viewModel.SetStateCommand.ExecuteAsync(null);
+        _viewModel.SetStateCommand.Execute(null);
     }
 }

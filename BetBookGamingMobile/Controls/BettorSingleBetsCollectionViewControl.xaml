@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
+             xmlns:views="clr-namespace:BetBookGamingMobile.Views"
+             xmlns:models="clr-namespace:BetBookGamingMobile.Models"
+             x:DataType="viewModels:MyBetsViewModel"
+             x:Class="BetBookGamingMobile.Controls.BettorSingleBetsCollectionViewControl">
+    
+    <CollectionView x:Name="BettorSingleBetsCollectionView"
+                SelectionMode="None">
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="models:SingleBetModel">
+                <VerticalStackLayout>
+                    <Label Text="{Binding WinnerChosen}"/>
+                    <Label Text="{Binding BetPayout}"/>
+                    <Label Text="{Binding BetAmount}"/>
+                </VerticalStackLayout>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+    
+</ContentView>

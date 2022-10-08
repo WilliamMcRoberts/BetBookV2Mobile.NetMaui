@@ -1,51 +1,25 @@
 ﻿
-
-using BetBookGamingMobile.Models;
-using Newtonsoft.Json;
-using System.Net.Http.Json;
-
 namespace BetBookGamingMobile.Services;
 
-public class SingleBetService : ISingleBetService
+public class SingleBetService : BaseService, ISingleBetService
 {
-    private readonly IHttpClientFactory _httpClientFactory;
-
-    public SingleBetService(IHttpClientFactory httpClientFactory)
+    public SingleBetService(IConnectivity connectivity) :base(connectivity)
     {
-        _httpClientFactory = httpClientFactory;
+        SetBaseURL(Constants.VortexURL);
     }
 
     public async Task<IEnumerable<SingleBetModel>> GetAllBettorSingleBets(string userId)
     {
-        List<SingleBetModel> bettorSingleBets = new();
-        try
-        {
-            var client = _httpClientFactory.CreateClient("vortex");
+        var resourceUri = $"SingleBets/BettorId={userId}";
 
-            bettorSingleBets =
-                await client.GetFromJsonAsync<List<SingleBetModel>>(
-                    $"SingleBets/BettorId={userId}");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
-
-        return bettorSingleBets;
+        return await GetAsync<IEnumerable<SingleBetModel>>(resourceUri);
     }
 
     public async Task<bool> CreateSingleBet(SingleBetModel singleBet)
     {
-        var client = _httpClientFactory.CreateClient("vortex");
-
         try
         {
-            string json = JsonConvert.SerializeObject(singleBet);
-
-            var httpContent =
-                new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-
-            await client.PostAsync("SingleBets", httpContent);
+            await PostAsync<SingleBetModel>("SingleBets", singleBet);
             return true;
         }
         catch (Exception ex)
@@ -53,5 +27,6 @@ public class SingleBetService : ISingleBetService
             Console.WriteLine(ex.Message);
             return false;
         }
+
     }
 }

@@ -1,22 +1,9 @@
 ﻿
-
-using BetBookGamingMobile.Dto;
-using BetBookGamingMobile.Extensions;
-using BetBookGamingMobile.Helpers;
-using BetBookGamingMobile.Queries;
-using BetBookGamingMobile.Views;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using MediatR;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-
 namespace BetBookGamingMobile.ViewModels;
 
 public partial class AvailableGamesViewModel : BaseViewModel
 {
-    private readonly IConnectivity _connectivity;
-    private readonly IMediator _mediator;
+    private readonly IGameService _gameService;
 
     public ObservableCollection<GameDto> Games { get; } = new();
 
@@ -29,10 +16,9 @@ public partial class AvailableGamesViewModel : BaseViewModel
     [ObservableProperty]
     int week;
 
-    public AvailableGamesViewModel(IConnectivity connectivity, IMediator mediator)
+    public AvailableGamesViewModel(IGameService gameService)
     {
-        _connectivity = connectivity;
-        _mediator = mediator;
+        _gameService = gameService;
     }
 
     [RelayCommand]
@@ -41,23 +27,13 @@ public partial class AvailableGamesViewModel : BaseViewModel
         if (IsBusy)
             return;
 
-        if (_connectivity.NetworkAccess != NetworkAccess.Internet)
-        {
-            await Shell.Current.DisplayAlert("No connectivity!",
-                $"Please check internet and try again.", "OK");
-            return;
-        }
-
         IsBusy = true;
 
         IEnumerable<GameDto> gameList =
-            await _mediator.Send(new GetGamesByWeekAndSeasonQuery(Week, Season));
+            await _gameService.GetGames(Season, Week);
 
-        if (Games.Count != 0)
-            Games.Clear();
-
-        gameList.Where(g => !g.HasStarted).OrderBy(g => g.Date)
-             .ForEach(game => Games.Add(game));
+        Games.AddRange(gameList.Where(game => !game.HasStarted)
+            .OrderBy(game => game.Date), Games.Any());
 
         IsBusy = false;
         IsRefreshing = false;

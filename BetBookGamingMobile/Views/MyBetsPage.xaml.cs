@@ -1,5 +1,3 @@
-using BetBookGamingMobile.Queries;
-using BetBookGamingMobile.ViewModels;
 
 namespace BetBookGamingMobile.Views;
 
@@ -17,7 +15,7 @@ public partial class MyBetsPage : ContentPage
     {
         base.OnNavigatedTo(args);
 
-		if(!_viewModel.bettorSingleBets.Any() && !_viewModel.bettorParleyBets.Any())
+		if (_viewModel.bettorSingleBets is null || _viewModel.bettorParleyBets is null)
 			await _viewModel.SetStateCommand.ExecuteAsync(null);
     }
 }

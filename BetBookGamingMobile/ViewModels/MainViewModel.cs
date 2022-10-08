@@ -1,44 +1,32 @@
 ﻿
-
-using BetBookGamingMobile.Auth;
-using BetBookGamingMobile.Commands;
-using BetBookGamingMobile.Dto;
-using BetBookGamingMobile.Helpers;
-using BetBookGamingMobile.Models;
-using BetBookGamingMobile.Queries;
-using BetBookGamingMobile.Services;
-using BetBookGamingMobile.Views;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using MediatR;
-using Microsoft.AspNetCore.Components.Authorization;
 using Org.Apache.Http.Authentication;
-using System.IdentityModel.Tokens.Jwt;
-using AuthenticationState = BetBookGamingMobile.GlobalStateManagement.AuthenticationState;
 
 namespace BetBookGamingMobile.ViewModels;
 
 public partial class MainViewModel : BaseViewModel
 {
-    private readonly IMediator _mediator;
+    private readonly IUserService _userService;
+    private readonly IAuthService _authService;
+    private readonly AuthenticationState _authState;
 
-    public MainViewModel(
-        IMediator mediator)
+    public MainViewModel(IUserService userService, IAuthService authService, AuthenticationState authState)
     {
-        _mediator = mediator;
+        _userService = userService;
+        _authService = authService;
+        _authState = authState;
     }
     
     [RelayCommand]
     async Task LoginAsync()
     {
-        //var data = await _mediator.Send(new GetAuthenticationClaimsQuery());
+        var data = await _authService.GetAuthClaims();
 
-        //await LoadAndVerifyUserAsync(data);
+        await LoadAndVerifyUserAsync(data);
 
-        //if (string.IsNullOrWhiteSpace(LoggedInUser.UserId))
-        //    return;
+        if (string.IsNullOrWhiteSpace(LoggedInUser.UserId))
+            return;
 
-        //IsLoggedIn = true;
+        IsLoggedIn = true;
         await GoToAvailableGamesPageAsync();
     }
 
@@ -47,7 +35,7 @@ public partial class MainViewModel : BaseViewModel
 
     public async Task LoadAndVerifyUserAsync(JwtSecurityToken data)
     {
-        var authState = await _mediator.Send(new GetCurrentAuthenticationStateQuery());
+        var authState = _authState.GetCurrentAuthenticationState();
 
         authState.ObjectId = 
             data.Claims.FirstOrDefault(c => c.Type.Contains("oid"))?.Value;
@@ -55,8 +43,7 @@ public partial class MainViewModel : BaseViewModel
         if (string.IsNullOrWhiteSpace(authState.ObjectId))
             return;
 
-        LoggedInUser = await _mediator.Send(
-            new GetUserByObjectIdQuery(authState.ObjectId)) ?? new();
+        LoggedInUser = await _userService.GetUserByObjectId(authState.ObjectId) ?? new();
 
         authState.DisplayName = data.Claims.FirstOrDefault(c => c.Type.Contains("name"))?.Value;
         authState.FirstName = data.Claims.FirstOrDefault(c => c.Type.Contains("given_name"))?.Value;
@@ -86,20 +73,18 @@ public partial class MainViewModel : BaseViewModel
         (isDirty, LoggedInUser.AccountBalance) = LoggedInUser.AccountBalance <= 0 ? 
             (true, 10000) : (isDirty, LoggedInUser.AccountBalance);
 
-        authState.LoggedInUser = LoggedInUser;
-
-        await _mediator.Send(new SetCurrentAuthenticationStateCommand(authState));
+        _authState.CurrentAuthenticationState.LoggedInUser = LoggedInUser;
 
         if (!isDirty)
             return;
 
         if (!string.IsNullOrWhiteSpace(LoggedInUser.UserId))
         {
-            await _mediator.Send(new PutUserCommand(LoggedInUser));
+            await _userService.UpdateUser(LoggedInUser);
             return;
         }
 
-        await _mediator.Send(new PostUserCommand(LoggedInUser));
-        await LoginAsync();
+        await _userService.CreateUser(LoggedInUser);
+        LoggedInUser = await _userService.GetUserByObjectId(LoggedInUser.ObjectIdentifier);
     }
 }

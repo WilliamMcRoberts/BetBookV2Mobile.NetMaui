@@ -1,19 +1,11 @@
 ﻿
-
-using BetBookGamingMobile.Dto;
-using BetBookGamingMobile.Models;
-using BetBookGamingMobile.Queries;
-using BetBookGamingMobile.GlobalStateManagement;
-using CommunityToolkit.Mvvm.Input;
-using MediatR;
-using System.Collections.ObjectModel;
-using BetBookGamingMobile.Extensions;
-
 namespace BetBookGamingMobile.ViewModels;
 
 public partial class MyBetsViewModel : BaseViewModel
 {
-    private readonly IMediator _mediator;
+    private readonly ISingleBetService _singleBetService;
+    private readonly IParleyBetSlipService _parleyBetSlipService;
+    private readonly AuthenticationState _authState;
 
     public IEnumerable<SingleBetModel> bettorSingleBets;
     public ObservableCollection<SingleBetModel> BettorSingleBetsInProgress { get; } = new();
@@ -27,55 +19,58 @@ public partial class MyBetsViewModel : BaseViewModel
     public ObservableCollection<ParleyBetSlipModel> BettorParleyBetsPush { get; } = new();
     public ObservableCollection<ParleyBetSlipModel> BettorParleyBetsLosers { get; } = new();
 
-    public MyBetsViewModel(IMediator mediator)
+    public MyBetsViewModel(ISingleBetService singleBetService, IParleyBetSlipService parleyBetSlipService, AuthenticationState authState)
 	{
-        _mediator = mediator;
+        _singleBetService = singleBetService;
+        _parleyBetSlipService = parleyBetSlipService;
+        _authState = authState;
     }
 
     [RelayCommand]
     private async Task SetStateAsync()
     {
-        var authState = await _mediator.Send(new GetCurrentAuthenticationStateQuery());
+        var authState = _authState.GetCurrentAuthenticationState();
 
         LoggedInUser = authState.LoggedInUser;
 
-        if (string.IsNullOrEmpty(LoggedInUser.UserId)) return;
+        if (string.IsNullOrEmpty(LoggedInUser.UserId))
+            return;
 
-        AddSinglesDelegate addSingles = AddSingleBetsToObservableCollection;
-        AddParleysDelegate addParleys = AddParleyBetsToObservableCollection;
-
-        await GetAllBettorSingleBetsAsync(addSingles);
-        await GetAllBettorParleyBetsAsync(addParleys);
+        await GetAndPopulateBettorSingleBetsAsync();
+        await GetAndPopulateBettorParleyBetsAsync();
     }
 
-    private async Task GetAllBettorSingleBetsAsync(AddSinglesDelegate add)
+    private async Task GetAndPopulateBettorSingleBetsAsync()
     {
-        bettorSingleBets = await _mediator.Send( new GetBettorSingleBetsQuery(LoggedInUser.UserId));
+        bettorSingleBets = await _singleBetService.GetAllBettorSingleBets(LoggedInUser.UserId);
 
-        add(BettorSingleBetsInProgress, SingleBetStatus.IN_PROGRESS);
-        add(BettorSingleBetsWinners, SingleBetStatus.WINNER);
-        add(BettorSingleBetsLosers, SingleBetStatus.LOSER);
-        add(BettorSingleBetsPush, SingleBetStatus.PUSH);
+        BettorSingleBetsInProgress.AddRange(bettorSingleBets.Where(
+            b => b.SingleBetStatus == SingleBetStatus.IN_PROGRESS), BettorSingleBetsInProgress.Any());
+
+        BettorSingleBetsWinners.AddRange(bettorSingleBets.Where(
+            b => b.SingleBetStatus == SingleBetStatus.WINNER), BettorSingleBetsWinners.Any());
+
+        BettorSingleBetsLosers.AddRange(bettorSingleBets.Where(
+            b => b.SingleBetStatus == SingleBetStatus.LOSER), BettorSingleBetsLosers.Any());
+
+        BettorSingleBetsPush.AddRange(bettorSingleBets.Where(
+            b => b.SingleBetStatus == SingleBetStatus.PUSH), BettorSingleBetsPush.Any());
     }
 
-    private async Task GetAllBettorParleyBetsAsync(AddParleysDelegate add)
+    private async Task GetAndPopulateBettorParleyBetsAsync()
     {
-        bettorParleyBets = await _mediator.Send( new GetBettorParleyBetsQuery(LoggedInUser.UserId));
+        bettorParleyBets = await _parleyBetSlipService.GetAllBettorParleyBets(LoggedInUser.UserId);
 
-        add(BettorParleyBetsInProgress, ParleyBetSlipStatus.IN_PROGRESS);
-        add(BettorParleyBetsWinners, ParleyBetSlipStatus.WINNER);
-        add(BettorParleyBetsLosers, ParleyBetSlipStatus.LOSER);
-        add(BettorParleyBetsPush, ParleyBetSlipStatus.PUSH);
+        BettorParleyBetsInProgress.AddRange(bettorParleyBets.Where(
+            b => b.ParleyBetSlipStatus == ParleyBetSlipStatus.IN_PROGRESS), BettorParleyBetsInProgress.Any());
+
+        BettorParleyBetsWinners.AddRange(bettorParleyBets.Where(
+            b => b.ParleyBetSlipStatus == ParleyBetSlipStatus.WINNER), BettorParleyBetsWinners.Any());
+
+        BettorParleyBetsLosers.AddRange(bettorParleyBets.Where(
+            b => b.ParleyBetSlipStatus == ParleyBetSlipStatus.LOSER), BettorParleyBetsLosers.Any());
+
+        BettorParleyBetsPush.AddRange(bettorParleyBets.Where(
+            b => b.ParleyBetSlipStatus == ParleyBetSlipStatus.PUSH), BettorParleyBetsPush.Any());
     }
-
-    private delegate void AddSinglesDelegate(ObservableCollection<SingleBetModel> collection, SingleBetStatus status);
-
-    private delegate void AddParleysDelegate(ObservableCollection<ParleyBetSlipModel> collection, ParleyBetSlipStatus status);
-
-    private void AddSingleBetsToObservableCollection(ObservableCollection<SingleBetModel> collection, SingleBetStatus status) =>
-        bettorSingleBets.Where(b => b.SingleBetStatus == status).ForEach(bet => collection.Add(bet));
-
-
-    private void AddParleyBetsToObservableCollection(ObservableCollection<ParleyBetSlipModel> collection, ParleyBetSlipStatus status) =>
-        bettorParleyBets.Where(b => b.ParleyBetSlipStatus == status).ForEach(bet => collection.Add(bet));
 }

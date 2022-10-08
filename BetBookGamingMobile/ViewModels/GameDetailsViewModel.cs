@@ -1,24 +1,10 @@
 ﻿
-
-using BetBookGamingMobile.Commands;
-using BetBookGamingMobile.Controls;
-using BetBookGamingMobile.Dto;
-using BetBookGamingMobile.GlobalStateManagement;
-using BetBookGamingMobile.Handlers;
-using BetBookGamingMobile.Models;
-using BetBookGamingMobile.Queries;
-using BetBookGamingMobile.Services;
-using BetBookGamingMobile.Views;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using MediatR;
-
 namespace BetBookGamingMobile.ViewModels;
 
 [QueryProperty("GameDto", "GameDto")]
 public partial class GameDetailsViewModel : BaseViewModel
 {
-    private readonly IMediator _mediator;
+    private readonly BetSlipState _betSlipState;
 
     [ObservableProperty]
     GameDto gameDto;
@@ -30,29 +16,29 @@ public partial class GameDetailsViewModel : BaseViewModel
     ButtonTextStateModel buttonTextState;
 
     [ObservableProperty]
-    BetSlipStateModel betSlipState;
+    BetSlipStateModel betSlipStateModel;
 
-    public GameDetailsViewModel(IMediator mediator)
+    public GameDetailsViewModel(BetSlipState betSlipState)
     {
-        _mediator = mediator;
+        _betSlipState = betSlipState;
     }
 
     [RelayCommand]
-    private async Task AddOrRemoveWagerForPointSpreadAsync(string winner) =>
-        ButtonColorState = await _mediator.Send(new SelectOrRemoveWinnerAndGameForBetCommand(
-            winner, GameDto, BetType.POINTSPREAD));
+    private void SelectOrRemoveWagerForPointSpread(string winner) => 
+        ButtonColorState =
+            _betSlipState.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.POINTSPREAD);
 
     [RelayCommand]
-    private async Task AddOrRemoveWagerForMoneylineAsync(string winner) =>
-        ButtonColorState = await _mediator.Send(new SelectOrRemoveWinnerAndGameForBetCommand(
-            winner, GameDto, BetType.MONEYLINE));
+    private void SelectOrRemoveWagerForMoneyline(string winner) => 
+        ButtonColorState =
+            _betSlipState.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.MONEYLINE);
 
     [RelayCommand]
-    private async Task AddOrRemoveWagerForOverUnderAsync(string winner) =>
-        ButtonColorState = await _mediator.Send(new SelectOrRemoveWinnerAndGameForBetCommand(
-            string.Concat(winner, GameDto.ScoreID.ToString()), GameDto, BetType.OVERUNDER));
+    private void SelectOrRemoveWagerForOverUnder(string winner) => 
+        ButtonColorState = _betSlipState.SelectOrRemoveWinnerAndGameForBet(string.Concat(
+            winner, GameDto.ScoreID.ToString()), GameDto, BetType.OVERUNDER);
 
     [RelayCommand]
-    private async Task SetStateAsync() => (BetSlipState, ButtonColorState, ButtonTextState) = 
-            await _mediator.Send(new GetStateForGameDetailsPageQuery(GameDto));
+    private void SetState() => 
+        (BetSlipStateModel, ButtonColorState, ButtonTextState) = _betSlipState.GetAllStates(GameDto);
 }

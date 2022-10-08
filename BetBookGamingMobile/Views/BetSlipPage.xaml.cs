@@ -1,7 +1,3 @@
-using BetBookGamingMobile.Queries;
-using BetBookGamingMobile.GlobalStateManagement;
-using BetBookGamingMobile.ViewModels;
-using MediatR;
 
 namespace BetBookGamingMobile.Views;
 
@@ -15,10 +11,10 @@ public partial class BetSlipPage : ContentPage
 		BindingContext = _viewModel = viewModel;
     }
 
-    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
 
-        await _viewModel.SetStateCommand.ExecuteAsync(null);
+        _viewModel.SetStateCommand.Execute(null);
     }
 }

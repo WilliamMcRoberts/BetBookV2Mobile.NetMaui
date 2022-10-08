@@ -34,6 +34,7 @@
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<MauiIcon Include="Resources\AppIcon\appiconfg.svg" />
 
 		<!-- Splash Screen -->
 
@@ -49,6 +50,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\AppIcon\appiconfg.svg" />
 	  <None Remove="Resources\Images\ari.svg" />
 	  <None Remove="Resources\Images\atl.svg" />
 	  <None Remove="Resources\Images\bal.svg" />
@@ -108,12 +110,24 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Controls\BettorParleyBetsCollectionViewControl.xaml.cs">
+	    <DependentUpon>BettorParleyBetsCollectionViewControl.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Controls\BettorSingleBetsCollectionViewControl.xaml.cs">
+	    <DependentUpon>BettorSingleBetsCollectionViewControl.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\MyBetsPage.xaml.cs">
 	    <DependentUpon>MyBetsPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Controls\BettorParleyBetsCollectionViewControl.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Controls\BettorSingleBetsCollectionViewControl.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Controls\WagerSelectionButtonControl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -135,6 +149,10 @@
 	  <PackageReference Include="WinUIEx">
 	    <Version>1.8.0</Version>
 	  </PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Resources\Styles\" />
 	</ItemGroup>
 
 </Project>

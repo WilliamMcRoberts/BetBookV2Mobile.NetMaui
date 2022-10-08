@@ -1,15 +1,7 @@
 ﻿
-using BetBookGamingMobile.Dto;
-using BetBookGamingMobile.Models;
-using BetBookGamingMobile.Helpers;
-using BetBookGamingMobile.Services;
-using MediatR;
-using BetBookGamingMobile.Queries;
-using BetBookGamingMobile.Commands;
-
 namespace BetBookGamingMobile.GlobalStateManagement;
 
-public class BetSlip
+public class BetSlipState
 {
     public List<CreateBetModel> preBets = new();
     public UserModel loggedInUser;
@@ -28,7 +20,7 @@ public class BetSlip
     private readonly IMediator _mediator;
     public readonly ISingleBetService _singleBetService;
 
-    public BetSlip(IGameService gameService,
+    public BetSlipState(IGameService gameService,
                         ISingleBetService singleBetService,
                         IParleyBetSlipService parleyBetSlipService,
                         IMediator mediator)
@@ -133,8 +125,8 @@ public class BetSlip
         season = DateTime.Now.CalculateSeason();
         week = season.CalculateWeek(DateTime.Now);
 
-        IEnumerable<GameDto> gameCheckArray =
-            await _mediator.Send(new GetGamesByWeekAndSeasonQuery(week,season));
+        IEnumerable<GameDto> gameCheckList =
+            await _gameService.GetGames(season, week);
 
         foreach (CreateBetModel createBetModel in preBets)
         {
@@ -144,7 +136,7 @@ public class BetSlip
                 return false;
             }
 
-            GameDto game = gameCheckArray.Where(
+            GameDto game = gameCheckList.Where(
                 g => g.ScoreID == createBetModel.Game.ScoreID).FirstOrDefault()!;
 
             if (game.HasStarted)
@@ -175,7 +167,7 @@ public class BetSlip
             };
 
             bool singleBetGood = 
-                await _mediator.Send(new PostSingleBetCommand(singleBet));
+                await _singleBetService.CreateSingleBet(singleBet);
 
             if(!singleBetGood)
                 return false;
@@ -200,14 +192,14 @@ public class BetSlip
         season = DateTime.Now.CalculateSeason();
         week = season.CalculateWeek(DateTime.Now);
 
-        IEnumerable<GameDto> gameCheck =
-            await _mediator.Send(new GetGamesByWeekAndSeasonQuery(week, season));
+        IEnumerable<GameDto> gameCheckList =
+            await _gameService.GetGames(season, week);
 
         var parleyBetSlip = new ParleyBetSlipModel();
 
         foreach (CreateBetModel createBetModel in preBets)
         {
-            GameDto game = gameCheck.Where(
+            GameDto game = gameCheckList.Where(
                 g => g.ScoreID == createBetModel.Game.ScoreID).FirstOrDefault()!;
 
             if (game.HasStarted)
@@ -240,7 +232,7 @@ public class BetSlip
         parleyBetSlip.ParleyBetSlipPayoutStatus = ParleyBetSlipPayoutStatus.UNPAID;
 
         bool parleyBetGood =
-            await _mediator.Send(new PostParleyBetCommand(parleyBetSlip));
+            await _parleyBetSlipService.CreateParleyBet(parleyBetSlip);
 
         preBets.Clear();
 

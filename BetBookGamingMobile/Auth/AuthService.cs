@@ -1,10 +1,6 @@
 ﻿
 
-using BetBookGamingMobile.Commands;
-using BetBookGamingMobile.Queries;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.Identity.Client;
-using System.IdentityModel.Tokens.Jwt;
+
 
 namespace BetBookGamingMobile.Auth;
 

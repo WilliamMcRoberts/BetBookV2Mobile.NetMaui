@@ -1,18 +1,10 @@
-﻿using BetBookGamingMobile.Services;
-using BetBookGamingMobile.GlobalStateManagement;
-using BetBookGamingMobile.ViewModels;
-using BetBookGamingMobile.Views;
-using Microsoft.Extensions.Configuration;
-using MediatR;
-using BetBookGamingMobile.Auth;
-
+﻿
 namespace BetBookGamingMobile;
 
 public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()
 	{
-        
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
@@ -21,31 +13,8 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
-        builder.Services.AddMediatR(typeof(MediatREntryPoint).Assembly);
+
         builder.Services.AddSingleton(Connectivity.Current);
-
-        /*********************** Http Client Factories **************************/
-
-        builder.Services.AddHttpClient("sportsdata", client =>
-        {
-            client.BaseAddress = new Uri("https://api.sportsdata.io/v3/nfl/");
-        });
-
-        builder.Services.AddHttpClient("vortex", client =>
-        {
-            client.BaseAddress = DeviceInfo.Platform == DevicePlatform.Android ? 
-                                    new Uri("https://user9f9bd262219b696.app.vtxhub.com/") 
-                                    : new Uri("https://localhost:7184/");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Add("XApiKey", "");
-        });
-
-        builder.Services.AddHttpClient("betbookgamingV2", client =>
-        {
-            client.BaseAddress = new Uri("https://betbookgamingv2api.azurewebsites.net/");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Add("XApiKey", "");
-        });
 
         /**********************    Authentication      ********************************/
 
@@ -58,9 +27,9 @@ public static class MauiProgram
         builder.Services.AddTransient<IParleyBetSlipService, ParleyBetSlipService>();
         builder.Services.AddTransient<IUserService, UserService>();        
 
-        /**********************    State      *****************************************/
+        /**********************   Global State   *****************************************/
 
-        builder.Services.AddScoped<BetSlip>();
+        builder.Services.AddScoped<BetSlipState>();
         builder.Services.AddScoped<AuthenticationState>();
 
         /***********************   View Models  ***************************************/
