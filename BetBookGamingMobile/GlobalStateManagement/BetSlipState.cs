@@ -15,20 +15,12 @@ public class BetSlipState
     public SeasonType season;
     public int week;
     public string startedGameDescription;
-    public readonly IGameService _gameService;
-    public readonly IParleyBetSlipService _parleyBetSlipService;
-    private readonly IMediator _mediator;
-    public readonly ISingleBetService _singleBetService;
 
-    public BetSlipState(IGameService gameService,
-                        ISingleBetService singleBetService,
-                        IParleyBetSlipService parleyBetSlipService,
-                        IMediator mediator)
+    private readonly IApiService _apiService;
+
+    public BetSlipState(IApiService apiService)
     {
-        _gameService = gameService;
-        _singleBetService = singleBetService;
-        _parleyBetSlipService = parleyBetSlipService;
-        _mediator = mediator;
+        _apiService = apiService;
     }
 
     public ButtonColorStateModel SelectOrRemoveWinnerAndGameForBet(string winner, GameDto game, BetType betType)
@@ -126,7 +118,7 @@ public class BetSlipState
         week = season.CalculateWeek(DateTime.Now);
 
         IEnumerable<GameDto> gameCheckList =
-            await _gameService.GetGames(season, week);
+            await _apiService.GetGames(season, week);
 
         foreach (CreateBetModel createBetModel in preBets)
         {
@@ -167,7 +159,7 @@ public class BetSlipState
             };
 
             bool singleBetGood = 
-                await _singleBetService.CreateSingleBet(singleBet);
+                await _apiService.CreateSingleBet(singleBet);
 
             if(!singleBetGood)
                 return false;
@@ -193,7 +185,7 @@ public class BetSlipState
         week = season.CalculateWeek(DateTime.Now);
 
         IEnumerable<GameDto> gameCheckList =
-            await _gameService.GetGames(season, week);
+            await _apiService.GetGames(season, week);
 
         var parleyBetSlip = new ParleyBetSlipModel();
 
@@ -232,7 +224,7 @@ public class BetSlipState
         parleyBetSlip.ParleyBetSlipPayoutStatus = ParleyBetSlipPayoutStatus.UNPAID;
 
         bool parleyBetGood =
-            await _parleyBetSlipService.CreateParleyBet(parleyBetSlip);
+            await _apiService.CreateParleyBet(parleyBetSlip);
 
         preBets.Clear();
 

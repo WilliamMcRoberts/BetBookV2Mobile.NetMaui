@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BetBookGamingMobile.Views.AvailableGamesPage"
              x:DataType="viewModels:AvailableGamesViewModel"
+             xmlns:baseviews="clr-namespace:BetBookGamingMobile.Views.Base"
              xmlns:dto="clr-namespace:BetBookGamingMobile.Dto"
              xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
              Title="{Binding Title}">
@@ -115,17 +116,6 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </RefreshView>
-
-        
-
-        <ActivityIndicator
-            Grid.RowSpan="2"
-            Grid.ColumnSpan="2"
-            HorizontalOptions="FillAndExpand"
-            IsRunning="{Binding IsBusy}"
-            IsVisible="{Binding IsBusy}"
-            VerticalOptions="CenterAndExpand" />
-
 
     </Grid>
 </ContentPage>

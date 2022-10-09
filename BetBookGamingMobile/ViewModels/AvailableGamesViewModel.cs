@@ -1,10 +1,8 @@
 ﻿
 namespace BetBookGamingMobile.ViewModels;
 
-public partial class AvailableGamesViewModel : BaseViewModel
+public partial class AvailableGamesViewModel : AppBaseViewModel
 {
-    private readonly IGameService _gameService;
-
     public ObservableCollection<GameDto> Games { get; } = new();
 
     [ObservableProperty]
@@ -16,24 +14,22 @@ public partial class AvailableGamesViewModel : BaseViewModel
     [ObservableProperty]
     int week;
 
-    public AvailableGamesViewModel(IGameService gameService)
+    public AvailableGamesViewModel(IApiService apiService) :base(apiService)
     {
-        _gameService = gameService;
     }
 
     [RelayCommand]
     public async Task GetGamesAsync()
     {
-        if (IsBusy)
-            return;
+        if (IsBusy) return;
 
         IsBusy = true;
+        IsRefreshing = true;
 
-        IEnumerable<GameDto> gameList =
-            await _gameService.GetGames(Season, Week);
+        IEnumerable<GameDto> gameList = await _apiService.GetGames(Season, Week);
 
-        Games.AddRange(gameList.Where(game => !game.HasStarted)
-            .OrderBy(game => game.Date), Games.Any());
+        Games.AddRange(
+            gameList.Where(game => !game.HasStarted).OrderBy(game => game.Date), Games.Any());
 
         IsBusy = false;
         IsRefreshing = false;
@@ -60,6 +56,8 @@ public partial class AvailableGamesViewModel : BaseViewModel
         SetTitle();
         await GetGamesAsync();
     }
+
+    
 
     private void SetSeason() =>
         Season = DateTime.Now.CalculateSeason();

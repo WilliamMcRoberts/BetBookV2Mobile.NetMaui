@@ -2,7 +2,6 @@
 global using BetBookGamingMobile.Models;
 global using CommunityToolkit.Mvvm.ComponentModel;
 global using CommunityToolkit.Mvvm.Input;
-global using MediatR;
 global using BetBookGamingMobile.Extensions;
 global using BetBookGamingMobile.Helpers;
 global using BetBookGamingMobile.Views;
@@ -20,6 +19,7 @@ global using AuthenticationState = BetBookGamingMobile.GlobalStateManagement.Aut
 global using System.Net.Http.Json;
 global using Microsoft.AspNetCore.Components.Authorization;
 global using Microsoft.Identity.Client;
+global using System.Windows.Input;
 
 
 

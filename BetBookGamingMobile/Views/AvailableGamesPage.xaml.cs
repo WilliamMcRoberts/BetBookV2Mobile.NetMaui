@@ -1,12 +1,15 @@
 
+
+
 namespace BetBookGamingMobile.Views;
 
 public partial class AvailableGamesPage : ContentPage
 {
     private readonly AvailableGamesViewModel _viewModel;
+    public bool _isLoaded = false;
 
     public AvailableGamesPage(AvailableGamesViewModel viewModel)
-	{
+    {
 		InitializeComponent();
         BindingContext = _viewModel = viewModel;
     }
@@ -15,7 +18,8 @@ public partial class AvailableGamesPage : ContentPage
     {
         base.OnNavigatedTo(args);
 
-        if (!_viewModel.Games.Any())
+        if (!_isLoaded)
             await _viewModel.SetStateCommand.ExecuteAsync(null);
+        _isLoaded = true;
     }
 }

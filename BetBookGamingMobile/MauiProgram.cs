@@ -22,11 +22,8 @@ public static class MauiProgram
 
         /**********************    Services      **************************************/
 
-        builder.Services.AddSingleton<IGameService, GameService>();
-        builder.Services.AddTransient<ISingleBetService, SingleBetService>();
-        builder.Services.AddTransient<IParleyBetSlipService, ParleyBetSlipService>();
-        builder.Services.AddTransient<IUserService, UserService>();        
-
+        builder.Services.AddSingleton<IApiService, ApiService>();
+       
         /**********************   Global State   *****************************************/
 
         builder.Services.AddScoped<BetSlipState>();

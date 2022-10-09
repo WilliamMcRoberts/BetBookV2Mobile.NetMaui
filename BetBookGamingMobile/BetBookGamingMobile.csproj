@@ -51,6 +51,9 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\AppIcon\appiconfg.svg" />
+	  <None Remove="Resources\Fonts\FiraSans-Light.ttf" />
+	  <None Remove="Resources\Fonts\FiraSans-Medium.ttf" />
+	  <None Remove="Resources\Fonts\FiraSans-Regular.ttf" />
 	  <None Remove="Resources\Images\ari.svg" />
 	  <None Remove="Resources\Images\atl.svg" />
 	  <None Remove="Resources\Images\bal.svg" />
@@ -64,10 +67,22 @@
 	  <None Remove="Resources\Images\dal.svg" />
 	  <None Remove="Resources\Images\den.svg" />
 	  <None Remove="Resources\Images\det.svg" />
+	  <None Remove="Resources\Images\error.png" />
 	  <None Remove="Resources\Images\footballsolid.svg" />
 	  <None Remove="Resources\Images\gb.svg" />
 	  <None Remove="Resources\Images\hou.svg" />
+	  <None Remove="Resources\Images\icnback.png" />
+	  <None Remove="Resources\Images\icnclose.png" />
+	  <None Remove="Resources\Images\icnhamburger.png" />
+	  <None Remove="Resources\Images\icnsearch.png" />
+	  <None Remove="Resources\Images\icnsettings.png" />
+	  <None Remove="Resources\Images\icnspeech.png" />
 	  <None Remove="Resources\Images\idcardsolid.svg" />
+	  <None Remove="Resources\Images\imgarrow.png" />
+	  <None Remove="Resources\Images\imgdownload.png" />
+	  <None Remove="Resources\Images\imglike.png" />
+	  <None Remove="Resources\Images\imgplay.png" />
+	  <None Remove="Resources\Images\imgshare.png" />
 	  <None Remove="Resources\Images\ind.svg" />
 	  <None Remove="Resources\Images\jax.svg" />
 	  <None Remove="Resources\Images\kc.svg" />
@@ -78,6 +93,7 @@
 	  <None Remove="Resources\Images\min.svg" />
 	  <None Remove="Resources\Images\ne.svg" />
 	  <None Remove="Resources\Images\no.svg" />
+	  <None Remove="Resources\Images\nointernet.png" />
 	  <None Remove="Resources\Images\nyg.svg" />
 	  <None Remove="Resources\Images\nyj.svg" />
 	  <None Remove="Resources\Images\phi.svg" />
@@ -97,8 +113,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MediatR" Version="11.0.0" />
-		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.9" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0-rc.1.22426.10" />
 		<PackageReference Include="Microsoft.Identity.Client" Version="4.47.2" />
@@ -110,10 +124,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Controls\BettorParleyBetsCollectionViewControl.xaml.cs">
+	  <Compile Update="ViewControls\BettorParleyBetsCollectionViewControl.xaml.cs">
 	    <DependentUpon>BettorParleyBetsCollectionViewControl.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Controls\BettorSingleBetsCollectionViewControl.xaml.cs">
+	  <Compile Update="ViewControls\BettorSingleBetsCollectionViewControl.xaml.cs">
 	    <DependentUpon>BettorSingleBetsCollectionViewControl.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\MyBetsPage.xaml.cs">
@@ -122,13 +136,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Controls\BettorParleyBetsCollectionViewControl.xaml">
+	  <MauiXaml Update="ViewControls\BettorParleyBetsCollectionViewControl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Controls\BettorSingleBetsCollectionViewControl.xaml">
+	  <MauiXaml Update="ViewControls\BettorSingleBetsCollectionViewControl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Controls\WagerSelectionButtonControl.xaml">
+	  <MauiXaml Update="ViewControls\Common\ErrorIndicator.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewControls\Common\LoadingIndicator.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewControls\WagerSelectionButtonControl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\AvailableGamesPage.xaml">

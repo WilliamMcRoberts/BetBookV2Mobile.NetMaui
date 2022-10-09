@@ -4,8 +4,9 @@ namespace BetBookGamingMobile.Views;
 public partial class MyBetsPage : ContentPage
 {
 	private readonly MyBetsViewModel _viewModel;
+    public bool _isLoaded = false;
 
-	public MyBetsPage(MyBetsViewModel viewModel)
+    public MyBetsPage(MyBetsViewModel viewModel)
 	{
 		InitializeComponent();
 		BindingContext = _viewModel = viewModel;
@@ -15,7 +16,8 @@ public partial class MyBetsPage : ContentPage
     {
         base.OnNavigatedTo(args);
 
-		if (_viewModel.bettorSingleBets is null || _viewModel.bettorParleyBets is null)
+		if (!_isLoaded)
 			await _viewModel.SetStateCommand.ExecuteAsync(null);
+		_isLoaded = true;
     }
 }

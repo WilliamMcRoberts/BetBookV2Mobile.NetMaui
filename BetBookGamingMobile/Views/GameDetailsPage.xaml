@@ -141,6 +141,8 @@
                                                       CustomBackgroundColor="{Binding ButtonColorState.ApColor}"
                                                       CustomText="{Binding ButtonTextState.ApText}"/>
 
+                
+
                 <controls:WagerSelectionButtonControl CustomCommand="{Binding SelectOrRemoveWagerForPointSpreadCommand}"
                                                       CustomCommandParameter="{Binding GameDto.HomeTeam}"
                                                       CustomBackgroundColor="{Binding ButtonColorState.HpColor}"

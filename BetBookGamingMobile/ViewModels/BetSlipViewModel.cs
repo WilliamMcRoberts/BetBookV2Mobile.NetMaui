@@ -6,7 +6,6 @@ public partial class BetSlipViewModel : BaseViewModel
     private readonly AuthenticationState _authenticationState;
     private readonly BetSlipState _betSlipState;
 
-
     public BetSlipViewModel(
         AuthenticationState authenticationState, BetSlipState betSlipState)
 	{
@@ -23,14 +22,12 @@ public partial class BetSlipViewModel : BaseViewModel
     [RelayCommand]
     private async Task SubmitSinglesWagerAsync()
     {
-        var authState = _authenticationState.GetCurrentAuthenticationState();
-
-        LoggedInUser = authState.LoggedInUser;        
+        var loggedInUser = _authenticationState.CurrentAuthenticationState.LoggedInUser;
             
-        if (string.IsNullOrEmpty(LoggedInUser.UserId)) return;
+        if (string.IsNullOrEmpty(loggedInUser.UserId)) return;
 
         bool singlesBetSlipGood =
-            await _betSlipState.OnSubmitBetsFromSinglesBetSlip(LoggedInUser);
+            await _betSlipState.OnSubmitBetsFromSinglesBetSlip(loggedInUser);
 
         if (singlesBetSlipGood) 
             BetSlipState = _betSlipState.GetBetSlipState();
@@ -39,14 +36,12 @@ public partial class BetSlipViewModel : BaseViewModel
     [RelayCommand]
     private async Task SubmitParleyWagerAsync()
     {
-        var authState = _authenticationState.GetCurrentAuthenticationState();
+        var loggedInUser = _authenticationState.CurrentAuthenticationState.LoggedInUser;
 
-        LoggedInUser = authState.LoggedInUser;
-
-        if (string.IsNullOrEmpty(LoggedInUser.UserId)) return;
+        if (string.IsNullOrEmpty(loggedInUser.UserId)) return;
 
         bool parleyBetSlipGood = 
-            await _betSlipState.OnSubmitBetsFromParleyBetSlip(LoggedInUser, parleyWagerAmount);
+            await _betSlipState.OnSubmitBetsFromParleyBetSlip(loggedInUser, parleyWagerAmount);
 
         if (parleyBetSlipGood)
             BetSlipState = _betSlipState.GetBetSlipState();
