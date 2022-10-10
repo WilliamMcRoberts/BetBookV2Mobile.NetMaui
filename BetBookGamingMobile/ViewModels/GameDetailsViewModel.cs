@@ -24,7 +24,7 @@ public partial class GameDetailsViewModel : AppBaseViewModel
     }
 
     [RelayCommand]
-    private void SelectOrRemoveWagerForPointSpread(string winner) => 
+    private void SelectOrRemoveWagerForPointSpread(string winner) =>
         ButtonColorState =
             _betSlipState.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.POINTSPREAD);
 

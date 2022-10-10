@@ -12,6 +12,6 @@ public partial class GameDetailsPage : BasePage<GameDetailsViewModel>
     {
         base.OnNavigatedTo(args);
 
-       ViewModel.SetStateCommand.Execute(null);
+        ViewModel.SetStateCommand.Execute(null);
     }
 }

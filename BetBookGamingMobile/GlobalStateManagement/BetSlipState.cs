@@ -33,7 +33,6 @@ public class BetSlipState
                    .FirstOrDefault()!);
 
             conflictingBetsForParley = CheckForConflictingBets();
-
             return GetButtonColorState(game);
         }
 
@@ -93,8 +92,7 @@ public class BetSlipState
     {
         var betSlipState = new BetSlipStateModel();
 
-        foreach(var bet in preBets)
-            betSlipState.BetsInBetSlip.Add(bet);
+        betSlipState.BetsInBetSlip.AddRange(preBets);
 
         return betSlipState;
     }
@@ -283,7 +281,6 @@ public class BetSlipState
         preBets.Remove(createBetModel);
         return GetBetSlipState();
     }
-
 
     public decimal GetPayoutForTotalBetsSingles()
     {

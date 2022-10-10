@@ -1,3 +1,4 @@
+
 namespace BetBookGamingMobile.ViewControls;
 
 public partial class WagerSelectionButtonControl : ContentView
@@ -29,7 +30,7 @@ public partial class WagerSelectionButtonControl : ContentView
             });
 
     public static readonly BindableProperty CustomBackgroundColorProperty = BindableProperty.Create(
-            nameof(CustomBackgroundColor), 
+            nameof(CustomBackgroundColor),
             typeof(Color),
             typeof(WagerSelectionButtonControl),
             propertyChanged: (bindable, oldValue, newValue) =>
@@ -60,9 +61,9 @@ public partial class WagerSelectionButtonControl : ContentView
         set => SetValue(CustomCommandParameterProperty, value); 
     }
 
-    public Color CustomBackgroundColor 
+    public Color CustomBackgroundColor
     {
-        get => GetValue(CustomBackgroundColorProperty) as Color; 
+        get => GetValue(CustomBackgroundColorProperty) as Color;
         set => SetValue(CustomBackgroundColorProperty, value);
     }
 

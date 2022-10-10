@@ -8,7 +8,8 @@
         x:DataType="viewModels:GameDetailsViewModel"
         x:Class="BetBookGamingMobile.Views.GameDetailsPage"
         x:TypeArguments="viewModels:GameDetailsViewModel"
-        xmlns:local="clr-namespace:BetBookGamingMobile.Views">
+        xmlns:local="clr-namespace:BetBookGamingMobile.Views"
+        Shell.FlyoutBehavior="Disabled">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -137,11 +138,10 @@
                 <Label x:Name="PointSpreadLabel" Text="Point Spread"
                        Style="{StaticResource WagerLabel}"/>
 
-                <controls:WagerSelectionButtonControl CustomCommand="{Binding SelectOrRemoveWagerForPointSpreadCommand}"
-                                                      CustomCommandParameter="{Binding GameDto.AwayTeam}"
+                <controls:WagerSelectionButtonControl x:Name="WagerSelectionButton" CustomCommand="{Binding SelectOrRemoveWagerForPointSpreadCommand}"
                                                       CustomBackgroundColor="{Binding ButtonColorState.ApColor}"
-                                                      CustomText="{Binding ButtonTextState.ApText}"/>
-
+                                                      CustomCommandParameter="{Binding GameDto.AwayTeam}"
+                                                      CustomText="{Binding ButtonTextState.ApText}" />
 
 
                 <controls:WagerSelectionButtonControl CustomCommand="{Binding SelectOrRemoveWagerForPointSpreadCommand}"
