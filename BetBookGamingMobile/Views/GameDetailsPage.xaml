@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<local:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+        xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
         xmlns:models="clr-namespace:BetBookGamingMobile.Models"
         xmlns:views="clr-namespace:BetBookGamingMobile.Views"
-        xmlns:controls="clr-namespace:BetBookGamingMobile.ViewControls"
+        xmlns:animations="clr-namespace:BetBookGamingMobile.Animations"
         xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
         x:DataType="viewModels:GameDetailsViewModel"
         x:Class="BetBookGamingMobile.Views.GameDetailsPage"
         x:TypeArguments="viewModels:GameDetailsViewModel"
-        xmlns:local="clr-namespace:BetBookGamingMobile.Views"
         Shell.FlyoutBehavior="Disabled">
 
     <ContentPage.Resources>
@@ -20,6 +20,17 @@
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="FontSize" Value="25"/>
                 <Setter Property="TextColor" Value="White"/>
+            </Style>
+
+            <Style x:Key="WagerButtonStyle" TargetType="Button">
+                <Setter Property="BorderColor" Value="White"/>
+                <Setter Property="CornerRadius" Value="15"/>
+                <Setter Property="WidthRequest" Value="300"/>
+                <Setter Property="BorderWidth" Value="1"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="TextTransform" Value="Uppercase"/>
+                <Setter Property="FontSize" Value="16"/>
             </Style>
 
         </ResourceDictionary>
@@ -135,46 +146,191 @@
                                  x:Name="WagerButtonVerticalStackLayout"
                                  Margin="0,0,0,50">
 
-                <Label x:Name="PointSpreadLabel" Text="Point Spread"
+                <Label x:Name="PointSpreadLabel" 
+                       Text="Point Spread"
                        Style="{StaticResource WagerLabel}"/>
 
-                <controls:WagerSelectionButtonControl x:Name="WagerSelectionButton" CustomCommand="{Binding SelectOrRemoveWagerForPointSpreadCommand}"
-                                                      CustomBackgroundColor="{Binding ButtonColorState.ApColor}"
-                                                      CustomCommandParameter="{Binding GameDto.AwayTeam}"
-                                                      CustomText="{Binding ButtonTextState.ApText}" />
+                <Button x:Name="apButton" 
+                        Style="{StaticResource WagerButtonStyle}"
+                        Command="{Binding SelectOrRemoveWagerForPointSpreadCommand}"
+                        CommandParameter="{Binding GameDto.AwayTeam}"
+                        Text="{Binding ButtonTextState.ApText}"
+                        BackgroundColor="{Binding ButtonColorState.ApColor}"
+                        Clicked="ShowToast">
 
+                    <Button.Behaviors>
+                        <mct:AnimationBehavior EventName="Clicked">
+                            <mct:AnimationBehavior.AnimationType>
+                                <animations:WagerButtonAnimation 
+                                    Easing="{x:Static Easing.Linear}"
+                                    Length="100"/>
+                            </mct:AnimationBehavior.AnimationType>
+                        </mct:AnimationBehavior>
+                    </Button.Behaviors>
 
-                <controls:WagerSelectionButtonControl CustomCommand="{Binding SelectOrRemoveWagerForPointSpreadCommand}"
-                                                      CustomCommandParameter="{Binding GameDto.HomeTeam}"
-                                                      CustomBackgroundColor="{Binding ButtonColorState.HpColor}"
-                                                      CustomText="{Binding ButtonTextState.HpText}"/>
+                    <Button.Shadow>
 
-                <Label x:Name="MoneylineLabel" Text="Moneyline"
+                        <Shadow Brush="Black" 
+                                Offset="10, 10" 
+                                Radius="15"
+                                Opacity=".8"/>
+
+                    </Button.Shadow>
+
+                </Button>
+
+                <Button x:Name="hpButton" 
+                        Style="{StaticResource WagerButtonStyle}"
+                        Command="{Binding SelectOrRemoveWagerForPointSpreadCommand}"
+                        CommandParameter="{Binding GameDto.HomeTeam}"
+                        Text="{Binding ButtonTextState.HpText}"
+                        BackgroundColor="{Binding ButtonColorState.HpColor}"
+                        Clicked="ShowToast">
+
+                    <Button.Behaviors>
+                        <mct:AnimationBehavior EventName="Clicked">
+                            <mct:AnimationBehavior.AnimationType>
+                                <animations:WagerButtonAnimation 
+                                    Easing="{x:Static Easing.Linear}"
+                                    Length="100"/>
+                            </mct:AnimationBehavior.AnimationType>
+                        </mct:AnimationBehavior>
+                    </Button.Behaviors>
+
+                    <Button.Shadow>
+
+                        <Shadow Brush="Black" 
+                                Offset="10, 10" 
+                                Radius="15"
+                                Opacity=".8"/>
+
+                    </Button.Shadow>
+
+                </Button>
+
+                <Label x:Name="MoneylineLabel" 
+                       Text="Moneyline"
                        Style="{StaticResource WagerLabel}"/>
 
-                <controls:WagerSelectionButtonControl CustomCommand="{Binding SelectOrRemoveWagerForMoneylineCommand}"
-                                                      CustomCommandParameter="{Binding GameDto.AwayTeam}"
-                                                      CustomBackgroundColor="{Binding ButtonColorState.AmColor}"
-                                                      CustomText="{Binding ButtonTextState.AmText}"/>
+                <Button x:Name="amButton" 
+                        Style="{StaticResource WagerButtonStyle}"
+                        Command="{Binding SelectOrRemoveWagerForMoneylineCommand}"
+                        CommandParameter="{Binding GameDto.AwayTeam}"
+                        Text="{Binding ButtonTextState.AmText}"
+                        BackgroundColor="{Binding ButtonColorState.AmColor}"
+                        Clicked="ShowToast">
 
-                <controls:WagerSelectionButtonControl CustomCommand="{Binding SelectOrRemoveWagerForMoneylineCommand}"
-                                                      CustomCommandParameter="{Binding GameDto.HomeTeam}"
-                                                      CustomBackgroundColor="{Binding ButtonColorState.HmColor}"
-                                                      CustomText="{Binding ButtonTextState.HmText}"/>
+                    <Button.Behaviors>
+                        <mct:AnimationBehavior EventName="Clicked">
+                            <mct:AnimationBehavior.AnimationType>
+                                <animations:WagerButtonAnimation 
+                                    Easing="{x:Static Easing.Linear}"
+                                    Length="100"/>
+                            </mct:AnimationBehavior.AnimationType>
+                        </mct:AnimationBehavior>
+                    </Button.Behaviors>
 
-                <Label x:Name="OverUnderLabel" Text="Over/Under"
+                    <Button.Shadow>
+
+                        <Shadow Brush="Black" 
+                                Offset="10, 10" 
+                                Radius="15"
+                                Opacity=".8"/>
+
+                    </Button.Shadow>
+
+                </Button>
+
+                <Button x:Name="hmButton" 
+                        Style="{StaticResource WagerButtonStyle}"
+                        Command="{Binding SelectOrRemoveWagerForMoneylineCommand}"
+                        CommandParameter="{Binding GameDto.HomeTeam}"
+                        Text="{Binding ButtonTextState.HmText}"
+                        BackgroundColor="{Binding ButtonColorState.HmColor}"
+                        Clicked="ShowToast">
+
+                    <Button.Behaviors>
+                        <mct:AnimationBehavior EventName="Clicked">
+                            <mct:AnimationBehavior.AnimationType>
+                                <animations:WagerButtonAnimation 
+                                    Easing="{x:Static Easing.Linear}"
+                                    Length="100"/>
+                            </mct:AnimationBehavior.AnimationType>
+                        </mct:AnimationBehavior>
+                    </Button.Behaviors>
+
+                    <Button.Shadow>
+
+                        <Shadow Brush="Black" 
+                                Offset="10, 10" 
+                                Radius="15"
+                                Opacity=".8"/>
+
+                    </Button.Shadow>
+
+                </Button>
+
+                <Label x:Name="OverUnderLabel" 
+                       Text="Over/Under"
                        Style="{StaticResource WagerLabel}"/>
 
+                <Button x:Name="overButton" 
+                        Style="{StaticResource WagerButtonStyle}"
+                        Command="{Binding SelectOrRemoveWagerForOverUnderCommand}"
+                        CommandParameter="Over"
+                        Text="{Binding ButtonTextState.OText}"
+                        BackgroundColor="{Binding ButtonColorState.OColor}"
+                        Clicked="ShowToast">
 
-                <controls:WagerSelectionButtonControl CustomCommand="{Binding SelectOrRemoveWagerForOverUnderCommand}"
-                                                      CustomCommandParameter="Over"
-                                                      CustomBackgroundColor="{Binding ButtonColorState.OColor}"
-                                                      CustomText="{Binding ButtonTextState.OText}"/>
+                    <Button.Behaviors>
+                        <mct:AnimationBehavior EventName="Clicked">
+                            <mct:AnimationBehavior.AnimationType>
+                                <animations:WagerButtonAnimation 
+                                    Easing="{x:Static Easing.Linear}"
+                                    Length="100"/>
+                            </mct:AnimationBehavior.AnimationType>
+                        </mct:AnimationBehavior>
+                    </Button.Behaviors>
 
-                <controls:WagerSelectionButtonControl CustomCommand="{Binding SelectOrRemoveWagerForOverUnderCommand}"
-                                                      CustomCommandParameter="Under"
-                                                      CustomBackgroundColor="{Binding ButtonColorState.UColor}"
-                                                      CustomText="{Binding ButtonTextState.UText}"/>
+                    <Button.Shadow>
+
+                        <Shadow Brush="Black" 
+                                Offset="10, 10" 
+                                Radius="15"
+                                Opacity=".8"/>
+
+                    </Button.Shadow>
+
+                </Button>
+
+                <Button x:Name="underButton" 
+                        Style="{StaticResource WagerButtonStyle}"
+                        Command="{Binding SelectOrRemoveWagerForOverUnderCommand}"
+                        CommandParameter="Under"
+                        Text="{Binding ButtonTextState.UText}"
+                        BackgroundColor="{Binding ButtonColorState.UColor}"
+                        Clicked="ShowToast">
+
+                    <Button.Behaviors>
+                        <mct:AnimationBehavior EventName="Clicked">
+                            <mct:AnimationBehavior.AnimationType>
+                                <animations:WagerButtonAnimation 
+                                    Easing="{x:Static Easing.Linear}"
+                                    Length="100"/>
+                            </mct:AnimationBehavior.AnimationType>
+                        </mct:AnimationBehavior>
+                    </Button.Behaviors>
+
+                    <Button.Shadow>
+
+                        <Shadow Brush="Black" 
+                                Offset="10, 10" 
+                                Radius="15"
+                                Opacity=".8"/>
+
+                    </Button.Shadow>
+
+                </Button>
 
             </VerticalStackLayout>
 
@@ -182,4 +338,4 @@
 
     </ScrollView>
     
-</local:BasePage>
+</views:BasePage>

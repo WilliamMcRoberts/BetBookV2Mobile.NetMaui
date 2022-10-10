@@ -6,16 +6,16 @@
     xmlns:views="clr-namespace:BetBookGamingMobile.Views"
     xmlns:sys="clr-namespace:System;assembly=netstandard"
     Shell.FlyoutBehavior="Flyout"
+    FlyoutHeaderBehavior="CollapseOnScroll"
     FlyoutIcon="icnhamburger.png"
     BackgroundColor="#262626">
     <!--FlyoutBackgroundImage="stadiumbackground.svg">-->
 
     <Shell.FlyoutHeader>
-        
         <VerticalStackLayout>
-            
+
             <Image Source="nfllogo.svg"/>
-            
+
             <Label Margin="{OnPlatform Default='0,0,0,10',
                                    iOS='0',
                                    MacCatalyst='0'}"
@@ -28,36 +28,33 @@
                    FontAttributes="Bold"
                Text="Bet Book Gaming V2"
                VerticalTextAlignment="Center" />
-            
+
         </VerticalStackLayout>
-
     </Shell.FlyoutHeader>
-
+    
     <FlyoutItem Title="Log In"
                 Route="MainPage"
                 Icon="{OnPlatform Default='profilesolid.svg', MacCatalyst=''}">
-        
         <ShellContent
-                Title="Login"
+                Title="Log in"
                 ContentTemplate="{DataTemplate views:MainPage}"
                 Route="MainPage"/>
-
     </FlyoutItem>
 
     <FlyoutItem Title="Available Games"
                 Route="AvailableGamesPage"
                 Icon="{OnPlatform Default='footballsolid.svg', MacCatalyst=''}">
         <ShellContent
-                        Title="Available Games"
-                        ContentTemplate="{DataTemplate views:AvailableGamesPage}"
-                        Route="AvailableGamesPage"/>
+                Title="Available Games"
+                ContentTemplate="{DataTemplate views:AvailableGamesPage}"
+                Route="AvailableGamesPage"/>
     </FlyoutItem>
 
     <FlyoutItem Title="Bet Slip"
                 Route="BetSlipPage"
                 Icon="{OnPlatform Default='betslipsolid.svg', MacCatalyst=''}">
         <ShellContent
-                    Title="Potential Wagers"
+                    Title="Bet Slip"
                     ContentTemplate="{DataTemplate views:BetSlipPage}"
                     Route="BetSlipPage" />
     </FlyoutItem>
@@ -69,6 +66,14 @@
                     Title="My Bets"
                     ContentTemplate="{DataTemplate views:MyBetsPage}"
                     Route="MyBetsPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Account">
+
+    </FlyoutItem>
+
+    <FlyoutItem Title="Settings">
+
     </FlyoutItem>
 
 </Shell>

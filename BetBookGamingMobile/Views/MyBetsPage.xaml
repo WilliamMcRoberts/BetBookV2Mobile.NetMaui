@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<local:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
         xmlns:models="clr-namespace:BetBookGamingMobile.Models"
         xmlns:views="clr-namespace:BetBookGamingMobile.Views"
@@ -7,8 +7,7 @@
         xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
         x:DataType="viewModels:MyBetsViewModel"
         x:Class="BetBookGamingMobile.Views.MyBetsPage"
-        x:TypeArguments="viewModels:MyBetsViewModel"
-        xmlns:local="clr-namespace:BetBookGamingMobile.Views">
+        x:TypeArguments="viewModels:MyBetsViewModel">
     
         <ScrollView>
             <VerticalStackLayout>
@@ -80,4 +79,4 @@
             </VerticalStackLayout>
         </ScrollView>
     
-</local:BasePage>
+</views:BasePage>

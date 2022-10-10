@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:controls="clr-namespace:BetBookGamingMobile.ViewControls"
+             xmlns:animations="clr-namespace:BetBookGamingMobile.Animations"
              xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
              xmlns:views="clr-namespace:BetBookGamingMobile.Views"
              x:DataType="viewModels:GameDetailsViewModel"
-             x:Class="BetBookGamingMobile.ViewControls.WagerSelectionButtonControl">
+             x:Class="BetBookGamingMobile.ViewControls.WagerSelectionButtonControl"
+             xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
 
     <ContentView.Resources>
         <ResourceDictionary>
@@ -24,22 +24,28 @@
         </ResourceDictionary>
     </ContentView.Resources>
     
-    <VerticalStackLayout>
-        
-        <Button x:Name="WagerSelectionButton" 
-                Style="{StaticResource WagerButtonStyle}">
+    <Button x:Name="WagerSelectionButton" 
+            Style="{StaticResource WagerButtonStyle}" >
             
-            <Button.Shadow>
+        <Button.Behaviors>
+            <mct:AnimationBehavior EventName="Clicked">
+                <mct:AnimationBehavior.AnimationType>
+                    <animations:WagerButtonAnimation 
+                        Easing="{x:Static Easing.Linear}"
+                        Length="100"/>
+                </mct:AnimationBehavior.AnimationType>
+            </mct:AnimationBehavior>
+        </Button.Behaviors>
+            
+        <Button.Shadow>
                 
-                <Shadow Brush="Black" 
-                        Offset="10, 10" 
-                        Radius="15"
-                        Opacity=".8"/>
+            <Shadow Brush="Black" 
+                    Offset="10, 10" 
+                    Radius="15"
+                    Opacity=".8"/>
 
-            </Button.Shadow>
+        </Button.Shadow>
 
-        </Button>
+    </Button>
         
-    </VerticalStackLayout>
-    
 </ContentView>

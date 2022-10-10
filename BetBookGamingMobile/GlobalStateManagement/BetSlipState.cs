@@ -23,7 +23,7 @@ public class BetSlipState
         _apiService = apiService;
     }
 
-    public ButtonColorStateModel SelectOrRemoveWinnerAndGameForBet(string winner, GameDto game, BetType betType)
+    public (ButtonColorStateModel, BetSlipStateModel) SelectOrRemoveWinnerAndGameForBet(string winner, GameDto game, BetType betType)
     {
         if (preBets.Contains(preBets.Where(b => b.Winner == winner && b.Game.ScoreID == game.ScoreID && b.BetType == betType)
                    .FirstOrDefault()!))
@@ -33,7 +33,7 @@ public class BetSlipState
                    .FirstOrDefault()!);
 
             conflictingBetsForParley = CheckForConflictingBets();
-            return GetButtonColorState(game);
+            return (GetButtonColorState(game), GetBetSlipState());
         }
 
         preBets.Add(new CreateBetModel
@@ -48,7 +48,7 @@ public class BetSlipState
         });
 
         conflictingBetsForParley = CheckForConflictingBets();
-        return GetButtonColorState(game);
+        return (GetButtonColorState(game), GetBetSlipState());
     }
 
     public (BetSlipStateModel, ButtonColorStateModel, ButtonTextStateModel) GetAllStates(GameDto gameDto) =>

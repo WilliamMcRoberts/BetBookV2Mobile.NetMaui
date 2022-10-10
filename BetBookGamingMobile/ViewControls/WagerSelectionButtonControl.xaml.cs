@@ -73,3 +73,4 @@ public partial class WagerSelectionButtonControl : ContentView
         set => SetValue(CustomTextProperty, value); 
     }
 }
+

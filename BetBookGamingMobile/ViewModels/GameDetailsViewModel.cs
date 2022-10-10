@@ -25,17 +25,17 @@ public partial class GameDetailsViewModel : AppBaseViewModel
 
     [RelayCommand]
     private void SelectOrRemoveWagerForPointSpread(string winner) =>
-        ButtonColorState =
+        (ButtonColorState, BetSlipStateModel) =
             _betSlipState.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.POINTSPREAD);
 
     [RelayCommand]
-    private void SelectOrRemoveWagerForMoneyline(string winner) => 
-        ButtonColorState =
+    private void SelectOrRemoveWagerForMoneyline(string winner) =>
+        (ButtonColorState, BetSlipStateModel) =
             _betSlipState.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.MONEYLINE);
 
     [RelayCommand]
-    private void SelectOrRemoveWagerForOverUnder(string winner) => 
-        ButtonColorState = _betSlipState.SelectOrRemoveWinnerAndGameForBet(string.Concat(
+    private void SelectOrRemoveWagerForOverUnder(string winner) =>
+        (ButtonColorState, BetSlipStateModel) = _betSlipState.SelectOrRemoveWinnerAndGameForBet(string.Concat(
             winner, GameDto.ScoreID.ToString()), GameDto, BetType.OVERUNDER);
 
     [RelayCommand]
