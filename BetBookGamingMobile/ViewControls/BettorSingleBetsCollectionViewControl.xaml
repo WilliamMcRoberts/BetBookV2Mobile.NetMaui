@@ -2,10 +2,11 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
+             xmlns:controls="clr-namespace:BetBookGamingMobile.ViewControls"
              xmlns:views="clr-namespace:BetBookGamingMobile.Views"
              xmlns:models="clr-namespace:BetBookGamingMobile.Models"
              x:DataType="viewModels:MyBetsViewModel"
-             x:Class="BetBookGamingMobile.Controls.BettorSingleBetsCollectionViewControl">
+             x:Class="BetBookGamingMobile.ViewControls.BettorSingleBetsCollectionViewControl">
     
     <CollectionView x:Name="BettorSingleBetsCollectionView"
                 SelectionMode="None">

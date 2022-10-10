@@ -1,12 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BetBookGamingMobile.MainPage"
-             xmlns:dto="clr-namespace:BetBookGamingMobile.Dto"
-             xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
-             x:DataType="viewModels:MainViewModel"
-             Title="{Binding Title}"
-             Shell.NavBarIsVisible="False">
+<local:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+        xmlns:models="clr-namespace:BetBookGamingMobile.Models"
+        xmlns:views="clr-namespace:BetBookGamingMobile.Views"
+        xmlns:controls="clr-namespace:BetBookGamingMobile.ViewControls"
+        xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
+        x:DataType="viewModels:MainViewModel"
+        x:Class="BetBookGamingMobile.Views.MainPage"
+        x:TypeArguments="viewModels:MainViewModel"
+        xmlns:local="clr-namespace:BetBookGamingMobile.Views">
 
     <Button Margin="5" 
             BackgroundColor="DarkBlue" 
@@ -14,5 +16,5 @@
             Text="Login" 
             IsVisible="{Binding IsNotLoggedIn}"
             Command="{Binding LoginCommand}"/>
-
-</ContentPage>
+    
+</local:BasePage>

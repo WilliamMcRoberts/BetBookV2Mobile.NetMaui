@@ -4,46 +4,73 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:BetBookGamingMobile.Views"
-    xmlns:local="clr-namespace:BetBookGamingMobile"
-    Shell.FlyoutBehavior="Disabled">
-    
-    <ShellContent
+    xmlns:sys="clr-namespace:System;assembly=netstandard"
+    Shell.FlyoutBehavior="Flyout"
+    FlyoutIcon="icnhamburger.png"
+    BackgroundColor="#262626">
+    <!--FlyoutBackgroundImage="stadiumbackground.svg">-->
+
+    <Shell.FlyoutHeader>
+        
+        <VerticalStackLayout>
+            
+            <Image Source="nfllogo.svg"/>
+            
+            <Label Margin="{OnPlatform Default='0,0,0,10',
+                                   iOS='0',
+                                   MacCatalyst='0'}"
+               Padding="{OnPlatform Default='4,0',
+                                    iOS='4, 100, 4, 0',
+                                    MacCatalyst='4, 100, 4, 0'}"
+               FontSize="25"
+                   TextColor="IndianRed"
+               HorizontalTextAlignment="Center"
+                   FontAttributes="Bold"
+               Text="Bet Book Gaming V2"
+               VerticalTextAlignment="Center" />
+            
+        </VerticalStackLayout>
+
+    </Shell.FlyoutHeader>
+
+    <FlyoutItem Title="Log In"
+                Route="MainPage"
+                Icon="{OnPlatform Default='profilesolid.svg', MacCatalyst=''}">
+        
+        <ShellContent
                 Title="Login"
-                ContentTemplate="{DataTemplate local:MainPage}"
+                ContentTemplate="{DataTemplate views:MainPage}"
                 Route="MainPage"/>
-    
-    <TabBar>
 
-        <Tab Title="Games" 
-                 Icon="footballsolid.svg">
+    </FlyoutItem>
 
-            <ShellContent
+    <FlyoutItem Title="Available Games"
+                Route="AvailableGamesPage"
+                Icon="{OnPlatform Default='footballsolid.svg', MacCatalyst=''}">
+        <ShellContent
                         Title="Available Games"
                         ContentTemplate="{DataTemplate views:AvailableGamesPage}"
                         Route="AvailableGamesPage"/>
+    </FlyoutItem>
 
-        </Tab>
-
-        <Tab Title="Bet Slip" 
-                 Icon="betslipsolid.svg">
-
-            <ShellContent
+    <FlyoutItem Title="Bet Slip"
+                Route="BetSlipPage"
+                Icon="{OnPlatform Default='betslipsolid.svg', MacCatalyst=''}">
+        <ShellContent
                     Title="Potential Wagers"
                     ContentTemplate="{DataTemplate views:BetSlipPage}"
                     Route="BetSlipPage" />
+    </FlyoutItem>
 
-        </Tab>
-
-        <Tab Title="My Bets" 
-                 Icon="booksolid.svg">
-
-            <ShellContent
+    <FlyoutItem Title="My Bets"
+                Route="MyBetsPage"
+                Icon="{OnPlatform Default='booksolid.svg', MacCatalyst=''}">
+        <ShellContent
                     Title="My Bets"
                     ContentTemplate="{DataTemplate views:MyBetsPage}"
                     Route="MyBetsPage" />
-
-        </Tab>
-
-    </TabBar>
+    </FlyoutItem>
 
 </Shell>
+
+

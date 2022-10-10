@@ -1,7 +1,6 @@
 
-using System.Windows.Input;
 
-namespace BetBookGamingMobile.Controls;
+namespace BetBookGamingMobile.ViewControls;
 
 public partial class BettorSingleBetsCollectionViewControl : ContentView
 {

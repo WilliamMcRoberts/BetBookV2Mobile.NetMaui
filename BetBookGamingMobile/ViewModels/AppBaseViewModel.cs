@@ -4,6 +4,8 @@ namespace BetBookGamingMobile.ViewModels;
 public partial class AppBaseViewModel : BaseViewModel
 {
     public INavigation NavigationService { get; set; }
+
+    // Display Alerts
     public Page PageService { get; set; }
 
     protected IApiService _apiService { get; set; }

@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
-             xmlns:views="clr-namespace:BetBookGamingMobile.Views"
-             xmlns:models="clr-namespace:BetBookGamingMobile.Models"
-             x:DataType="viewModels:BetSlipViewModel"
-             x:Class="BetBookGamingMobile.Views.BetSlipPage"
-             Title="Bet Slip">
-    
+<local:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+        xmlns:models="clr-namespace:BetBookGamingMobile.Models"
+        xmlns:views="clr-namespace:BetBookGamingMobile.Views"
+        xmlns:controls="clr-namespace:BetBookGamingMobile.ViewControls"
+        xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
+        x:Class="BetBookGamingMobile.Views.BetSlipPage"
+        x:DataType="viewModels:BetSlipViewModel"
+        x:TypeArguments="viewModels:BetSlipViewModel"
+        xmlns:local="clr-namespace:BetBookGamingMobile.Views">
+
     <VerticalStackLayout>
-        
+
         <CollectionView ItemsSource="{Binding BetSlipState.BetsInBetSlip}">
-            
+
             <CollectionView.ItemTemplate>
 
                 <DataTemplate x:DataType="models:CreateBetModel">
@@ -25,13 +27,13 @@
                                     WidthRequest="150"
                                     FontAttributes="Bold"
                                     CommandParameter="{Binding .}"/>
-                        
+
                         <Label Text="Enter Wager Amount" 
                                TextColor="DarkRed" 
                                FontSize="15"
                                HorizontalTextAlignment="Center"
                                Margin="5"/>
-                        
+
                         <Entry Text="{Binding BetAmount}"
                                HorizontalTextAlignment="Center"/>
 
@@ -45,9 +47,9 @@
                 </DataTemplate>
 
             </CollectionView.ItemTemplate>
-            
+
         </CollectionView>
-        
+
         <Label Text="Enter Parley Wager Amount" 
                                    TextColor="DarkRed" 
                                    FontSize="20"
@@ -100,5 +102,4 @@
         </Button>
 
     </VerticalStackLayout>
-    
-</ContentPage>
+</local:BasePage>

@@ -1,12 +1,12 @@
 ﻿
-namespace BetBookGamingMobile;
+namespace BetBookGamingMobile.Views;
 
-public partial class MainPage : ContentPage
+public partial class MainPage : BasePage<MainViewModel>
 {
-    public MainPage(MainViewModel viewModel)
+
+    public MainPage(MainViewModel viewModel) : base(viewModel)
     {
         InitializeComponent();
-        BindingContext = viewModel;
     }
 }
 

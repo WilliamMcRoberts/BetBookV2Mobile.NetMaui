@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BetBookGamingMobile.Views.AvailableGamesPage"
-             x:DataType="viewModels:AvailableGamesViewModel"
-             xmlns:baseviews="clr-namespace:BetBookGamingMobile.Views.Base"
-             xmlns:dto="clr-namespace:BetBookGamingMobile.Dto"
-             xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
-             Title="{Binding Title}">
-    
+<local:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+        xmlns:models="clr-namespace:BetBookGamingMobile.Models"
+        xmlns:views="clr-namespace:BetBookGamingMobile.Views"
+        xmlns:dto="clr-namespace:BetBookGamingMobile.Dto"
+        xmlns:controls="clr-namespace:BetBookGamingMobile.ViewControls"
+        xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
+        x:Class="BetBookGamingMobile.Views.AvailableGamesPage"
+        x:TypeArguments="viewModels:AvailableGamesViewModel"
+        x:DataType="viewModels:AvailableGamesViewModel"
+        xmlns:local="clr-namespace:BetBookGamingMobile.Views">
+
     <Grid ColumnDefinitions="Auto"
           RowDefinitions="*,Auto">
 
@@ -116,6 +119,5 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </RefreshView>
-
     </Grid>
-</ContentPage>
+</local:BasePage>

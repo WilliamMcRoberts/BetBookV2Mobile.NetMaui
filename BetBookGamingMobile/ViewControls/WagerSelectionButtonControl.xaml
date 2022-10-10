@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:BetBookGamingMobile.Controls"
+             xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:controls="clr-namespace:BetBookGamingMobile.ViewControls"
              xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
              xmlns:views="clr-namespace:BetBookGamingMobile.Views"
              x:DataType="viewModels:GameDetailsViewModel"
-             x:Class="BetBookGamingMobile.Controls.WagerSelectionButtonControl">
+             x:Class="BetBookGamingMobile.ViewControls.WagerSelectionButtonControl">
 
     <ContentView.Resources>
         <ResourceDictionary>

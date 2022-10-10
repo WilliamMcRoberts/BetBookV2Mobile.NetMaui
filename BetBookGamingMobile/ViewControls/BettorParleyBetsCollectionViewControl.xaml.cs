@@ -1,4 +1,4 @@
-namespace BetBookGamingMobile.Controls;
+namespace BetBookGamingMobile.ViewControls;
 
 public partial class BettorParleyBetsCollectionViewControl : ContentView
 {

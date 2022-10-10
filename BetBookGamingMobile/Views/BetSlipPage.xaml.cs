@@ -1,20 +1,17 @@
 
 namespace BetBookGamingMobile.Views;
 
-public partial class BetSlipPage : ContentPage
+public partial class BetSlipPage : BasePage<BetSlipViewModel>
 {
-    private readonly BetSlipViewModel _viewModel;
-
-    public BetSlipPage(BetSlipViewModel viewModel)
+    public BetSlipPage(BetSlipViewModel viewModel) :base(viewModel)
 	{
 		InitializeComponent();
-		BindingContext = _viewModel = viewModel;
     }
 
     protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
 
-        _viewModel.SetStateCommand.Execute(null);
+        ViewModel.SetStateCommand.Execute(null);
     }
 }

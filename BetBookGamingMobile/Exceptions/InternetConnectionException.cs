@@ -1,5 +1,4 @@
 ﻿
-
 namespace BetBookGamingMobile.Exceptions;
 
 public class InternetConnectionException : Exception

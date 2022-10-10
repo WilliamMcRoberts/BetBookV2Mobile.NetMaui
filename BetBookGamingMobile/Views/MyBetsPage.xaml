@@ -1,81 +1,83 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
-             xmlns:models="clr-namespace:BetBookGamingMobile.Models"
-             xmlns:controls="clr-namespace:BetBookGamingMobile.Controls"
-             x:DataType="viewModels:MyBetsViewModel"
-             x:Class="BetBookGamingMobile.Views.MyBetsPage"
-             Title="My Bets">
+<local:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+        xmlns:models="clr-namespace:BetBookGamingMobile.Models"
+        xmlns:views="clr-namespace:BetBookGamingMobile.Views"
+        xmlns:controls="clr-namespace:BetBookGamingMobile.ViewControls"
+        xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
+        x:DataType="viewModels:MyBetsViewModel"
+        x:Class="BetBookGamingMobile.Views.MyBetsPage"
+        x:TypeArguments="viewModels:MyBetsViewModel"
+        xmlns:local="clr-namespace:BetBookGamingMobile.Views">
     
-    <ScrollView>
-        <VerticalStackLayout>
+        <ScrollView>
+            <VerticalStackLayout>
 
-            <Label Text="In Progress Single Bets" 
+                <Label Text="In Progress Single Bets" 
                    FontSize="25" 
                    FontAttributes="Bold" 
                    TextColor="Black"/>
 
-            <controls:BettorSingleBetsCollectionViewControl 
+                <controls:BettorSingleBetsCollectionViewControl 
                 CustomItemSource="{Binding BettorSingleBetsInProgress}"/>
-            
-            <Label Text="Winning Single Bets" 
+
+                <Label Text="Winning Single Bets" 
                    FontSize="25" 
                    FontAttributes="Bold"
                    TextColor="Black"/>
 
-            <controls:BettorSingleBetsCollectionViewControl 
+                <controls:BettorSingleBetsCollectionViewControl 
                 CustomItemSource="{Binding BettorSingleBetsWinners}"/>
 
-            <Label Text="Losing Single Bets" 
+                <Label Text="Losing Single Bets" 
                    FontSize="25" 
                    FontAttributes="Bold" 
                    TextColor="Black"/>
 
-            <controls:BettorSingleBetsCollectionViewControl 
+                <controls:BettorSingleBetsCollectionViewControl 
                 CustomItemSource="{Binding BettorSingleBetsLosers}"/>
 
-            <Label Text="Push Single Bets" 
+                <Label Text="Push Single Bets" 
                    FontSize="25" 
                    FontAttributes="Bold" 
                    TextColor="Black"/>
 
-            <controls:BettorSingleBetsCollectionViewControl 
+                <controls:BettorSingleBetsCollectionViewControl 
                 CustomItemSource="{Binding BettorSingleBetsPush}"/>
 
-            <Label Text="In Progress Parley Bets" 
+                <Label Text="In Progress Parley Bets" 
                    FontSize="25" 
                    FontAttributes="Bold" 
                    TextColor="Black"/>
 
-            <controls:BettorParleyBetsCollectionViewControl 
+                <controls:BettorParleyBetsCollectionViewControl 
                 CustomItemSource="{Binding BettorParleyBetsInProgress}"/>
 
-            <Label Text="Winning Parley Bets" 
+                <Label Text="Winning Parley Bets" 
                    FontSize="25" 
                    FontAttributes="Bold" 
                    TextColor="Black"/>
 
-            <controls:BettorParleyBetsCollectionViewControl 
+                <controls:BettorParleyBetsCollectionViewControl 
                 CustomItemSource="{Binding BettorParleyBetsWinners}"/>
 
-            <Label Text="Losing Parley Bets" 
+                <Label Text="Losing Parley Bets" 
                    FontSize="25" 
                    FontAttributes="Bold" 
                    TextColor="Black"/>
 
-            <controls:BettorParleyBetsCollectionViewControl 
+                <controls:BettorParleyBetsCollectionViewControl 
                 CustomItemSource="{Binding BettorParleyBetsLosers}"/>
 
-            <Label Text="Push Parley Bets" 
+                <Label Text="Push Parley Bets" 
                    FontSize="25" 
                    FontAttributes="Bold" 
                    TextColor="Black"/>
 
-            <controls:BettorParleyBetsCollectionViewControl 
+                <controls:BettorParleyBetsCollectionViewControl 
                 CustomItemSource="{Binding BettorParleyBetsPush}"/>
-            
-        </VerticalStackLayout>
-    </ScrollView>
+
+            </VerticalStackLayout>
+        </ScrollView>
     
-</ContentPage>
+</local:BasePage>

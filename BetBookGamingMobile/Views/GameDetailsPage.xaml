@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BetBookGamingMobile.Views.GameDetailsPage"
-             xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
-             xmlns:models="clr-namespace:BetBookGamingMobile.Models"
-             xmlns:dto="clr-namespace:BetBookGamingMobile.Dto"
-             xmlns:controls="clr-namespace:BetBookGamingMobile.Controls"
-             x:DataType="viewModels:GameDetailsViewModel"
-             Title="{Binding GameDto.GameTitle}">
+<local:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+        xmlns:models="clr-namespace:BetBookGamingMobile.Models"
+        xmlns:views="clr-namespace:BetBookGamingMobile.Views"
+        xmlns:controls="clr-namespace:BetBookGamingMobile.ViewControls"
+        xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
+        x:DataType="viewModels:GameDetailsViewModel"
+        x:Class="BetBookGamingMobile.Views.GameDetailsPage"
+        x:TypeArguments="viewModels:GameDetailsViewModel"
+        xmlns:local="clr-namespace:BetBookGamingMobile.Views">
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            
+
             <Style x:Key="WagerLabel" TargetType="Label">
                 <Setter Property="Margin" Value="15"/>
                 <Setter Property="HorizontalTextAlignment" Value="Center"/>
@@ -19,10 +20,10 @@
                 <Setter Property="FontSize" Value="25"/>
                 <Setter Property="TextColor" Value="White"/>
             </Style>
-            
+
         </ResourceDictionary>
     </ContentPage.Resources>
-    
+
     <ScrollView>
 
         <VerticalStackLayout>
@@ -41,7 +42,7 @@
                        VerticalOptions="Center"
                        Source="{Binding GameDto.HomeTeamImage}"
                        WidthRequest="160"/>
-                    
+
             </HorizontalStackLayout>
 
             <Frame BackgroundColor="DarkRed"
@@ -62,7 +63,7 @@
                         <RoundRectangle CornerRadius="15"/>
 
                     </Border.StrokeShape>
-                    
+
                     <Border.Background>
 
                         <LinearGradientBrush EndPoint="1,0">
@@ -80,7 +81,7 @@
                     <VerticalStackLayout Margin="15" 
                                          Spacing="10"
                                          VerticalOptions="Center">
-                        
+
                         <Label FontSize="40" 
                                TextColor="DarkRed" 
                                FontAttributes="Bold"
@@ -122,18 +123,18 @@
                                HorizontalOptions="Center"  
                                Style="{StaticResource MediumLabel}" 
                                Text="{Binding GameDto.TimeOfGameOnly}" />
-                        
+
                     </VerticalStackLayout>
-                    
+
                 </Border>
-                
+
             </Frame>
 
             <VerticalStackLayout Spacing="5" 
-                                 x:Name="verticalStackLayout"
+                                 x:Name="WagerButtonVerticalStackLayout"
                                  Margin="0,0,0,50">
 
-                <Label Text="Point Spread"
+                <Label x:Name="PointSpreadLabel" Text="Point Spread"
                        Style="{StaticResource WagerLabel}"/>
 
                 <controls:WagerSelectionButtonControl CustomCommand="{Binding SelectOrRemoveWagerForPointSpreadCommand}"
@@ -141,14 +142,14 @@
                                                       CustomBackgroundColor="{Binding ButtonColorState.ApColor}"
                                                       CustomText="{Binding ButtonTextState.ApText}"/>
 
-                
+
 
                 <controls:WagerSelectionButtonControl CustomCommand="{Binding SelectOrRemoveWagerForPointSpreadCommand}"
                                                       CustomCommandParameter="{Binding GameDto.HomeTeam}"
                                                       CustomBackgroundColor="{Binding ButtonColorState.HpColor}"
                                                       CustomText="{Binding ButtonTextState.HpText}"/>
 
-                <Label Text="Moneyline"
+                <Label x:Name="MoneylineLabel" Text="Moneyline"
                        Style="{StaticResource WagerLabel}"/>
 
                 <controls:WagerSelectionButtonControl CustomCommand="{Binding SelectOrRemoveWagerForMoneylineCommand}"
@@ -161,7 +162,7 @@
                                                       CustomBackgroundColor="{Binding ButtonColorState.HmColor}"
                                                       CustomText="{Binding ButtonTextState.HmText}"/>
 
-                <Label Text="Over/Under"
+                <Label x:Name="OverUnderLabel" Text="Over/Under"
                        Style="{StaticResource WagerLabel}"/>
 
 
@@ -169,7 +170,7 @@
                                                       CustomCommandParameter="Over"
                                                       CustomBackgroundColor="{Binding ButtonColorState.OColor}"
                                                       CustomText="{Binding ButtonTextState.OText}"/>
-                
+
                 <controls:WagerSelectionButtonControl CustomCommand="{Binding SelectOrRemoveWagerForOverUnderCommand}"
                                                       CustomCommandParameter="Under"
                                                       CustomBackgroundColor="{Binding ButtonColorState.UColor}"
@@ -181,4 +182,4 @@
 
     </ScrollView>
     
-</ContentPage>
+</local:BasePage>

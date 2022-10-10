@@ -2,7 +2,7 @@
 namespace BetBookGamingMobile.ViewModels;
 
 [QueryProperty("GameDto", "GameDto")]
-public partial class GameDetailsViewModel : BaseViewModel
+public partial class GameDetailsViewModel : AppBaseViewModel
 {
     private readonly BetSlipState _betSlipState;
 
@@ -18,7 +18,7 @@ public partial class GameDetailsViewModel : BaseViewModel
     [ObservableProperty]
     BetSlipStateModel betSlipStateModel;
 
-    public GameDetailsViewModel(BetSlipState betSlipState)
+    public GameDetailsViewModel(BetSlipState betSlipState, IApiService apiService) :base(apiService)
     {
         _betSlipState = betSlipState;
     }

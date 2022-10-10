@@ -1,20 +1,17 @@
 
 namespace BetBookGamingMobile.Views;
 
-public partial class GameDetailsPage : ContentPage
+public partial class GameDetailsPage : BasePage<GameDetailsViewModel>
 {
-    private readonly GameDetailsViewModel _viewModel;
-
-    public GameDetailsPage(GameDetailsViewModel viewModel)
+    public GameDetailsPage(GameDetailsViewModel viewModel) :base(viewModel)
     {
         InitializeComponent();
-        BindingContext = _viewModel = viewModel;
     }
 
     protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
 
-        _viewModel.SetStateCommand.Execute(null);
+       ViewModel.SetStateCommand.Execute(null);
     }
 }

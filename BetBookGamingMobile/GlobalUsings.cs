@@ -20,6 +20,8 @@ global using System.Net.Http.Json;
 global using Microsoft.AspNetCore.Components.Authorization;
 global using Microsoft.Identity.Client;
 global using System.Windows.Input;
+global using System.Diagnostics;
+
 
 
 

@@ -30,7 +30,6 @@ public partial class BaseViewModel : ObservableObject
     public BaseViewModel() =>
         IsErrorState = false;
 
-    //Set Loading Indicators for Page
     protected void SetDataLoadingIndicators(bool isStarting = true)
     {
         if (isStarting)
@@ -47,5 +46,4 @@ public partial class BaseViewModel : ObservableObject
             IsBusy = false;
         }
     }
-
 }

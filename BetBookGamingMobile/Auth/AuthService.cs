@@ -1,7 +1,4 @@
 ﻿
-
-
-
 namespace BetBookGamingMobile.Auth;
 
 public class AuthService : IAuthService

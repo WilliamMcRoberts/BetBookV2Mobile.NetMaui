@@ -1,5 +1,4 @@
 ﻿
-
 namespace BetBookGamingMobile.Services;
 
 public interface IApiService

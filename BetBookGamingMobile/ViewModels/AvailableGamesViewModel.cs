@@ -41,23 +41,23 @@ public partial class AvailableGamesViewModel : AppBaseViewModel
         if (gameDto is null)
             return;
 
-        await Shell.Current.GoToAsync(nameof(GameDetailsPage), true,
-        new Dictionary<string, object>
-                {
-                    {"GameDto", gameDto }
-                });
+        await Shell.Current.GoToAsync(
+            nameof(GameDetailsPage),
+            true,
+            new Dictionary<string, object>
+            {
+                {"GameDto", gameDto }
+            });
     }
 
     [RelayCommand]
-    private async Task SetStateAsync()
+    protected async Task SetStateAsync()
     {
         SetSeason();
         SetWeek();
         SetTitle();
         await GetGamesAsync();
     }
-
-    
 
     private void SetSeason() =>
         Season = DateTime.Now.CalculateSeason();

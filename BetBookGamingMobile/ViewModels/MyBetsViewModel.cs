@@ -1,6 +1,4 @@
 ﻿
-using Org.Apache.Http.Authentication;
-
 namespace BetBookGamingMobile.ViewModels;
 
 public partial class MyBetsViewModel : AppBaseViewModel
