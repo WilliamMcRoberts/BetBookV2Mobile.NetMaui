@@ -70,6 +70,7 @@
 	  <None Remove="Resources\Images\error.png" />
 	  <None Remove="Resources\Images\footballsolid.svg" />
 	  <None Remove="Resources\Images\gb.svg" />
+	  <None Remove="Resources\Images\gearsolid.svg" />
 	  <None Remove="Resources\Images\hou.svg" />
 	  <None Remove="Resources\Images\icnback.png" />
 	  <None Remove="Resources\Images\icnclose.png" />

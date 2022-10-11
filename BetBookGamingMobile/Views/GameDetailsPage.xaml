@@ -8,8 +8,7 @@
         xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
         x:DataType="viewModels:GameDetailsViewModel"
         x:Class="BetBookGamingMobile.Views.GameDetailsPage"
-        x:TypeArguments="viewModels:GameDetailsViewModel"
-        Shell.FlyoutBehavior="Disabled">
+        x:TypeArguments="viewModels:GameDetailsViewModel">
 
     <ContentPage.Resources>
         <ResourceDictionary>

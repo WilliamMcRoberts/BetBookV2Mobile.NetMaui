@@ -7,7 +7,7 @@
 
         <!-- Colors -->
         <Color x:Key="PageBackgroundColor">#262626</Color>
-        <Color x:Key="DarkColor">#2F2F2F</Color>
+        <Color x:Key="DarkColor">#262626</Color>
         <Color x:Key="LightColor">#979797</Color>
         <Color x:Key="DarkTextColor">#151515</Color>
         <Color x:Key="LightTextColor">#F5F5F5</Color>

@@ -5,12 +5,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:BetBookGamingMobile.Views"
     xmlns:sys="clr-namespace:System;assembly=netstandard"
-    Shell.FlyoutBehavior="Flyout"
-    FlyoutHeaderBehavior="CollapseOnScroll"
-    FlyoutIcon="icnhamburger.png"
+    FlyoutBehavior="Flyout"
+    FlyoutHeaderBehavior="Fixed"
     BackgroundColor="#262626">
-    <!--FlyoutBackgroundImage="stadiumbackground.svg">-->
-
+        
     <Shell.FlyoutHeader>
         <VerticalStackLayout>
 
@@ -23,7 +21,7 @@
                                     iOS='4, 100, 4, 0',
                                     MacCatalyst='4, 100, 4, 0'}"
                FontSize="25"
-                   TextColor="IndianRed"
+                   TextColor="DarkBlue"
                HorizontalTextAlignment="Center"
                    FontAttributes="Bold"
                Text="Bet Book Gaming V2"
@@ -32,22 +30,35 @@
         </VerticalStackLayout>
     </Shell.FlyoutHeader>
     
+    <Shell.FlyoutBackground>
+        <LinearGradientBrush EndPoint="1,0">
+
+            <GradientStop Color="Azure"
+                          Offset="0.1" />
+
+            <GradientStop Color="IndianRed"
+                          Offset="1.0" />
+
+        </LinearGradientBrush>
+    </Shell.FlyoutBackground>
+
+
     <FlyoutItem Title="Log In"
                 Route="MainPage"
                 Icon="{OnPlatform Default='profilesolid.svg', MacCatalyst=''}">
         <ShellContent
-                Title="Log in"
-                ContentTemplate="{DataTemplate views:MainPage}"
-                Route="MainPage"/>
+                    Title="Log in"
+                    ContentTemplate="{DataTemplate views:MainPage}"
+                    Route="MainPage"/>
     </FlyoutItem>
 
-    <FlyoutItem Title="Available Games"
+    <FlyoutItem  Title="Available Games"
                 Route="AvailableGamesPage"
                 Icon="{OnPlatform Default='footballsolid.svg', MacCatalyst=''}">
-        <ShellContent
-                Title="Available Games"
-                ContentTemplate="{DataTemplate views:AvailableGamesPage}"
-                Route="AvailableGamesPage"/>
+        <ShellContent 
+                    Title="Available Games"
+                    ContentTemplate="{DataTemplate views:AvailableGamesPage}"
+                    Route="AvailableGamesPage"/>
     </FlyoutItem>
 
     <FlyoutItem Title="Bet Slip"
@@ -72,8 +83,12 @@
 
     </FlyoutItem>
 
-    <FlyoutItem Title="Settings">
-
+    <FlyoutItem Title="Settings"
+                Icon="{OnPlatform Default='gearsolid.svg', MacCatalyst=''}">
+        <ShellContent
+                    Title="Settings"
+                    ContentTemplate="{DataTemplate views:AvailableGamesPage}"
+                    Route="AvailableGamesPage" />
     </FlyoutItem>
 
 </Shell>
