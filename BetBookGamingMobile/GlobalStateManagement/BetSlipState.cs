@@ -1,4 +1,4 @@
-﻿
+﻿using BetBookGamingMobile.Helpers;
 namespace BetBookGamingMobile.GlobalStateManagement;
 
 public class BetSlipState
@@ -23,7 +23,8 @@ public class BetSlipState
         _apiService = apiService;
     }
 
-    public (ButtonColorStateModel, BetSlipStateModel) SelectOrRemoveWinnerAndGameForBet(string winner, GameDto game, BetType betType)
+    public (ButtonColorStateModel, BetSlipStateModel) SelectOrRemoveWinnerAndGameForBet(
+        string winner, GameDto game, BetType betType)
     {
         if (preBets.Contains(preBets.Where(b => b.Winner == winner && b.Game.ScoreID == game.ScoreID && b.BetType == betType)
                    .FirstOrDefault()!))
@@ -40,7 +41,7 @@ public class BetSlipState
         {
             BetType = betType,
             BetAmount = 0,
-            MoneylinePayout = GetMoneylinePayoutForBet(winner, game, betType),
+            MoneylinePayout = winner.GetMoneylinePayoutForBet(game, betType),
             Game = game,
             Winner = winner,
             PointSpread = Math.Round(Convert.ToDecimal(game.PointSpread), 1),
@@ -55,7 +56,7 @@ public class BetSlipState
         (GetBetSlipState(), GetButtonColorState(gameDto), GetButtonTextState(gameDto));
 
     public ButtonColorStateModel GetButtonColorState(GameDto gameDto) =>
-        new ButtonColorStateModel
+        new()
         {
             ApColor = preBets.Contains(preBets.Where(b => 
                 b.Winner == gameDto.AwayTeam && b.Game.ScoreID == gameDto.ScoreID && b.BetType == BetType.POINTSPREAD)
@@ -78,7 +79,7 @@ public class BetSlipState
         };
 
     public ButtonTextStateModel GetButtonTextState(GameDto gameDto) =>
-        new ButtonTextStateModel
+        new()
         {
             ApText = $"{gameDto.AwayTeam} {gameDto.AwayTeamPointSpreadForDisplay}    {gameDto.PointSpreadAwayTeamMoneyLine}",
             HpText = $"{gameDto.HomeTeam} {gameDto.HomeTeamPointSpreadForDisplay}    {gameDto.PointSpreadHomeTeamMoneyLine}",
@@ -143,8 +144,7 @@ public class BetSlipState
                                 : createBetModel.Winner,
 
                 BetPayout =
-                    Math.Round(CalculateSingleBetPayout(
-                        createBetModel.BetAmount, createBetModel.MoneylinePayout), 2),
+                    Math.Round(createBetModel.BetAmount.CalculateSingleBetPayout(createBetModel.MoneylinePayout), 2),
 
                 BettorId = loggedInUser.UserId,
                 BetType = createBetModel.BetType,
@@ -152,8 +152,7 @@ public class BetSlipState
                 SingleBetStatus = SingleBetStatus.IN_PROGRESS,
                 SingleBetPayoutStatus = SingleBetPayoutStatus.UNPAID,
                 GameSnapshot = CreateGameSnapshot(createBetModel.Game),
-                PointsAfterSpread = CalculatePointsAfterSpread(
-                            createBetModel.Game, createBetModel.Winner)
+                PointsAfterSpread = createBetModel.Game.CalculatePointsAfterSpread(createBetModel.Winner)
             };
 
             bool singleBetGood = 
@@ -206,7 +205,7 @@ public class BetSlipState
                                 : createBetModel.Winner,
 
                 PointsAfterSpread =
-                    CalculatePointsAfterSpread(createBetModel.Game, createBetModel.Winner),
+                    createBetModel.Game.CalculatePointsAfterSpread(createBetModel.Winner),
 
                 BettorId = loggedInUser.UserId,
                 BetType = createBetModel.BetType,
@@ -230,7 +229,7 @@ public class BetSlipState
     }
 
     public GameSnapshotModel CreateGameSnapshot(GameDto gameDto) =>
-        new GameSnapshotModel
+        new()
         {
             Week = gameDto.Week,
             Date = gameDto.Date,
@@ -247,14 +246,6 @@ public class BetSlipState
             UnderPayout = gameDto.UnderPayout
         };
 
-    public decimal CalculatePointsAfterSpread(GameDto game, string chosenWinner) =>
-         chosenWinner == game.HomeTeam ? 0 + (decimal)game.PointSpread!
-            : 0 - (decimal)game.PointSpread!;
-
-    public decimal CalculateSingleBetPayout(decimal betAmount, int moneylinePayout) =>
-         moneylinePayout < 0 ? betAmount / ((decimal)moneylinePayout * -1 / 100) + betAmount
-         : ((decimal)moneylinePayout / 100) * betAmount;
-
     public decimal GetPayoutForTotalBetsParley(decimal totalParleyWager)
     {
         if (preBets.Count < 2) return 0;
@@ -264,17 +255,13 @@ public class BetSlipState
         foreach (CreateBetModel createBetModel in preBets)
         {
             decimal decimalMoneyline =
-                ConvertMoneylinePayoutToDecimalFormat(createBetModel.MoneylinePayout);
+                createBetModel.MoneylinePayout.ConvertMoneylinePayoutToDecimalFormat();
 
             totalDecimalOdds *= decimalMoneyline;
         }
 
         return totalPayoutForParley = totalParleyWager * totalDecimalOdds;
     }
-
-    public decimal ConvertMoneylinePayoutToDecimalFormat(int moneylinePayout) =>
-         moneylinePayout < 0 ? (100 / (decimal)moneylinePayout * -1) + (decimal)1
-         : ((decimal)moneylinePayout / 100) + 1;
 
     public BetSlipStateModel RemoveBetFromPreBetsList(CreateBetModel createBetModel)
     {
@@ -297,26 +284,6 @@ public class BetSlipState
 
         return total;
     }
-
-    public int GetMoneylinePayoutForBet(string winner, GameDto game, BetType betType) =>
-        betType == BetType.POINTSPREAD ?
-        (winner == game.AwayTeam ? (int)game.PointSpreadAwayTeamMoneyLine! : (int)game.PointSpreadHomeTeamMoneyLine!)
-        : betType == BetType.OVERUNDER ? (winner[0] == 'O' ? (int)game.OverPayout! : (int)game.UnderPayout!)
-        : (winner == game.AwayTeam ? (int)game.AwayTeamMoneyLine! : (int)game.HomeTeamMoneyLine!);
-
-    public string GetWinnerSummary(CreateBetModel createBetModel) =>
-        createBetModel.BetType == BetType.POINTSPREAD ? GetWinnerSummaryForPointSpread(createBetModel)
-        : createBetModel.BetType == BetType.OVERUNDER ? GetWinnerSummaryForOverUnder(createBetModel)
-        : createBetModel.Winner;
-
-    public string GetWinnerSummaryForOverUnder(CreateBetModel createBetModel) =>
-         createBetModel.Winner[0] == 'O' ? $"Over {createBetModel.Game.OverUnder}"
-         : $"Under {createBetModel.Game.OverUnder}";
-
-    public string GetWinnerSummaryForPointSpread(CreateBetModel createBetModel) =>
-         createBetModel.Winner == createBetModel.Game.HomeTeam ?
-         $"{createBetModel.Winner} {Convert.ToDecimal(createBetModel.Game.PointSpread):+#.0;-#.0}"
-         : $"{createBetModel.Winner} {Convert.ToDecimal(createBetModel.Game.PointSpread):-#.0;+#.0;}";
 }
 
 

@@ -3,102 +3,171 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
         xmlns:models="clr-namespace:BetBookGamingMobile.Models"
         xmlns:views="clr-namespace:BetBookGamingMobile.Views"
+        xmlns:dto="clr-namespace:BetBookGamingMobile.Dto"
         xmlns:controls="clr-namespace:BetBookGamingMobile.ViewControls"
         xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
         x:Class="BetBookGamingMobile.Views.BetSlipPage"
         x:DataType="viewModels:BetSlipViewModel"
         x:TypeArguments="viewModels:BetSlipViewModel">
 
-    <VerticalStackLayout>
+    <ScrollView>
+        
+        <VerticalStackLayout>
+            
+            <CollectionView 
+                ItemsSource="{Binding BetSlipState.BetsInBetSlip}">
 
-        <CollectionView ItemsSource="{Binding BetSlipState.BetsInBetSlip}">
+                <CollectionView.ItemTemplate>
 
-            <CollectionView.ItemTemplate>
+                    <DataTemplate 
+                        x:DataType="models:CreateBetModel">
 
-                <DataTemplate x:DataType="models:CreateBetModel">
+                        <VerticalStackLayout>
 
-                    <VerticalStackLayout >
+                            <HorizontalStackLayout 
+                                HorizontalOptions="Center" 
+                                Margin="10"
+                                Spacing="60">
 
-                        <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BetSlipViewModel}}, Path=RemoveBetFromPreBetsCommand}"
-                                    Text="Remove Bet"
-                                    TextColor="White"
-                                    HorizontalOptions="Center"
-                                    WidthRequest="150"
-                                    FontAttributes="Bold"
-                                    CommandParameter="{Binding .}"/>
+                                <VerticalStackLayout>
 
-                        <Label Text="Enter Wager Amount" 
-                               TextColor="DarkRed" 
-                               FontSize="15"
-                               HorizontalTextAlignment="Center"
-                               Margin="5"/>
+                                    <Button 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BetSlipViewModel}}, Path=RemoveBetFromPreBetsCommand}"
+                                        Text="Remove"
+                                        TextColor="Red"
+                                        FontAttributes="Bold"
+                                        CommandParameter="{Binding .}"
+                                        HorizontalOptions="Center"
+                                        FontSize="13"/>
 
-                        <Entry Text="{Binding BetAmount}"
-                               HorizontalTextAlignment="Center"/>
+                                    <Label 
+                                        TextColor="White" 
+                                        FontSize="16" 
+                                        FontAttributes="Bold"  
+                                        Text="{Binding Game.AwayTeam}"
+                                        HorizontalOptions="Center"/>
 
+                                    <HorizontalStackLayout 
+                                        Spacing="5" 
+                                        HorizontalOptions="Center">
+                                        
+                                        <Label 
+                                            TextColor="White" 
+                                            FontAttributes="Bold" 
+                                            FontSize="13" Text="@"/>
+                                        
+                                        <Label 
+                                            TextColor="White" 
+                                            FontAttributes="Bold" 
+                                            FontSize="16" 
+                                            Text="{Binding Game.HomeTeam}"/>
+                                        
+                                    </HorizontalStackLayout>
 
-                        <Label  HorizontalOptions="Center" 
-                                FontSize="20" 
-                                Text="{Binding WinnerSummary}"/>
+                                </VerticalStackLayout>
 
-                    </VerticalStackLayout>
+                                <VerticalStackLayout 
+                                    Padding="0,5,0,0">
 
-                </DataTemplate>
+                                    <Label 
+                                        Text="Enter Wager Amount" 
+                                        TextColor="White" 
+                                        FontSize="13"
+                                        HorizontalOptions="Center"
+                                        HorizontalTextAlignment="Center"/>
 
-            </CollectionView.ItemTemplate>
+                                    <Entry 
+                                        Placeholder="{Binding BetAmount}"
+                                        TextColor="White"
+                                        HorizontalTextAlignment="Center"
+                                        PlaceholderColor="White"
+                                        Keyboard="Numeric"/>
 
-        </CollectionView>
+                                    <Label  
+                                        TextColor="White"
+                                        FontSize="16" 
+                                        Text="{Binding WinnerSummary}"
+                                        HorizontalOptions="Center"
+                                        HorizontalTextAlignment="Center"/>
 
-        <Label Text="Enter Parley Wager Amount" 
-                                   TextColor="DarkRed" 
-                                   FontSize="20"
-                                   HorizontalTextAlignment="Center"
-                                   Margin="5"/>
+                                </VerticalStackLayout>
 
-        <Entry Text="{Binding ParleyWagerAmount}"
-               HorizontalTextAlignment="Center"/>
+                            </HorizontalStackLayout>
 
-        <Button Command="{Binding SubmitSinglesWagerCommand}" 
-                        Text="Submit Singles Wager"
-                        FontAttributes="Bold"
-                        FontSize="16"
-                        BackgroundColor="DarkRed" 
-                        BorderColor="DimGray"
-                        BorderWidth="3"
-                        CornerRadius="15"
-                        WidthRequest="300"
+                        </VerticalStackLayout>
+
+                    </DataTemplate>
+
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+            
+            <VerticalStackLayout Margin="20">
+                
+                <Label 
+                    Text="Enter Parley Wager Amount" 
+                    TextColor="White" 
+                    FontSize="20"
+                    HorizontalTextAlignment="Center"/>
+
+                <Entry 
+                   PlaceholderColor="White"
+                   TextColor="White"
+                   Placeholder="{Binding ParleyWagerAmount}"
+                   HorizontalTextAlignment="Center"
+                   Keyboard="Numeric"/>
+                
+            </VerticalStackLayout>
+            
+
+            <Button 
+                Command="{Binding SubmitSinglesWagerCommand}" 
+                Text="Submit Singles Wager"
+                FontAttributes="Bold"
+                FontSize="16"
+                BackgroundColor="DarkRed" 
+                BorderColor="DimGray"
+                BorderWidth="3"
+                CornerRadius="15"
+                WidthRequest="300"
                 TextColor="White">
 
-            <Button.Shadow>
+                <Button.Shadow>
 
-                <Shadow Brush="DarkBlue" 
-                            Offset="5, 5" 
-                            Radius="10"/>
+                    <Shadow 
+                        Brush="DarkBlue" 
+                        Offset="5, 5" 
+                        Radius="10"/>
 
-            </Button.Shadow>
+                </Button.Shadow>
 
-        </Button>
+            </Button>
 
-        <Button Command="{Binding SubmitParleyWagerCommand}" 
-                        Text="Submit Parley Wager"
-                        FontAttributes="Bold"
-                        FontSize="16"
-                        BackgroundColor="DarkRed" 
-                        BorderColor="DimGray"
-                        BorderWidth="3"
-                        CornerRadius="15"
-                        WidthRequest="300"
+            <Button 
+                Command="{Binding SubmitParleyWagerCommand}" 
+                Text="Submit Parley Wager"
+                FontAttributes="Bold"
+                FontSize="16"
+                BackgroundColor="DarkRed" 
+                BorderColor="DimGray"
+                BorderWidth="3"
+                CornerRadius="15"
+                WidthRequest="300"
                 TextColor="White">
 
-            <Button.Shadow>
+                <Button.Shadow>
 
-                <Shadow Brush="DarkBlue" 
-                            Offset="5, 5" 
-                            Radius="10"/>
+                    <Shadow 
+                        Brush="DarkBlue" 
+                        Offset="5, 5" 
+                        Radius="10"/>
 
-            </Button.Shadow>
+                </Button.Shadow>
 
-        </Button>
+            </Button>
 
-    </VerticalStackLayout>
+        </VerticalStackLayout>
+        
+    </ScrollView>
+
 </views:BasePage>

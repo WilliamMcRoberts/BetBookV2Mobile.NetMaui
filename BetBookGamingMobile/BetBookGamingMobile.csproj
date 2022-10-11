@@ -180,8 +180,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Converters\" />
 	  <Folder Include="Resources\Styles\" />
 	</ItemGroup>
+
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionBetBookGamingMobileHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>
