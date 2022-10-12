@@ -29,8 +29,8 @@ public static class QueryHelpers
         {
             ApText = $"{gameDto.AwayTeam} {gameDto.AwayTeamPointSpreadForDisplay}    {gameDto.PointSpreadAwayTeamMoneyLine}",
             HpText = $"{gameDto.HomeTeam} {gameDto.HomeTeamPointSpreadForDisplay}    {gameDto.PointSpreadHomeTeamMoneyLine}",
-            AmText = $"{gameDto.AwayTeamMoneyLine}",
-            HmText = $"{gameDto.HomeTeamMoneyLine}",
+            AmText = $"{gameDto.AwayTeam}   {gameDto.AwayTeamMoneyLine}",
+            HmText = $"{gameDto.HomeTeam}   {gameDto.HomeTeamMoneyLine}",
             OText = $"Over {gameDto.OverUnder}    {gameDto.OverPayout}",
             UText = $"Under {gameDto.OverUnder}    {gameDto.UnderPayout}"
         };

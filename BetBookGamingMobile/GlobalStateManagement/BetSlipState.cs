@@ -7,7 +7,7 @@ public class BetSlipState
     public UserModel loggedInUser;
     public bool conflictingBetsForParley;
     public decimal totalWagerForParley;
-    public decimal totalPayoutForParley;
+
     public bool parleyBetAmountBad;
     public bool gameHasStarted;
     public bool betAmountForSinglesBad;
@@ -43,8 +43,8 @@ public class BetSlipState
             MoneylinePayout = winner.GetMoneylinePayoutForBet(game, betType),
             Game = game,
             Winner = winner,
-            PointSpread = Math.Round(Convert.ToDecimal(game.PointSpread), 1),
-            OverUnder = Math.Round(Convert.ToDecimal(game.OverUnder), 1),
+            PointSpread = Math.Round((decimal)game.PointSpread, 1),
+            OverUnder = Math.Round((decimal)game.OverUnder, 1),
         });
 
         conflictingBetsForParley = CheckForConflictingBets();
@@ -89,10 +89,8 @@ public class BetSlipState
     public bool CheckForConflictingBets()
     {
         foreach (var bet in preBets)
-        {
             if (preBets.Where(b => b.Game.ScoreID == bet.Game.ScoreID && b.BetType == bet.BetType).Count() > 1)
                 return true;
-        }
 
         return false;
     }
@@ -230,7 +228,7 @@ public class BetSlipState
             totalDecimalOdds *= decimalMoneyline;
         }
 
-        return totalPayoutForParley = totalParleyWager * totalDecimalOdds;
+        return totalParleyWager * totalDecimalOdds;
     }
 
     public BetSlipStateModel RemoveBetFromPreBetsList(CreateBetModel createBetModel)
@@ -245,10 +243,7 @@ public class BetSlipState
 
         foreach (var bet in preBets.Where(b => b.BetAmount is not null))
         {
-            decimal betPayout = ((decimal)(bet.MoneylinePayout < 0 ?
-                     bet.BetAmount / (bet.MoneylinePayout * -1 / 100) + bet.BetAmount
-                     : (bet.MoneylinePayout / 100) * bet.BetAmount));
-
+            decimal betPayout = bet.BetAmount.CalculateSingleBetPayout(bet.MoneylinePayout);
             total += betPayout;
         }
 
