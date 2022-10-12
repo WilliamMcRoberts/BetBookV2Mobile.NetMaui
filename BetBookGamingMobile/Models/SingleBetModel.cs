@@ -10,13 +10,13 @@ namespace BetBookGamingMobile.Models;
 public class SingleBetModel
 {
 
-    public string SingleBetId { get; set; }
+    public string SingleBetId { get; set; } = String.Empty;
 
-    public string BettorId { get; set; }
-    public decimal BetAmount { get; set; }
-    public decimal BetPayout { get; set; }
+    public string BettorId { get; set; } = String.Empty;
+    public decimal? BetAmount { get; set; }
+    public decimal? BetPayout { get; set; }
     public decimal PointsAfterSpread { get; set; }
-    public GameSnapshotModel GameSnapshot { get; set; }
+    public GameSnapshotModel GameSnapshot { get; set; } = new();
 
     public BetType BetType { get; set; }
 

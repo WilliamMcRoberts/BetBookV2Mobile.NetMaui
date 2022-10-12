@@ -183,6 +183,6 @@
 	  <Folder Include="Resources\Styles\" />
 	</ItemGroup>
 
-	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionBetBookGamingMobileHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionBetBookGamingMobileHideInfoBar="True" XamarinHotReloadUnhandledDeviceExceptionBetBookGamingMobileHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>

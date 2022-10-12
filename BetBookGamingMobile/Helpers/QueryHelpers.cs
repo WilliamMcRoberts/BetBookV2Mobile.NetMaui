@@ -23,4 +23,33 @@ public static class QueryHelpers
          createBetModel.Winner == createBetModel.Game.HomeTeam ?
          $"{createBetModel.Winner} {Convert.ToDecimal(createBetModel.Game.PointSpread):+#.0;-#.0}"
          : $"{createBetModel.Winner} {Convert.ToDecimal(createBetModel.Game.PointSpread):-#.0;+#.0;}";
+
+    public static ButtonTextStateModel GetButtonTextState(this GameDto gameDto) =>
+        new()
+        {
+            ApText = $"{gameDto.AwayTeam} {gameDto.AwayTeamPointSpreadForDisplay}    {gameDto.PointSpreadAwayTeamMoneyLine}",
+            HpText = $"{gameDto.HomeTeam} {gameDto.HomeTeamPointSpreadForDisplay}    {gameDto.PointSpreadHomeTeamMoneyLine}",
+            AmText = $"{gameDto.AwayTeamMoneyLine}",
+            HmText = $"{gameDto.HomeTeamMoneyLine}",
+            OText = $"Over {gameDto.OverUnder}    {gameDto.OverPayout}",
+            UText = $"Under {gameDto.OverUnder}    {gameDto.UnderPayout}"
+        };
+
+    public static GameSnapshotModel GetGameSnapshot(this GameDto gameDto) =>
+        new()
+        {
+            Week = gameDto.Week,
+            Date = gameDto.Date,
+            AwayTeam = gameDto.AwayTeam,
+            HomeTeam = gameDto.HomeTeam,
+            PointSpread = Math.Round(Convert.ToDecimal(gameDto.PointSpread), 1),
+            OverUnder = Math.Round(Convert.ToDecimal(gameDto.OverUnder), 1),
+            AwayTeamMoneyLine = gameDto.AwayTeamMoneyLine,
+            HomeTeamMoneyLine = gameDto.HomeTeamMoneyLine,
+            PointSpreadAwayTeamMoneyLine = gameDto.PointSpreadAwayTeamMoneyLine,
+            PointSpreadHomeTeamMoneyLine = gameDto.PointSpreadHomeTeamMoneyLine,
+            ScoreID = gameDto.ScoreID,
+            OverPayout = gameDto.OverPayout,
+            UnderPayout = gameDto.UnderPayout
+        };
 }

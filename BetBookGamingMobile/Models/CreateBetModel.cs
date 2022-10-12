@@ -8,7 +8,7 @@ namespace BetBookGamingMobile.Models;
 public class CreateBetModel
 {
     public BetType BetType { get; set; }
-    public decimal BetAmount { get; set; }
+    public decimal? BetAmount { get; set; }
     public int MoneylinePayout { get; set; }
     public GameDto? Game { get; set; }
     public string Winner { get; set; } = String.Empty;

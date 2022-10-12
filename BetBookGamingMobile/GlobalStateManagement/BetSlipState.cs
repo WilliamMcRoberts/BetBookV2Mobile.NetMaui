@@ -1,4 +1,4 @@
-﻿using BetBookGamingMobile.Helpers;
+﻿
 namespace BetBookGamingMobile.GlobalStateManagement;
 
 public class BetSlipState
@@ -23,7 +23,7 @@ public class BetSlipState
         _apiService = apiService;
     }
 
-    public (ButtonColorStateModel, BetSlipStateModel) SelectOrRemoveWinnerAndGameForBet(
+    public ButtonColorStateModel SelectOrRemoveWinnerAndGameForBet(
         string winner, GameDto game, BetType betType)
     {
         if (preBets.Contains(preBets.Where(b => b.Winner == winner && b.Game.ScoreID == game.ScoreID && b.BetType == betType)
@@ -34,13 +34,12 @@ public class BetSlipState
                    .FirstOrDefault()!);
 
             conflictingBetsForParley = CheckForConflictingBets();
-            return (GetButtonColorState(game), GetBetSlipState());
+            return GetButtonColorState(game);
         }
 
         preBets.Add(new CreateBetModel
         {
             BetType = betType,
-            BetAmount = 0,
             MoneylinePayout = winner.GetMoneylinePayoutForBet(game, betType),
             Game = game,
             Winner = winner,
@@ -49,11 +48,11 @@ public class BetSlipState
         });
 
         conflictingBetsForParley = CheckForConflictingBets();
-        return (GetButtonColorState(game), GetBetSlipState());
+        return GetButtonColorState(game);
     }
 
-    public (BetSlipStateModel, ButtonColorStateModel, ButtonTextStateModel) GetAllStates(GameDto gameDto) =>
-        (GetBetSlipState(), GetButtonColorState(gameDto), GetButtonTextState(gameDto));
+    public (ButtonColorStateModel, ButtonTextStateModel) GetAllStates(GameDto gameDto) =>
+        (GetButtonColorState(gameDto), gameDto.GetButtonTextState());
 
     public ButtonColorStateModel GetButtonColorState(GameDto gameDto) =>
         new()
@@ -78,17 +77,6 @@ public class BetSlipState
                 .FirstOrDefault()) ? Colors.DarkRed : Colors.DarkBlue
         };
 
-    public ButtonTextStateModel GetButtonTextState(GameDto gameDto) =>
-        new()
-        {
-            ApText = $"{gameDto.AwayTeam} {gameDto.AwayTeamPointSpreadForDisplay}    {gameDto.PointSpreadAwayTeamMoneyLine}",
-            HpText = $"{gameDto.HomeTeam} {gameDto.HomeTeamPointSpreadForDisplay}    {gameDto.PointSpreadHomeTeamMoneyLine}",
-            AmText = $"{gameDto.AwayTeamMoneyLine}",
-            HmText = $"{gameDto.HomeTeamMoneyLine}",
-            OText = $"Over {gameDto.OverUnder}    {gameDto.OverPayout}",
-            UText = $"Under {gameDto.OverUnder}    {gameDto.UnderPayout}"
-        };
-
     public BetSlipStateModel GetBetSlipState()
     {
         var betSlipState = new BetSlipStateModel();
@@ -100,9 +88,9 @@ public class BetSlipState
 
     public bool CheckForConflictingBets()
     {
-        foreach (CreateBetModel cb in preBets)
+        foreach (var bet in preBets)
         {
-            if (preBets.Where(b => b.Game.ScoreID == cb.Game.ScoreID && b.BetType == cb.BetType).Count() > 1)
+            if (preBets.Where(b => b.Game.ScoreID == bet.Game.ScoreID && b.BetType == bet.BetType).Count() > 1)
                 return true;
         }
 
@@ -119,16 +107,16 @@ public class BetSlipState
         IEnumerable<GameDto> gameCheckList =
             await _apiService.GetGames(season, week);
 
-        foreach (CreateBetModel createBetModel in preBets)
+        foreach (var bet in preBets)
         {
-            if (createBetModel.BetAmount <= 0)
+            if (bet.BetAmount is null || bet.BetAmount == 0)
             {
                 betAmountForSinglesBad = true;
                 return false;
             }
 
             GameDto game = gameCheckList.Where(
-                g => g.ScoreID == createBetModel.Game.ScoreID).FirstOrDefault()!;
+                g => g.ScoreID == bet.Game.ScoreID).FirstOrDefault()!;
 
             if (game.HasStarted)
             {
@@ -139,20 +127,20 @@ public class BetSlipState
 
             var singleBet = new SingleBetModel
             {
-                WinnerChosen = createBetModel.BetType == BetType.OVERUNDER ?
-                               (createBetModel.Winner[0] == 'O' ? "Over" : "Under")
-                                : createBetModel.Winner,
+                WinnerChosen = bet.BetType == BetType.OVERUNDER ?
+                               (bet.Winner[0] == 'O' ? "Over" : "Under")
+                                : bet.Winner,
 
                 BetPayout =
-                    Math.Round(createBetModel.BetAmount.CalculateSingleBetPayout(createBetModel.MoneylinePayout), 2),
+                    Math.Round(bet.BetAmount.CalculateSingleBetPayout(bet.MoneylinePayout), 2),
 
                 BettorId = loggedInUser.UserId,
-                BetType = createBetModel.BetType,
-                BetAmount = createBetModel.BetAmount,
+                BetType = bet.BetType,
+                BetAmount = bet.BetAmount,
                 SingleBetStatus = SingleBetStatus.IN_PROGRESS,
                 SingleBetPayoutStatus = SingleBetPayoutStatus.UNPAID,
-                GameSnapshot = CreateGameSnapshot(createBetModel.Game),
-                PointsAfterSpread = createBetModel.Game.CalculatePointsAfterSpread(createBetModel.Winner)
+                GameSnapshot = bet.Game.GetGameSnapshot(),
+                PointsAfterSpread = bet.Game.CalculatePointsAfterSpread(bet.Winner)
             };
 
             bool singleBetGood = 
@@ -186,10 +174,10 @@ public class BetSlipState
 
         var parleyBetSlip = new ParleyBetSlipModel();
 
-        foreach (CreateBetModel createBetModel in preBets)
+        foreach (var bet in preBets)
         {
             GameDto game = gameCheckList.Where(
-                g => g.ScoreID == createBetModel.Game.ScoreID).FirstOrDefault()!;
+                g => g.ScoreID == bet.Game.ScoreID).FirstOrDefault()!;
 
             if (game.HasStarted)
             {
@@ -200,17 +188,17 @@ public class BetSlipState
 
             parleyBetSlip.SingleBetsForParleyList.Add(new SingleBetForParleyModel
             {
-                WinnerChosen = createBetModel.BetType == BetType.OVERUNDER ?
-                               (createBetModel.Winner[0] == 'O' ? "Over" : "Under")
-                                : createBetModel.Winner,
+                WinnerChosen = bet.BetType == BetType.OVERUNDER ?
+                               (bet.Winner[0] == 'O' ? "Over" : "Under")
+                                : bet.Winner,
 
                 PointsAfterSpread =
-                    createBetModel.Game.CalculatePointsAfterSpread(createBetModel.Winner),
+                    bet.Game.CalculatePointsAfterSpread(bet.Winner),
 
                 BettorId = loggedInUser.UserId,
-                BetType = createBetModel.BetType,
+                BetType = bet.BetType,
                 SingleBetForParleyStatus = SingleBetForParleyStatus.IN_PROGRESS,
-                GameSnapshot = CreateGameSnapshot(createBetModel.Game)
+                GameSnapshot = bet.Game.GetGameSnapshot()
             });
         }
 
@@ -228,34 +216,16 @@ public class BetSlipState
         return parleyBetGood;
     }
 
-    public GameSnapshotModel CreateGameSnapshot(GameDto gameDto) =>
-        new()
-        {
-            Week = gameDto.Week,
-            Date = gameDto.Date,
-            AwayTeam = gameDto.AwayTeam,
-            HomeTeam = gameDto.HomeTeam,
-            PointSpread = Math.Round(Convert.ToDecimal(gameDto.PointSpread), 1),
-            OverUnder = Math.Round(Convert.ToDecimal(gameDto.OverUnder), 1),
-            AwayTeamMoneyLine = gameDto.AwayTeamMoneyLine,
-            HomeTeamMoneyLine = gameDto.HomeTeamMoneyLine,
-            PointSpreadAwayTeamMoneyLine = gameDto.PointSpreadAwayTeamMoneyLine,
-            PointSpreadHomeTeamMoneyLine = gameDto.PointSpreadHomeTeamMoneyLine,
-            ScoreID = gameDto.ScoreID,
-            OverPayout = gameDto.OverPayout,
-            UnderPayout = gameDto.UnderPayout
-        };
-
     public decimal GetPayoutForTotalBetsParley(decimal totalParleyWager)
     {
         if (preBets.Count < 2) return 0;
 
         decimal totalDecimalOdds = 1;
 
-        foreach (CreateBetModel createBetModel in preBets)
+        foreach (var bet in preBets)
         {
             decimal decimalMoneyline =
-                createBetModel.MoneylinePayout.ConvertMoneylinePayoutToDecimalFormat();
+                bet.MoneylinePayout.ConvertMoneylinePayoutToDecimalFormat();
 
             totalDecimalOdds *= decimalMoneyline;
         }
@@ -273,11 +243,11 @@ public class BetSlipState
     {
         decimal total = 0;
 
-        foreach (CreateBetModel createBetModel in preBets)
+        foreach (var bet in preBets.Where(b => b.BetAmount is not null))
         {
-            decimal betPayout = createBetModel.MoneylinePayout < 0 ?
-                     createBetModel.BetAmount / ((decimal)createBetModel.MoneylinePayout * -1 / 100) + createBetModel.BetAmount
-                     : ((decimal)createBetModel.MoneylinePayout / 100) * createBetModel.BetAmount;
+            decimal betPayout = ((decimal)(bet.MoneylinePayout < 0 ?
+                     bet.BetAmount / (bet.MoneylinePayout * -1 / 100) + bet.BetAmount
+                     : (bet.MoneylinePayout / 100) * bet.BetAmount));
 
             total += betPayout;
         }

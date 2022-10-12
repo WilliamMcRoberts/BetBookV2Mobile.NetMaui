@@ -4,7 +4,7 @@ namespace BetBookGamingMobile.ViewModels;
 [QueryProperty("GameDto", "GameDto")]
 public partial class GameDetailsViewModel : AppBaseViewModel
 {
-    private readonly BetSlipState _betSlipState;
+     readonly BetSlipState _betSlipState;
 
     [ObservableProperty]
     GameDto gameDto;
@@ -25,20 +25,20 @@ public partial class GameDetailsViewModel : AppBaseViewModel
 
     [RelayCommand]
     private void SelectOrRemoveWagerForPointSpread(string winner) =>
-        (ButtonColorState, BetSlipStateModel) =
+        ButtonColorState =
             _betSlipState.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.POINTSPREAD);
 
     [RelayCommand]
     private void SelectOrRemoveWagerForMoneyline(string winner) =>
-        (ButtonColorState, BetSlipStateModel) =
+        ButtonColorState=
             _betSlipState.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.MONEYLINE);
 
     [RelayCommand]
     private void SelectOrRemoveWagerForOverUnder(string winner) =>
-        (ButtonColorState, BetSlipStateModel) = _betSlipState.SelectOrRemoveWinnerAndGameForBet(string.Concat(
+        ButtonColorState = _betSlipState.SelectOrRemoveWinnerAndGameForBet(string.Concat(
             winner, GameDto.ScoreID.ToString()), GameDto, BetType.OVERUNDER);
 
     [RelayCommand]
     private void SetState() => 
-        (BetSlipStateModel, ButtonColorState, ButtonTextState) = _betSlipState.GetAllStates(GameDto);
+        (ButtonColorState, ButtonTextState) = _betSlipState.GetAllStates(GameDto);
 }

@@ -13,11 +13,19 @@ public partial class BetSlipViewModel : BaseViewModel
         _betSlipState = betSlipState;
     }
 
+#nullable enable
     [ObservableProperty]
-    decimal parleyWagerAmount;
+    public decimal? parleyWagerAmount;
+#nullable disable
 
     [ObservableProperty]
-    BetSlipStateModel betSlipState;
+    string singlesPayoutDisplay;
+
+    [ObservableProperty]
+    string parleyPayoutDisplay;
+
+    [ObservableProperty]
+    BetSlipStateModel betSlipStateModel;
 
     [RelayCommand]
     private async Task SubmitSinglesWagerAsync()
@@ -30,7 +38,7 @@ public partial class BetSlipViewModel : BaseViewModel
             await _betSlipState.OnSubmitBetsFromSinglesBetSlip(loggedInUser);
 
         if (singlesBetSlipGood) 
-            BetSlipState = _betSlipState.GetBetSlipState();
+            BetSlipStateModel = _betSlipState.GetBetSlipState();
     }
 
     [RelayCommand]
@@ -41,19 +49,35 @@ public partial class BetSlipViewModel : BaseViewModel
         if (string.IsNullOrEmpty(loggedInUser.UserId)) return;
 
         bool parleyBetSlipGood = 
-            await _betSlipState.OnSubmitBetsFromParleyBetSlip(loggedInUser, parleyWagerAmount);
+            await _betSlipState.OnSubmitBetsFromParleyBetSlip(loggedInUser, (decimal)parleyWagerAmount);
 
         if (parleyBetSlipGood)
-            BetSlipState = _betSlipState.GetBetSlipState();
+            BetSlipStateModel = _betSlipState.GetBetSlipState();
 
         ParleyWagerAmount = 0;
     }
 
     [RelayCommand]
     private void RemoveBetFromPreBets(CreateBetModel createBet) =>
-        BetSlipState = _betSlipState.RemoveBetFromPreBetsList(createBet);
+        BetSlipStateModel = _betSlipState.RemoveBetFromPreBetsList(createBet);
 
     [RelayCommand]
-    private void SetState() =>
-        BetSlipState = _betSlipState.GetBetSlipState();
+    private void SetState()
+    {
+        BetSlipStateModel = _betSlipState.GetBetSlipState();
+        SinglesPayoutDisplay = $"Total singles payout    $0";
+        ParleyPayoutDisplay = $"Total parley payout    $0";
+    }
+        
+    [RelayCommand]
+    private void GetPayoutForTotalBetsSingles() =>
+        SinglesPayoutDisplay = $"Total singles payout  " 
+            +
+            $"  ${_betSlipState.GetPayoutForTotalBetsSingles():#,##0.00}";
+
+    [RelayCommand]
+    private void GetPayoutForTotalBetsParley() =>
+        ParleyPayoutDisplay = $"Total parley payout  " 
+            +
+           $"  ${_betSlipState.GetPayoutForTotalBetsParley((decimal)parleyWagerAmount):#,##0.00}";
 }
