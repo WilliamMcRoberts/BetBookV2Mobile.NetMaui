@@ -5,6 +5,8 @@ public partial class BetSlipViewModel : BaseViewModel
 {
     private readonly AuthenticationState _authenticationState;
     private readonly BetSlipState _betSlipState;
+    public bool parleyBetSlipGood = false;
+    public bool singlesBetSlipGood = false;
 
     public BetSlipViewModel(
         AuthenticationState authenticationState, BetSlipState betSlipState)
@@ -15,29 +17,30 @@ public partial class BetSlipViewModel : BaseViewModel
 
 #nullable enable
     [ObservableProperty]
-    public decimal? parleyWagerAmount;
+    private string _parleyWagerAmount;
 #nullable disable
 
     [ObservableProperty]
-    string singlesPayoutDisplay;
+    private string _singlesPayoutDisplay;
 
     [ObservableProperty]
-    string parleyPayoutDisplay;
+    private string _parleyPayoutDisplay;
 
     [ObservableProperty]
-    BetSlipStateModel betSlipStateModel;
+    private BetSlipStateModel _betSlipStateModel;
 
     [RelayCommand]
     private async Task SubmitSinglesWagerAsync()
     {
         var loggedInUser = _authenticationState.CurrentAuthenticationState.LoggedInUser;
-            
-        if (string.IsNullOrEmpty(loggedInUser.UserId)) return;
 
-        bool singlesBetSlipGood =
+        if (string.IsNullOrEmpty(loggedInUser.UserId)) 
+            return;
+
+        singlesBetSlipGood =
             await _betSlipState.OnSubmitBetsFromSinglesBetSlip(loggedInUser);
 
-        if (singlesBetSlipGood) 
+        if (singlesBetSlipGood)
             BetSlipStateModel = _betSlipState.GetBetSlipState();
     }
 
@@ -46,38 +49,48 @@ public partial class BetSlipViewModel : BaseViewModel
     {
         var loggedInUser = _authenticationState.CurrentAuthenticationState.LoggedInUser;
 
-        if (string.IsNullOrEmpty(loggedInUser.UserId)) return;
+        if (string.IsNullOrEmpty(loggedInUser.UserId)) 
+            return;
 
-        bool parleyBetSlipGood = 
-            await _betSlipState.OnSubmitBetsFromParleyBetSlip(loggedInUser, (decimal)parleyWagerAmount);
+        if(decimal.TryParse(ParleyWagerAmount, out var parleyWager))
+            parleyBetSlipGood = await _betSlipState.OnSubmitBetsFromParleyBetSlip(loggedInUser, parleyWager);
 
         if (parleyBetSlipGood)
             BetSlipStateModel = _betSlipState.GetBetSlipState();
 
-        ParleyWagerAmount = 0;
+        ParleyWagerAmount = String.Empty;
     }
 
     [RelayCommand]
-    private void RemoveBetFromPreBets(CreateBetModel createBet) =>
+    private void RemoveBetFromPreBets(CreateBetModel createBet)
+    {
         BetSlipStateModel = _betSlipState.RemoveBetFromPreBetsList(createBet);
+        GetPayoutForTotalBetsSingles();
+        GetPayoutForTotalBetsParley();
+    }
 
     [RelayCommand]
     private void SetState()
     {
         BetSlipStateModel = _betSlipState.GetBetSlipState();
-        SinglesPayoutDisplay = $"Total singles payout    $0";
-        ParleyPayoutDisplay = $"Total parley payout    $0";
+        SinglesPayoutDisplay = $"Total singles payout    $0.00";
+        ParleyPayoutDisplay = $"Total parley payout    $0.00";
     }
         
     [RelayCommand]
     private void GetPayoutForTotalBetsSingles() =>
-        SinglesPayoutDisplay = $"Total singles payout  " 
+        SinglesPayoutDisplay = "Total singles payout  " 
             +
-            $"  ${_betSlipState.GetPayoutForTotalBetsSingles():#,##0.00}";
+        $"  ${_betSlipState.GetPayoutForTotalBetsSingles():#,##0.00}";
 
     [RelayCommand]
-    private void GetPayoutForTotalBetsParley() =>
-        ParleyPayoutDisplay = $"Total parley payout  " 
-            +
-           $"  ${_betSlipState.GetPayoutForTotalBetsParley((decimal)parleyWagerAmount):#,##0.00}";
+    private void GetPayoutForTotalBetsParley()
+    {
+        if(decimal.TryParse(ParleyWagerAmount, out var parleyWager) || string.IsNullOrEmpty(ParleyWagerAmount))
+            ParleyPayoutDisplay = "Total parley payout  "
+                +
+            $"  ${_betSlipState.GetPayoutForTotalBetsParley(parleyWager):#,##0.00}";
+    }
+        
+        
 }

@@ -16,12 +16,12 @@ public partial class MainViewModel : AppBaseViewModel
     [RelayCommand]
     async Task LoginAsync()
     {
-        //var data = await _authService.GetAuthClaims();
+        var data = await _authService.GetAuthClaims();
 
-        //await LoadAndVerifyUserAsync(data);
+        await LoadAndVerifyUserAsync(data);
 
-        //if (string.IsNullOrWhiteSpace(loggedInUser.UserId))
-        //    return;
+        if (string.IsNullOrWhiteSpace(loggedInUser.UserId))
+            return;
 
         await GoToAvailableGamesPageAsync();
     }

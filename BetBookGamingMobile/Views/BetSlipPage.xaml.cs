@@ -3,7 +3,6 @@ namespace BetBookGamingMobile.Views;
 
 public partial class BetSlipPage : BasePage<BetSlipViewModel>
 {
-    
     public BetSlipPage(BetSlipViewModel viewModel) :base(viewModel)
 	{
 		InitializeComponent();
@@ -22,11 +21,23 @@ public partial class BetSlipPage : BasePage<BetSlipViewModel>
     private void ParleyBetAmountEntry_TextChanged(object sender, TextChangedEventArgs e) =>
         ViewModel.GetPayoutForTotalBetsParleyCommand.Execute(null);
 
-    private void SingleBetAmountEntry_Unfocused(object sender, FocusEventArgs e) =>
-        ViewModel.SinglesPayoutDisplay = ViewModel.BetSlipStateModel.BetsInBetSlip.Where(bet => bet.BetAmount != 0).Any()
-            ? $"Total singles payout    $0" : ViewModel.SinglesPayoutDisplay;
+    private async void SubmitSinglesWagerAndShowToast(object sender, EventArgs args)
+    {
+        await ViewModel.SubmitSinglesWagerCommand.ExecuteAsync(null);
+        if (ViewModel.singlesBetSlipGood)
+        {
+            var toast = Toast.Make($"Your singles wager was submitted!", textSize: 18);
+            await toast.Show();
+        }
+    }
 
-    private void ParleyBetAmountEntry_Unfocused(object sender, FocusEventArgs e) =>
-        ViewModel.ParleyPayoutDisplay = ViewModel.BetSlipStateModel.BetsInBetSlip.Where(bet => bet.BetAmount != 0).Any()
-            ? $"Total parley payout    $0" : ViewModel.ParleyPayoutDisplay;
+    private async void SubmitParleyWagerAndShowToast(object sender, EventArgs args)
+    {
+        await ViewModel.SubmitParleyWagerCommand.ExecuteAsync(null);
+        if (ViewModel.parleyBetSlipGood)
+        {
+            var toast = Toast.Make($"Your parley wager was submitted!", textSize: 18);
+            await toast.Show();
+        }
+    }
 }

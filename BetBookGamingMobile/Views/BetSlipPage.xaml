@@ -14,8 +14,6 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-
-
             <Style x:Key="SubmitButtonStyle" TargetType="Button">
                 <Setter Property="BorderColor" Value="White"/>
                 <Setter Property="CornerRadius" Value="15"/>
@@ -28,27 +26,42 @@
                 <Setter Property="BackgroundColor" Value="DarkRed"/>
                 <Setter Property="Margin" Value="15"/>
             </Style>
-
         </ResourceDictionary>
     </ContentPage.Resources>
     
-    
     <ScrollView>
         
-        <VerticalStackLayout>
+        <VerticalStackLayout Margin="0,20,0,30">
             
-                <Label 
-                    HorizontalOptions="Center" 
-                    TextColor="White" 
-                    Text="{Binding SinglesPayoutDisplay}"/>
+            <Label 
+                HorizontalOptions="Center" 
+                TextColor="White" 
+                Text="{Binding SinglesPayoutDisplay}"
+                FontSize="18"
+                FontAttributes="Bold"
+                Margin="5, 10"/>
 
-                <Label 
-                    Margin="5, 10" 
+
+            <Label 
+                    Margin="5, 10,5, 20" 
                     HorizontalOptions="Center" 
                     TextColor="White" 
-                    Text="{Binding ParleyPayoutDisplay}"/>
-            
-            <CollectionView ItemsSource="{Binding BetSlipStateModel.BetsInBetSlip}">
+                    Text="{Binding ParleyPayoutDisplay}"
+                    FontSize="18"
+                    FontAttributes="Bold"/>
+
+            <Line 
+                X1="0"
+                Y1="0"
+                X2="325"
+                Y2="0"
+                Stroke="DarkRed"
+                HorizontalOptions="Center"
+                StrokeThickness="4"/>
+
+            <CollectionView 
+                Margin="0,15,0,0" 
+                ItemsSource="{Binding BetSlipStateModel.BetsInBetSlip}">
 
                 <CollectionView.ItemTemplate>
 
@@ -60,8 +73,6 @@
                             BorderColor="DarkBlue"
                             BackgroundColor="DarkRed"
                             Padding="1">
-
-
 
                             <Border 
                                 Stroke="DarkBlue"
@@ -89,21 +100,6 @@
                                     </LinearGradientBrush>
 
                                 </Border.Background>
-
-                                <!--<Frame.Background>
-                                <LinearGradientBrush 
-                                    EndPoint="1,0">
-
-                                    <GradientStop 
-                                        Color="Azure"
-                                        Offset="0.1" />
-
-                                    <GradientStop 
-                                        Color="IndianRed"
-                                        Offset="1.0" />
-
-                                </LinearGradientBrush>
-                            </Frame.Background>-->
 
                                 <HorizontalStackLayout 
                                 HorizontalOptions="Center" 
@@ -170,7 +166,7 @@
                                         Placeholder="Enter an amount"
                                         FontSize="13"
                                         Keyboard="Numeric"
-                                        Unfocused="SingleBetAmountEntry_Unfocused"/>
+                                            Margin="10,0"/>
 
                                         <Label  
                                         TextColor="White"
@@ -193,7 +189,7 @@
 
             </CollectionView>
             
-            <VerticalStackLayout Margin="0,20,0,10">
+            <VerticalStackLayout Margin="0,10,0,20">
                 
                 <Label 
                     Text="Parley Wager Amount" 
@@ -209,17 +205,26 @@
                    Placeholder="Enter an amount"
                    TextColor="White"
                    HorizontalTextAlignment="Center"
-                   Keyboard="Numeric"
-                   Unfocused="ParleyBetAmountEntry_Unfocused"/>
+                   Keyboard="Numeric" 
+                   Margin="100,0"/>
                 
             </VerticalStackLayout>
 
+            <Line 
+                X1="0"
+                Y1="0"
+                X2="325"
+                Y2="0"
+                Stroke="DarkRed"
+                HorizontalOptions="Center"
+                StrokeThickness="4"/>
 
             <Button 
                 x:Name="SubmitSinglesButton" 
                 Style="{StaticResource SubmitButtonStyle}"
-                Command="{Binding SubmitSinglesWagerCommand}"
-                Text="Submit Singles Wager">
+                Text="Submit Singles Wager"
+                Clicked="SubmitSinglesWagerAndShowToast"
+                Margin="0,30,0,0">
 
                 <Button.Behaviors>
                     <mct:AnimationBehavior EventName="Clicked">
@@ -246,8 +251,8 @@
             <Button 
                 x:Name="SubmitParleyButton" 
                 Style="{StaticResource SubmitButtonStyle}"
-                Command="{Binding SubmitParleyWagerCommand}"
-                Text="Submit Parley Wager">
+                Text="Submit Parley Wager"
+                Clicked="SubmitParleyWagerAndShowToast">
 
                 <Button.Behaviors>
                     <mct:AnimationBehavior EventName="Clicked">

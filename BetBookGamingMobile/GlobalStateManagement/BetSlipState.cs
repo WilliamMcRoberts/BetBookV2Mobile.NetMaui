@@ -1,4 +1,6 @@
 ﻿
+using Java.Util;
+
 namespace BetBookGamingMobile.GlobalStateManagement;
 
 public class BetSlipState
@@ -7,7 +9,6 @@ public class BetSlipState
     public UserModel loggedInUser;
     public bool conflictingBetsForParley;
     public decimal totalWagerForParley;
-
     public bool parleyBetAmountBad;
     public bool gameHasStarted;
     public bool betAmountForSinglesBad;
@@ -107,7 +108,7 @@ public class BetSlipState
 
         foreach (var bet in preBets)
         {
-            if (bet.BetAmount is null || bet.BetAmount == 0)
+            if (string.IsNullOrEmpty(bet.BetAmount) || !decimal.TryParse(bet.BetAmount, out var betAmount))
             {
                 betAmountForSinglesBad = true;
                 return false;
@@ -130,11 +131,11 @@ public class BetSlipState
                                 : bet.Winner,
 
                 BetPayout =
-                    Math.Round(bet.BetAmount.CalculateSingleBetPayout(bet.MoneylinePayout), 2),
+                    betAmount.CalculateSingleBetPayout(bet.MoneylinePayout),
 
                 BettorId = loggedInUser.UserId,
                 BetType = bet.BetType,
-                BetAmount = bet.BetAmount,
+                BetAmount = betAmount,
                 SingleBetStatus = SingleBetStatus.IN_PROGRESS,
                 SingleBetPayoutStatus = SingleBetPayoutStatus.UNPAID,
                 GameSnapshot = bet.Game.GetGameSnapshot(),
@@ -184,25 +185,12 @@ public class BetSlipState
                 return false;
             }
 
-            parleyBetSlip.SingleBetsForParleyList.Add(new SingleBetForParleyModel
-            {
-                WinnerChosen = bet.BetType == BetType.OVERUNDER ?
-                               (bet.Winner[0] == 'O' ? "Over" : "Under")
-                                : bet.Winner,
-
-                PointsAfterSpread =
-                    bet.Game.CalculatePointsAfterSpread(bet.Winner),
-
-                BettorId = loggedInUser.UserId,
-                BetType = bet.BetType,
-                SingleBetForParleyStatus = SingleBetForParleyStatus.IN_PROGRESS,
-                GameSnapshot = bet.Game.GetGameSnapshot()
-            });
+            parleyBetSlip.SingleBetsForParleyList.Add(bet.GetSingleBetForParley(loggedInUser));
         }
 
         parleyBetSlip.BettorId = loggedInUser.UserId;
         parleyBetSlip.ParleyBetAmount = parleyWagerAmount;
-        parleyBetSlip.ParleyBetPayout = Math.Round(GetPayoutForTotalBetsParley(parleyWagerAmount), 2);
+        parleyBetSlip.ParleyBetPayout = GetPayoutForTotalBetsParley(parleyWagerAmount);
         parleyBetSlip.ParleyBetSlipStatus = ParleyBetSlipStatus.IN_PROGRESS;
         parleyBetSlip.ParleyBetSlipPayoutStatus = ParleyBetSlipPayoutStatus.UNPAID;
 
@@ -220,20 +208,16 @@ public class BetSlipState
 
         decimal totalDecimalOdds = 1;
 
-        foreach (var bet in preBets)
-        {
-            decimal decimalMoneyline =
-                bet.MoneylinePayout.ConvertMoneylinePayoutToDecimalFormat();
+        preBets.ForEach(
+            bet => totalDecimalOdds *= bet.MoneylinePayout.ConvertMoneylinePayoutToDecimalFormat());
 
-            totalDecimalOdds *= decimalMoneyline;
-        }
-
-        return totalParleyWager * totalDecimalOdds;
+        return Math.Round(totalParleyWager * totalDecimalOdds, 2);
     }
 
     public BetSlipStateModel RemoveBetFromPreBetsList(CreateBetModel createBetModel)
     {
         preBets.Remove(createBetModel);
+
         return GetBetSlipState();
     }
 
@@ -241,11 +225,8 @@ public class BetSlipState
     {
         decimal total = 0;
 
-        foreach (var bet in preBets.Where(b => b.BetAmount is not null))
-        {
-            decimal betPayout = bet.BetAmount.CalculateSingleBetPayout(bet.MoneylinePayout);
-            total += betPayout;
-        }
+        preBets.ForEach(bet => total += decimal.TryParse(bet.BetAmount, out var betAmount) ?
+                betAmount.CalculateSingleBetPayout(bet.MoneylinePayout) : 0);
 
         return total;
     }

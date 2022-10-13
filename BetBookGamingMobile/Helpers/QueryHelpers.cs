@@ -52,4 +52,20 @@ public static class QueryHelpers
             OverPayout = gameDto.OverPayout,
             UnderPayout = gameDto.UnderPayout
         };
+
+    public static SingleBetForParleyModel GetSingleBetForParley(this CreateBetModel bet, UserModel loggedInUser) =>
+        new()
+        {
+            WinnerChosen = bet.BetType == BetType.OVERUNDER ?
+                               (bet.Winner[0] == 'O' ? "Over" : "Under")
+                                : bet.Winner,
+
+            PointsAfterSpread =
+                    bet.Game.CalculatePointsAfterSpread(bet.Winner),
+
+            BettorId = loggedInUser.UserId,
+            BetType = bet.BetType,
+            SingleBetForParleyStatus = SingleBetForParleyStatus.IN_PROGRESS,
+            GameSnapshot = bet.Game.GetGameSnapshot()
+        };
 }

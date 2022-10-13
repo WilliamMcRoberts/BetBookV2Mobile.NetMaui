@@ -25,9 +25,9 @@ public static class CalculationHelpers
          chosenWinner == game.HomeTeam ? 0 + (decimal)game.PointSpread!
             : 0 - (decimal)game.PointSpread!;
 
-    public static decimal CalculateSingleBetPayout(this decimal? betAmount, int moneylinePayout) =>
-         (decimal)(moneylinePayout < 0 ? betAmount / (moneylinePayout * -1 / 100) + betAmount
-         : (moneylinePayout / 100) * betAmount);
+    public static decimal CalculateSingleBetPayout(this decimal betAmount, int moneylinePayout) =>
+         Math.Round((decimal)(moneylinePayout < 0 ? betAmount / (moneylinePayout * -1 / 100) + betAmount
+         : (moneylinePayout / 100) * betAmount), 2);
 
     public static decimal ConvertMoneylinePayoutToDecimalFormat(this int moneylinePayout) =>
          moneylinePayout < 0 ? (100 / (decimal)moneylinePayout * -1) + (decimal)1
