@@ -7,7 +7,10 @@ public partial class MainViewModel : AppBaseViewModel
     private readonly AuthenticationState _authState;
     UserModel loggedInUser;
 
-    public MainViewModel(IAuthService authService, AuthenticationState authState, IApiService apiService) :base(apiService)
+    public MainViewModel(IAuthService authService,
+                         AuthenticationState authState, 
+                         IApiService apiService) 
+                         :base(apiService)
     {
         _authService = authService;
         _authState = authState;
@@ -36,8 +39,7 @@ public partial class MainViewModel : AppBaseViewModel
         authState.ObjectId = 
             data.Claims.FirstOrDefault(c => c.Type.Contains("oid"))?.Value;
 
-        if (string.IsNullOrWhiteSpace(authState.ObjectId))
-            return;
+        if (string.IsNullOrWhiteSpace(authState.ObjectId)) return;
 
         loggedInUser = await _apiService.GetUserByObjectId(authState.ObjectId) ?? new();
 
@@ -46,8 +48,7 @@ public partial class MainViewModel : AppBaseViewModel
         authState.LastName = data.Claims.FirstOrDefault(c => c.Type.Contains("family_name"))?.Value;
         authState.EmailAddress = data.Claims.FirstOrDefault(c => c.Type.Contains("emails"))?.Value;
         string jobTitle = data.Claims.FirstOrDefault(c => c.Type.Contains("jobTitle"))?.Value;
-        if(!string.IsNullOrEmpty(jobTitle))
-            authState.JobTitle = jobTitle;
+        if(!string.IsNullOrEmpty(jobTitle)) authState.JobTitle = jobTitle;
 
         bool isDirty = false;
 
@@ -71,8 +72,7 @@ public partial class MainViewModel : AppBaseViewModel
 
         _authState.CurrentAuthenticationState.LoggedInUser = loggedInUser;
 
-        if (!isDirty)
-            return;
+        if (!isDirty) return;
 
         if (!string.IsNullOrWhiteSpace(loggedInUser.UserId))
         {
