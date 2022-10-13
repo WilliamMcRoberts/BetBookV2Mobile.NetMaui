@@ -224,7 +224,7 @@
                 Style="{StaticResource SubmitButtonStyle}"
                 Text="Submit Singles Wager"
                 Clicked="SubmitSinglesWagerAndShowToast"
-                Margin="0,30,0,0">
+                Margin="0,30,0,10">
 
                 <Button.Behaviors>
                     <mct:AnimationBehavior EventName="Clicked">
@@ -252,7 +252,8 @@
                 x:Name="SubmitParleyButton" 
                 Style="{StaticResource SubmitButtonStyle}"
                 Text="Submit Parley Wager"
-                Clicked="SubmitParleyWagerAndShowToast">
+                Clicked="SubmitParleyWagerAndShowToast"
+                Margin="0,10,0,0">
 
                 <Button.Behaviors>
                     <mct:AnimationBehavior EventName="Clicked">
