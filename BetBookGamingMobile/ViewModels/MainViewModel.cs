@@ -7,10 +7,8 @@ public partial class MainViewModel : AppBaseViewModel
     private readonly AuthenticationState _authState;
     UserModel loggedInUser;
 
-    public MainViewModel(IAuthService authService,
-                         AuthenticationState authState, 
-                         IApiService apiService) 
-                         :base(apiService)
+    public MainViewModel(
+        IAuthService authService,AuthenticationState authState, IApiService apiService) :base(apiService)
     {
         _authService = authService;
         _authState = authState;

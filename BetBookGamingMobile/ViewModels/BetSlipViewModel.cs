@@ -5,8 +5,6 @@ public partial class BetSlipViewModel : BaseViewModel
 {
     private readonly AuthenticationState _authenticationState;
     private readonly BetSlipState _betSlipState;
-    public bool parleyBetSlipGood = false;
-    public bool singlesBetSlipGood = false;
 
     public BetSlipViewModel(
         AuthenticationState authenticationState, BetSlipState betSlipState)
@@ -34,7 +32,9 @@ public partial class BetSlipViewModel : BaseViewModel
 
         if (string.IsNullOrEmpty(loggedInUser.UserId)) return;
 
-        singlesBetSlipGood = await _betSlipState.OnSubmitBetsFromSinglesBetSlip(loggedInUser);
+        bool singlesBetSlipGood = await _betSlipState.OnSubmitBetsFromSinglesBetSlip(loggedInUser);
+
+        await singlesBetSlipGood.ShowWagerConfirmationToastAsync("singles");
 
         BetSlipStateModel = singlesBetSlipGood ? _betSlipState.GetBetSlipState() : BetSlipStateModel;
     }
@@ -46,8 +46,10 @@ public partial class BetSlipViewModel : BaseViewModel
 
         if (string.IsNullOrEmpty(loggedInUser.UserId)) return;
 
-        parleyBetSlipGood = decimal.TryParse(ParleyWagerAmount, out var parleyWager) && 
+        bool parleyBetSlipGood = decimal.TryParse(ParleyWagerAmount, out var parleyWager) && 
             await _betSlipState.OnSubmitBetsFromParleyBetSlip(loggedInUser, parleyWager);
+
+        await parleyBetSlipGood.ShowWagerConfirmationToastAsync("parley");
 
         BetSlipStateModel = parleyBetSlipGood ? _betSlipState.GetBetSlipState() : BetSlipStateModel;
 
@@ -72,17 +74,14 @@ public partial class BetSlipViewModel : BaseViewModel
         
     [RelayCommand]
     private void GetPayoutForTotalBetsSingles() => 
-        SinglesPayoutDisplay =
-         "Total singles payout  " 
-            +
+        SinglesPayoutDisplay = "Total singles payout  " +
         $"  {_betSlipState.GetPayoutForTotalBetsSingles():C}";
 
     [RelayCommand]
     private void GetPayoutForTotalBetsParley() => 
-        ParleyPayoutDisplay =
-         decimal.TryParse(ParleyWagerAmount, out var parleyWager) || string.IsNullOrEmpty(ParleyWagerAmount) ? 
-         "Total parley payout  "
-            +
-         $"  {_betSlipState.GetPayoutForTotalBetsParley(parleyWager):C}" : ParleyPayoutDisplay;
+        ParleyPayoutDisplay = decimal.TryParse(ParleyWagerAmount, out var parleyWager) || string.IsNullOrEmpty(ParleyWagerAmount) ? 
+            "Total parley payout  " +
+             $"  {_betSlipState.GetPayoutForTotalBetsParley(parleyWager):C}" : ParleyPayoutDisplay;
 
+    
 }

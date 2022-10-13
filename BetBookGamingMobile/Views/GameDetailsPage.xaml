@@ -154,8 +154,7 @@
                         Command="{Binding SelectOrRemoveWagerForPointSpreadCommand}"
                         CommandParameter="{Binding GameDto.AwayTeam}"
                         Text="{Binding ButtonTextState.ApText}"
-                        BackgroundColor="{Binding ButtonColorState.ApColor}"
-                        Clicked="ShowToast">
+                        BackgroundColor="{Binding ButtonColorState.ApColor}">
 
                     <Button.Behaviors>
                         <mct:AnimationBehavior EventName="Clicked">
@@ -183,8 +182,7 @@
                         Command="{Binding SelectOrRemoveWagerForPointSpreadCommand}"
                         CommandParameter="{Binding GameDto.HomeTeam}"
                         Text="{Binding ButtonTextState.HpText}"
-                        BackgroundColor="{Binding ButtonColorState.HpColor}"
-                        Clicked="ShowToast">
+                        BackgroundColor="{Binding ButtonColorState.HpColor}">
 
                     <Button.Behaviors>
                         <mct:AnimationBehavior EventName="Clicked">
@@ -216,8 +214,7 @@
                         Command="{Binding SelectOrRemoveWagerForMoneylineCommand}"
                         CommandParameter="{Binding GameDto.AwayTeam}"
                         Text="{Binding ButtonTextState.AmText}"
-                        BackgroundColor="{Binding ButtonColorState.AmColor}"
-                        Clicked="ShowToast">
+                        BackgroundColor="{Binding ButtonColorState.AmColor}">
 
                     <Button.Behaviors>
                         <mct:AnimationBehavior EventName="Clicked">
@@ -245,8 +242,7 @@
                         Command="{Binding SelectOrRemoveWagerForMoneylineCommand}"
                         CommandParameter="{Binding GameDto.HomeTeam}"
                         Text="{Binding ButtonTextState.HmText}"
-                        BackgroundColor="{Binding ButtonColorState.HmColor}"
-                        Clicked="ShowToast">
+                        BackgroundColor="{Binding ButtonColorState.HmColor}">
 
                     <Button.Behaviors>
                         <mct:AnimationBehavior EventName="Clicked">
@@ -278,8 +274,7 @@
                         Command="{Binding SelectOrRemoveWagerForOverUnderCommand}"
                         CommandParameter="Over"
                         Text="{Binding ButtonTextState.OText}"
-                        BackgroundColor="{Binding ButtonColorState.OColor}"
-                        Clicked="ShowToast">
+                        BackgroundColor="{Binding ButtonColorState.OColor}">
 
                     <Button.Behaviors>
                         <mct:AnimationBehavior EventName="Clicked">
@@ -307,8 +302,7 @@
                         Command="{Binding SelectOrRemoveWagerForOverUnderCommand}"
                         CommandParameter="Under"
                         Text="{Binding ButtonTextState.UText}"
-                        BackgroundColor="{Binding ButtonColorState.UColor}"
-                        Clicked="ShowToast">
+                        BackgroundColor="{Binding ButtonColorState.UColor}">
 
                     <Button.Behaviors>
                         <mct:AnimationBehavior EventName="Clicked">

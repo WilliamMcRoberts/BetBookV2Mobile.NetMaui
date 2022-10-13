@@ -4,19 +4,19 @@ namespace BetBookGamingMobile.ViewModels;
 [QueryProperty("GameDto", "GameDto")]
 public partial class GameDetailsViewModel : AppBaseViewModel
 {
-     readonly BetSlipState _betSlipState;
+     private readonly BetSlipState _betSlipState;
 
     [ObservableProperty]
-    GameDto gameDto;
+    private GameDto gameDto;
 
     [ObservableProperty]
-    ButtonColorStateModel buttonColorState;
+    private ButtonColorStateModel buttonColorState;
 
     [ObservableProperty]
-    ButtonTextStateModel buttonTextState;
+    private ButtonTextStateModel buttonTextState;
 
     [ObservableProperty]
-    BetSlipStateModel betSlipStateModel;
+    private BetSlipStateModel betSlipStateModel;
 
     public GameDetailsViewModel(BetSlipState betSlipState, IApiService apiService) :base(apiService)
     {
@@ -24,19 +24,30 @@ public partial class GameDetailsViewModel : AppBaseViewModel
     }
 
     [RelayCommand]
-    private void SelectOrRemoveWagerForPointSpread(string winner) =>
+    private async Task SelectOrRemoveWagerForPointSpreadAsync(string winner)
+    {
         ButtonColorState =
             _betSlipState.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.POINTSPREAD);
+        await _betSlipState.preBets.Count.ShowBetNumberToastAsync();
+    }
+        
 
     [RelayCommand]
-    private void SelectOrRemoveWagerForMoneyline(string winner) =>
-        ButtonColorState=
+    private async Task SelectOrRemoveWagerForMoneylineAsync(string winner)
+    {
+        ButtonColorState =
             _betSlipState.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.MONEYLINE);
+        await _betSlipState.preBets.Count.ShowBetNumberToastAsync();
+    }
+    
 
     [RelayCommand]
-    private void SelectOrRemoveWagerForOverUnder(string winner) =>
-        ButtonColorState = _betSlipState.SelectOrRemoveWinnerAndGameForBet(string.Concat(
-            winner, GameDto.ScoreID.ToString()), GameDto, BetType.OVERUNDER);
+    private async Task SelectOrRemoveWagerForOverUnderAsync(string winner)
+    {
+        ButtonColorState = _betSlipState.SelectOrRemoveWinnerAndGameForBet(
+            string.Concat(winner, GameDto.ScoreID.ToString()), GameDto, BetType.OVERUNDER);
+        await _betSlipState.preBets.Count.ShowBetNumberToastAsync();
+    }
 
     [RelayCommand]
     private void SetState() => 
