@@ -153,6 +153,9 @@
 	  <MauiXaml Update="ViewControls\Common\LoadingIndicator.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="ViewControls\SubmitWagerButtonControl.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="ViewControls\WagerSelectionButtonControl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

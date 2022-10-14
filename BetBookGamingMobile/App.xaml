@@ -39,14 +39,22 @@
             <Setter Property="BackgroundColor" Value="Transparent" />
         </Style>
 
-        <!-- Border Styles -->
-        <Style TargetType="Border">
-            <Setter Property="Padding" Value="0" />
-            <Setter Property="Margin" Value="0" />
-            <Setter Property="VerticalOptions" Value="Fill" />
-            <Setter Property="HorizontalOptions" Value="Fill" />
+        <!-- Frame Styles -->
+        <Style TargetType="Frame">
+            <Setter Property="Padding" Value="1" />
+            <Setter Property="BackgroundColor" Value="DarkRed" />
+            <Setter Property="CornerRadius" Value="15" />
+            <Setter Property="BorderColor" Value="DarkBlue" />
         </Style>
 
+        <!-- Border Styles -->
+        <Style TargetType="Border">
+            <Setter Property="Padding" Value="0,0,0,4" />
+            <Setter Property="Stroke" Value="DarkBlue" />
+            <Setter Property="StrokeThickness" Value="3" />
+            <Setter Property="VerticalOptions" Value="FillAndExpand" />
+            <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+        </Style>
 
         <!-- CollectionView Styles -->
         <Style TargetType="CollectionView" ApplyToDerivedTypes="True">
@@ -86,7 +94,6 @@
                 </VisualStateGroupList>
             </Setter>
         </Style>
-
 
         <!-- Regular Label Styles -->
         <Style TargetType="Label" x:Key="BaseRegularLightLabelTextStyle">

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:animations="clr-namespace:BetBookGamingMobile.Animations"
              xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
+             xmlns:animations="clr-namespace:BetBookGamingMobile.Animations"
              xmlns:views="clr-namespace:BetBookGamingMobile.Views"
-             x:DataType="viewModels:GameDetailsViewModel"
-             x:Class="BetBookGamingMobile.ViewControls.WagerSelectionButtonControl"
+             x:DataType="viewModels:BetSlipViewModel"
+             x:Class="BetBookGamingMobile.ViewControls.SubmitWagerButtonControl"
              xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
 
     <ContentView.Resources>
         <ResourceDictionary>
-            <Style x:Key="WagerButtonStyle" TargetType="Button">
+            <Style x:Key="SubmitButtonStyle" TargetType="Button">
                 <Setter Property="BorderColor" Value="White"/>
                 <Setter Property="CornerRadius" Value="15"/>
                 <Setter Property="WidthRequest" Value="300"/>
@@ -19,13 +19,14 @@
                 <Setter Property="TextColor" Value="White"/>
                 <Setter Property="TextTransform" Value="Uppercase"/>
                 <Setter Property="FontSize" Value="16"/>
+                <Setter Property="BackgroundColor" Value="DarkRed"/>
             </Style>
         </ResourceDictionary>
     </ContentView.Resources>
 
     <Button 
-        x:Name="WagerSelectionButton" 
-        Style="{StaticResource WagerButtonStyle}">
+        x:Name="SubmitWagerButton" 
+        Style="{StaticResource SubmitButtonStyle}">
 
         <Button.Behaviors>
             <mct:AnimationBehavior EventName="Clicked">
@@ -40,10 +41,10 @@
         <Button.Shadow>
 
             <Shadow 
-                Brush="Black" 
-                Offset="10, 10" 
-                Radius="15"
-                Opacity=".8"/>
+                        Brush="Black" 
+                        Offset="10, 10" 
+                        Radius="15"
+                        Opacity=".8"/>
 
         </Button.Shadow>
 

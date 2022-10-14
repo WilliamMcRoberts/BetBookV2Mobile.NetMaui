@@ -30,13 +30,9 @@
                         <Grid>
 
                             <Frame 
-                                   Margin="0,3,0,3"
-                                   Padding="1"
-                                   WidthRequest="355"
-                                    HeightRequest="160"
-                                   BackgroundColor="DarkRed"
-                                   BorderColor="DarkBlue"
-                                   CornerRadius="15">
+                                Margin="0,3,0,3"
+                                WidthRequest="355"
+                                HeightRequest="160">
 
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer 
@@ -44,16 +40,14 @@
                                             CommandParameter="{Binding .}" />
                                 </Frame.GestureRecognizers>
 
-                                <Border Stroke="DarkBlue"
-                                        StrokeThickness="3"
-                                        HorizontalOptions="FillAndExpand"
-                                        VerticalOptions="FillAndExpand">
+                                <Border>
 
                                     <Border.StrokeShape>
 
                                         <RoundRectangle CornerRadius="15"/>
 
                                     </Border.StrokeShape>
+                                    
                                     <Border.Background>
                                         <LinearGradientBrush EndPoint="1,0">
 
@@ -65,15 +59,7 @@
 
                                         </LinearGradientBrush>
                                     </Border.Background>
-                                    <Border.Shadow>
-                                        <Shadow Brush="DarkRed"
-                                            Offset="10, 40"
-                                                Radius="50"
-                                                Opacity=".9">
-
-                                        </Shadow>
-                                    </Border.Shadow>
-
+                                    
                                     <HorizontalStackLayout 
                                         HorizontalOptions="Center"
                                         Spacing="15">

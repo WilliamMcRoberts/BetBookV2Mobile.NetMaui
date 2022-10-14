@@ -80,8 +80,6 @@ public partial class BetSlipViewModel : BaseViewModel
     [RelayCommand]
     private void GetPayoutForTotalBetsParley() => 
         ParleyPayoutDisplay = decimal.TryParse(ParleyWagerAmount, out var parleyWager) || string.IsNullOrEmpty(ParleyWagerAmount) ? 
-            "Total parley payout  " +
-             $"  {_betSlipState.GetPayoutForTotalBetsParley(parleyWager):C}" : ParleyPayoutDisplay;
-
-    
+        "Total parley payout  " +
+        $"  {_betSlipState.GetPayoutForTotalBetsParley(parleyWager):C}" : ParleyPayoutDisplay;
 }

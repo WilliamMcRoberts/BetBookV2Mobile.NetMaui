@@ -4,6 +4,7 @@
         xmlns:models="clr-namespace:BetBookGamingMobile.Models"
         xmlns:views="clr-namespace:BetBookGamingMobile.Views"
         xmlns:animations="clr-namespace:BetBookGamingMobile.Animations"
+        xmlns:viewControls="clr-namespace:BetBookGamingMobile.ViewControls"
         xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
         xmlns:dto="clr-namespace:BetBookGamingMobile.Dto"
         xmlns:controls="clr-namespace:BetBookGamingMobile.ViewControls"
@@ -43,12 +44,12 @@
 
 
             <Label 
-                    Margin="5, 10,5, 20" 
-                    HorizontalOptions="Center" 
-                    TextColor="White" 
-                    Text="{Binding ParleyPayoutDisplay}"
-                    FontSize="18"
-                    FontAttributes="Bold"/>
+                Margin="5, 10,5, 20" 
+                HorizontalOptions="Center" 
+                TextColor="White" 
+                Text="{Binding ParleyPayoutDisplay}"
+                FontSize="18"
+                FontAttributes="Bold"/>
 
             <Line 
                 X1="0"
@@ -66,20 +67,10 @@
                 <CollectionView.ItemTemplate>
 
                     <DataTemplate x:DataType="models:CreateBetModel">
-                        
-                        <Frame 
-                            Margin="10,5"
-                            CornerRadius="15"
-                            BorderColor="DarkBlue"
-                            BackgroundColor="DarkRed"
-                            Padding="1">
 
-                            <Border 
-                                Stroke="DarkBlue"
-                                StrokeThickness="3"
-                                HorizontalOptions="FillAndExpand"
-                                VerticalOptions="FillAndExpand"
-                                Padding="0,0,0,4">
+                        <Frame Margin="10,5">
+
+                            <Border>
 
                                 <Border.StrokeShape>
 
@@ -166,7 +157,7 @@
                                         Placeholder="Enter an amount"
                                         FontSize="13"
                                         Keyboard="Numeric"
-                                            Margin="10,0"/>
+                                        Margin="10,0"/>
 
                                         <Label  
                                         TextColor="White"
@@ -219,63 +210,15 @@
                 HorizontalOptions="Center"
                 StrokeThickness="4"/>
 
-            <Button 
-                x:Name="SubmitSinglesButton" 
-                Style="{StaticResource SubmitButtonStyle}"
-                Text="Submit Singles Wager"
-                Command="{Binding SubmitSinglesWagerCommand}"
-                Margin="0,30,0,10">
+            <viewControls:SubmitWagerButtonControl 
+                CustomCommand="{Binding SubmitSinglesWagerCommand}"
+                Margin="0,30,0,10"
+                CustomText="Submit Singles Wager"/>
 
-                <Button.Behaviors>
-                    <mct:AnimationBehavior EventName="Clicked">
-                        <mct:AnimationBehavior.AnimationType>
-                            <animations:WagerButtonAnimation 
-                                    Easing="{x:Static Easing.Linear}"
-                                    Length="100"/>
-                        </mct:AnimationBehavior.AnimationType>
-                    </mct:AnimationBehavior>
-                </Button.Behaviors>
-
-                <Button.Shadow>
-
-                    <Shadow 
-                        Brush="Black" 
-                        Offset="10, 10" 
-                        Radius="15"
-                        Opacity=".8"/>
-
-                </Button.Shadow>
-
-            </Button>
-
-            <Button 
-                x:Name="SubmitParleyButton" 
-                Style="{StaticResource SubmitButtonStyle}"
-                Text="Submit Parley Wager"
-                Command="{Binding SubmitParleyWagerCommand}"
-                Margin="0,10,0,0">
-
-                <Button.Behaviors>
-                    <mct:AnimationBehavior EventName="Clicked">
-                        <mct:AnimationBehavior.AnimationType>
-                            <animations:WagerButtonAnimation 
-                                    Easing="{x:Static Easing.Linear}"
-                                    Length="100"/>
-                        </mct:AnimationBehavior.AnimationType>
-                    </mct:AnimationBehavior>
-                </Button.Behaviors>
-
-                <Button.Shadow>
-
-                    <Shadow 
-                        Brush="Black" 
-                        Offset="10, 10" 
-                        Radius="15"
-                        Opacity=".8"/>
-
-                </Button.Shadow>
-
-            </Button>
+            <viewControls:SubmitWagerButtonControl 
+                CustomCommand="{Binding SubmitParleyWagerCommand}"
+                Margin="0,10,0,0"
+                CustomText="Submit Parley Wager"/>
 
         </VerticalStackLayout>
         
