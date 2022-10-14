@@ -30,7 +30,7 @@
         <Button.Behaviors>
             <mct:AnimationBehavior EventName="Clicked">
                 <mct:AnimationBehavior.AnimationType>
-                    <animations:WagerButtonAnimation 
+                    <animations:ButtonAnimation 
                                     Easing="{x:Static Easing.Linear}"
                                     Length="100"/>
                 </mct:AnimationBehavior.AnimationType>

@@ -1,6 +1,6 @@
 ﻿namespace BetBookGamingMobile.Animations;
 
-class WagerButtonAnimation : BaseAnimation
+class ButtonAnimation : BaseAnimation
 {
     public override async Task Animate(VisualElement view)
     {
