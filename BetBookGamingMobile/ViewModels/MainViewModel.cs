@@ -77,9 +77,7 @@ public partial class MainViewModel : AppBaseViewModel
             await _apiService.UpdateUser(loggedInUser);
             return;
         }
-
         await _apiService.CreateUser(loggedInUser);
-        loggedInUser = await _apiService.GetUserByObjectId(loggedInUser.ObjectIdentifier);
-        _authState.CurrentAuthenticationState.LoggedInUser = loggedInUser;
+        if (string.IsNullOrEmpty(loggedInUser.ObjectIdentifier)) await LoginAsync();
     }
 }

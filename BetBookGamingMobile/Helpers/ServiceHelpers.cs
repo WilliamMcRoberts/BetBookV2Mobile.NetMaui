@@ -3,7 +3,6 @@ namespace BetBookGamingMobile.Helpers;
 
 public static class ServiceHelpers
 {
-
     public static TService GetService<TService>() => 
         Current.GetService<TService>();
 

@@ -12,7 +12,7 @@
     <Button Margin="5" 
             BackgroundColor="DarkBlue" 
             x:Name="LoginButton" 
-            Text="Login" 
+            Text="Press to Login" 
             WidthRequest="150"
             HeightRequest="75"
             HorizontalOptions="Center"

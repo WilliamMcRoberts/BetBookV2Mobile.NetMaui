@@ -32,11 +32,9 @@ public class BaseService
 
     protected async Task<T> GetAsync<T>(string resource)
     {
-        // If internet connection is not available throw exception
         if (_connectivity.NetworkAccess != NetworkAccess.Internet)
             throw new InternetConnectionException();
 
-        //Return the result
        return await _httpClient.GetFromJsonAsync<T>(resource);
     }
 
@@ -55,9 +53,9 @@ public class BaseService
 
     protected async Task<HttpResponseMessage> PutAsync<T>(string uri, T payload)
     {
-        var dataToPost = JsonSerializer.Serialize(payload);
+        var dataToPut = JsonSerializer.Serialize(payload);
 
-        var content = new StringContent(dataToPost, Encoding.UTF8, "application/json");
+        var content = new StringContent(dataToPut, Encoding.UTF8, "application/json");
 
         var response = await _httpClient.PutAsync(new Uri(_httpClient.BaseAddress, uri), content);
 

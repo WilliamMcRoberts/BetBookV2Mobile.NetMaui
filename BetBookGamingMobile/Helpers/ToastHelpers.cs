@@ -16,7 +16,6 @@ public static class ToastHelpers
         await toast.Show();
     }
 
-
     /// <summary>
     /// Shows wager confirmation toast if wager submission was successful
     /// </summary>

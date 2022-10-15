@@ -1,5 +1,4 @@
 ﻿
-
 namespace BetBookGamingMobile.Helpers;
 
 public static class CalculationHelpers
@@ -10,10 +9,7 @@ public static class CalculationHelpers
                    : season == SeasonType.REG ? (dateTime - new DateTime(2022, 9, 6)).Days / 7
                    : (dateTime - new DateTime(2023, 1, 14)).Days / 7;
 
-        if (week < 0)
-            return 0;
-
-        return week + 1;
+        return week < 0 ? 0 : week + 1;
     }
 
     public static SeasonType CalculateSeason(this DateTime dateTime) =>

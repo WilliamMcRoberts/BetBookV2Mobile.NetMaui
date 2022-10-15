@@ -1,7 +1,5 @@
 ﻿
-using Java.Util;
-
-namespace BetBookGamingMobile.GlobalStateManagement;
+namespace BetBookGamingMobile.State;
 
 public class BetSlipState
 {
@@ -27,13 +25,12 @@ public class BetSlipState
     public ButtonColorStateModel SelectOrRemoveWinnerAndGameForBet(
         string winner, GameDto game, BetType betType)
     {
-        if (preBets.Contains(preBets.Where(b => b.Winner == winner && b.Game.ScoreID == game.ScoreID && b.BetType == betType)
-                   .FirstOrDefault()!))
-        {
-            preBets.Remove(
-            preBets.Where(b => b.Winner == winner && b.Game.ScoreID == game.ScoreID && b.BetType == betType)
-                   .FirstOrDefault()!);
+        var bet = preBets.Where(b => b.Winner == winner && b.Game.ScoreID == game.ScoreID && b.BetType == betType)
+            .FirstOrDefault()!;
 
+        if (preBets.Contains(bet))
+        {
+            preBets.Remove(bet);
             conflictingBetsForParley = CheckForConflictingBets();
             return GetButtonColorState(game);
         }
@@ -51,9 +48,6 @@ public class BetSlipState
         conflictingBetsForParley = CheckForConflictingBets();
         return GetButtonColorState(game);
     }
-
-    public (ButtonColorStateModel, ButtonTextStateModel) GetAllStates(GameDto gameDto) =>
-        (GetButtonColorState(gameDto), gameDto.GetButtonTextState());
 
     public ButtonColorStateModel GetButtonColorState(GameDto gameDto) =>
         new()
@@ -77,6 +71,9 @@ public class BetSlipState
                 b.Winner == string.Concat("Under", gameDto.ScoreID.ToString()) && b.Game.ScoreID == gameDto.ScoreID && b.BetType == BetType.OVERUNDER)
                 .FirstOrDefault()) ? Colors.DarkRed : Colors.DarkBlue
         };
+
+    public (ButtonColorStateModel, ButtonTextStateModel) GetAllStates(GameDto gameDto) =>
+        (GetButtonColorState(gameDto), gameDto.GetButtonTextState());
 
     public BetSlipStateModel GetBetSlipState()
     {
