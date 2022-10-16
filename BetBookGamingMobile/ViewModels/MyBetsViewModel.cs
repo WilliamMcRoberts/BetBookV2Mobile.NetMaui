@@ -4,7 +4,7 @@ namespace BetBookGamingMobile.ViewModels;
 public partial class MyBetsViewModel : AppBaseViewModel
 {
     private readonly AuthenticationState _authState;
-
+    
     public IEnumerable<SingleBetModel> bettorSingleBets;
     public ObservableCollection<SingleBetModel> BettorSingleBetsInProgress { get; } = new();
     public ObservableCollection<SingleBetModel> BettorSingleBetsWinners { get; } = new();
@@ -26,6 +26,7 @@ public partial class MyBetsViewModel : AppBaseViewModel
     private async Task SetStateAsync()
     {
         if (IsBusy) return;
+
         var loggedInUser = _authState.CurrentAuthenticationState.LoggedInUser;
 
         if (string.IsNullOrEmpty(loggedInUser.UserId))
@@ -79,5 +80,5 @@ public partial class MyBetsViewModel : AppBaseViewModel
 
         BettorParleyBetsPush.AddRange(bettorParleyBets.Where(
             b => b.ParleyBetSlipStatus == ParleyBetSlipStatus.PUSH), BettorParleyBetsPush.Any());
-    }
+    }  
 }

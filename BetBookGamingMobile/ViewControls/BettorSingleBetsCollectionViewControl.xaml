@@ -6,7 +6,8 @@
              xmlns:views="clr-namespace:BetBookGamingMobile.Views"
              xmlns:models="clr-namespace:BetBookGamingMobile.Models"
              x:DataType="viewModels:MyBetsViewModel"
-             x:Class="BetBookGamingMobile.ViewControls.BettorSingleBetsCollectionViewControl">
+             x:Class="BetBookGamingMobile.ViewControls.BettorSingleBetsCollectionViewControl"
+             x:Name="MySingleBetsContentView">
     
     <ContentView.Resources>
         <ResourceDictionary>
@@ -17,7 +18,12 @@
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="TextColor" Value="White"/>
             </Style>
-            
+
+            <Style x:Key="BetItemLabelStyle" TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
+
         </ResourceDictionary>
     </ContentView.Resources>
     
@@ -66,7 +72,8 @@
                                 <Label Text="{Binding GameSnapshot.Date}"
                                        HorizontalOptions="Center"
                                        Margin="10"
-                                       FontAttributes="Bold"/>
+                                       FontAttributes="Bold"
+                                       TextColor="Black"/>
                                 
                                 <HorizontalStackLayout 
                                     Margin="10,5" 
@@ -74,20 +81,20 @@
                                     Spacing="30">
                                     
                                     <VerticalStackLayout>
-                                        
-                                        <Label FontAttributes="Bold" Text="Bet Amount" />
-                                        <Label FontAttributes="Bold" Text="Bet Payout" />
-                                        <Label FontAttributes="Bold" Text="Chosen Winner"/>
-                                        <Label FontAttributes="Bold" Text="Bet Type"/>
+
+                                        <Label Style="{StaticResource BetItemLabelStyle}"  Text="Bet Amount" />
+                                        <Label Style="{StaticResource BetItemLabelStyle}"  Text="Bet Payout" />
+                                        <Label Style="{StaticResource BetItemLabelStyle}"  Text="Chosen Winner"/>
+                                        <Label Style="{StaticResource BetItemLabelStyle}"  Text="Bet Type"/>
                                         
                                     </VerticalStackLayout>
 
                                     <VerticalStackLayout>
 
-                                        <Label FontAttributes="Bold" Text="{Binding BetAmount}"/>
-                                        <Label FontAttributes="Bold" Text="{Binding BetPayout}"/>
-                                        <Label FontAttributes="Bold" Text="{Binding WinnerSummary}"/>
-                                        <Label FontAttributes="Bold" Text="{Binding BetTypeDisplay}"/>
+                                        <Label Style="{StaticResource BetItemLabelStyle}"  Text="{Binding BetAmount}"/>
+                                        <Label Style="{StaticResource BetItemLabelStyle}"  Text="{Binding BetPayout}"/>
+                                        <Label Style="{StaticResource BetItemLabelStyle}"   Text="{Binding WinnerSummary}"/>
+                                        <Label Style="{StaticResource BetItemLabelStyle}" Text="{Binding BetTypeDisplay}"/>
                                         
                                     </VerticalStackLayout>
                                     

@@ -30,6 +30,16 @@ public partial class BettorSingleBetsCollectionViewControl : ContentView
                 control.BetListLabel.Text = newValue as string;
             });
 
+    public static readonly BindableProperty CustomIsVisibleProperty = BindableProperty.Create(
+            nameof(CustomIsVisible),
+            typeof(bool),
+            typeof(BettorSingleBetsCollectionViewControl),
+            propertyChanged: (bindable, oldValue, newValue) =>
+            {
+                var control = (BettorSingleBetsCollectionViewControl)bindable;
+                control.MySingleBetsContentView.IsVisible = (bool)newValue;
+            });
+
     public ObservableCollection<SingleBetModel> CustomItemSource
     {
         get => GetValue(CustomItemSourceProperty) as ObservableCollection<SingleBetModel>;
@@ -40,5 +50,11 @@ public partial class BettorSingleBetsCollectionViewControl : ContentView
     {
         get => GetValue(CustomTextProperty) as string;
         set => SetValue(CustomTextProperty, value);
+    }
+
+    public bool CustomIsVisible
+    {
+        get => (bool)GetValue(CustomIsVisibleProperty);
+        set => SetValue(CustomIsVisibleProperty, value);
     }
 }

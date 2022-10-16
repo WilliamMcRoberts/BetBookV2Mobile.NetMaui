@@ -9,26 +9,43 @@
         x:Class="BetBookGamingMobile.Views.MyBetsPage"
         x:TypeArguments="viewModels:MyBetsViewModel">
     
-        <ScrollView>
-            
-            <VerticalStackLayout>
+    <ScrollView>
+
+        <VerticalStackLayout>
+        
+            <HorizontalStackLayout 
+                HorizontalOptions="Center"
+                Margin="10">
+
+                <Button x:Name="SingleInProgressButton" Text="In Progress" Clicked="SingleInProgressButton_Clicked" />
+                <Button x:Name="SingleWinnersButton" Text="Winners" Clicked="SingleWinnersButton_Clicked"/>
+                <Button x:Name="SingleLosersButton" Text="Losers" Clicked="SingleLosersButton_Clicked" />
+                <Button x:Name="SinglePushButton" Text="Push" Clicked="SinglePushButton_Clicked"/>
                 
+            </HorizontalStackLayout>
+        
+
+            <VerticalStackLayout>
+
                 <controls:BettorSingleBetsCollectionViewControl 
+                    x:Name="SingleInProgressView"
                     CustomText="In Progress SingleBets"
                     CustomItemSource="{Binding BettorSingleBetsInProgress}"/>
 
                 <controls:BettorSingleBetsCollectionViewControl 
-                        CustomText="Winning Single Bets"
-                        CustomItemSource="{Binding BettorSingleBetsWinners}"/>
+                    x:Name="SingleWinnersView"
+                    CustomText="Winning Single Bets"
+                    CustomItemSource="{Binding BettorSingleBetsWinners}"/>
 
                 <controls:BettorSingleBetsCollectionViewControl 
-                            CustomText="Losing Single Bets"
-                            CustomItemSource="{Binding BettorSingleBetsLosers}"/>
+                    x:Name="SingleLosersView"
+                    CustomText="Losing Single Bets"
+                    CustomItemSource="{Binding BettorSingleBetsLosers}"/>
 
                 <controls:BettorSingleBetsCollectionViewControl 
-                            CustomText="Push Single Bets"
-                            CustomItemSource="{Binding BettorSingleBetsPush}"/>
-
+                    x:Name="SinglePushView"
+                    CustomText="Push Single Bets"
+                    CustomItemSource="{Binding BettorSingleBetsPush}"/>
 
                 <VerticalStackLayout>
 
@@ -112,6 +129,8 @@
 
             </VerticalStackLayout>
 
-        </ScrollView>
-    
+        </VerticalStackLayout>
+
+    </ScrollView>
+
 </views:BasePage>
