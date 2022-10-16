@@ -1,8 +1,5 @@
 ﻿
 
-
-using BetBookGamingMobile.Dto;
-
 namespace BetBookGamingMobile.Models;
 
 #nullable enable
@@ -25,6 +22,22 @@ public class SingleBetModel
     public SingleBetPayoutStatus SingleBetPayoutStatus { get; set; }
 
     public string WinnerChosen { get; set; } = string.Empty;
+
+    public string? BetTypeDisplay 
+    { 
+        get => BetType == BetType.POINTSPREAD ? "PointSpread" 
+            : BetType == BetType.OVERUNDER ? "OverUnder" 
+            : "Moneyline"; 
+    }
+
+    public string? WinnerSummary
+    {
+        get => BetType == BetType.POINTSPREAD ? (WinnerChosen == GameSnapshot.HomeTeam ?
+         $"{WinnerChosen} {Convert.ToDecimal(GameSnapshot.PointSpread):+#.0;-#.0}"
+         : $"{WinnerChosen} {Convert.ToDecimal(GameSnapshot.PointSpread):-#.0;+#.0;}") :
+            BetType == BetType.OVERUNDER ? (WinnerChosen == "Over" ? $"Over {GameSnapshot.OverUnder}"
+         : $"Under {GameSnapshot.OverUnder}") : WinnerChosen;
+    }
 }
 
 #nullable disable

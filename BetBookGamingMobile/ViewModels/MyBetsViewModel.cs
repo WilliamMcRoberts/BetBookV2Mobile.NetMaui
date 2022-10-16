@@ -39,7 +39,7 @@ public partial class MyBetsViewModel : AppBaseViewModel
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            Debug.WriteLine(ex.Message);
         }
         finally
         {

@@ -20,9 +20,25 @@ public partial class BettorSingleBetsCollectionViewControl : ContentView
                 control.BettorSingleBetsCollectionView.ItemsSource = newValue as ObservableCollection<SingleBetModel>;
             });
 
+    public static readonly BindableProperty CustomTextProperty = BindableProperty.Create(
+            nameof(CustomText),
+            typeof(string),
+            typeof(BettorSingleBetsCollectionViewControl),
+            propertyChanged: (bindable, oldValue, newValue) =>
+            {
+                var control = (BettorSingleBetsCollectionViewControl)bindable;
+                control.BetListLabel.Text = newValue as string;
+            });
+
     public ObservableCollection<SingleBetModel> CustomItemSource
     {
         get => GetValue(CustomItemSourceProperty) as ObservableCollection<SingleBetModel>;
         set => SetValue(CustomItemSourceProperty, value);
+    }
+
+    public string CustomText
+    {
+        get => GetValue(CustomTextProperty) as string;
+        set => SetValue(CustomTextProperty, value);
     }
 }

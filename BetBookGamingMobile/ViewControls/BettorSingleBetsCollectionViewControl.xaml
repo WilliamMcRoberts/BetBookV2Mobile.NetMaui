@@ -8,17 +8,103 @@
              x:DataType="viewModels:MyBetsViewModel"
              x:Class="BetBookGamingMobile.ViewControls.BettorSingleBetsCollectionViewControl">
     
-    <CollectionView x:Name="BettorSingleBetsCollectionView"
-                SelectionMode="None">
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="models:SingleBetModel">
-                <VerticalStackLayout>
-                    <Label Text="{Binding WinnerChosen}"/>
-                    <Label Text="{Binding BetPayout}"/>
-                    <Label Text="{Binding BetAmount}"/>
-                </VerticalStackLayout>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+    <ContentView.Resources>
+        <ResourceDictionary>
+            
+            <Style x:Key="BetListLabelStyle" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="FontSize" Value="25"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="TextColor" Value="White"/>
+            </Style>
+            
+        </ResourceDictionary>
+    </ContentView.Resources>
+    
+    <VerticalStackLayout>
+        
+        <Label 
+            x:Name="BetListLabel"
+            Style="{StaticResource BetListLabelStyle}"/>
+        
+        <CollectionView 
+            x:Name="BettorSingleBetsCollectionView"
+            SelectionMode="None">
+
+            <CollectionView.ItemTemplate>
+
+                <DataTemplate x:DataType="models:SingleBetModel">
+
+                    <Frame Margin="10,5">
+
+                        <Border>
+
+                            <Border.StrokeShape>
+
+                                <RoundRectangle CornerRadius="15"/>
+
+                            </Border.StrokeShape>
+
+                            <Border.Background>
+
+                                <LinearGradientBrush EndPoint="1,0">
+
+                                    <GradientStop 
+                                        Color="Azure"
+                                        Offset="0.1" />
+
+                                    <GradientStop 
+                                        Color="IndianRed"
+                                        Offset="1.0" />
+
+                                </LinearGradientBrush>
+
+                            </Border.Background>
+                            
+                            <VerticalStackLayout>
+                                
+                                <Label Text="{Binding GameSnapshot.Date}"
+                                       HorizontalOptions="Center"
+                                       Margin="10"
+                                       FontAttributes="Bold"/>
+                                
+                                <HorizontalStackLayout 
+                                    Margin="10,5" 
+                                    HorizontalOptions="Center" 
+                                    Spacing="30">
+                                    
+                                    <VerticalStackLayout>
+                                        
+                                        <Label FontAttributes="Bold" Text="Bet Amount" />
+                                        <Label FontAttributes="Bold" Text="Bet Payout" />
+                                        <Label FontAttributes="Bold" Text="Chosen Winner"/>
+                                        <Label FontAttributes="Bold" Text="Bet Type"/>
+                                        
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout>
+
+                                        <Label FontAttributes="Bold" Text="{Binding BetAmount}"/>
+                                        <Label FontAttributes="Bold" Text="{Binding BetPayout}"/>
+                                        <Label FontAttributes="Bold" Text="{Binding WinnerSummary}"/>
+                                        <Label FontAttributes="Bold" Text="{Binding BetTypeDisplay}"/>
+                                        
+                                    </VerticalStackLayout>
+                                    
+                                </HorizontalStackLayout>
+                                
+                            </VerticalStackLayout>
+                            
+                        </Border>
+
+                    </Frame>
+
+                </DataTemplate>
+
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+        
+    </VerticalStackLayout>
     
 </ContentView>

@@ -10,73 +10,108 @@
         x:TypeArguments="viewModels:MyBetsViewModel">
     
         <ScrollView>
+            
             <VerticalStackLayout>
-
-                <Label Text="In Progress Single Bets" 
-                   FontSize="25" 
-                   FontAttributes="Bold" 
-                   TextColor="Black"/>
+                
+                <controls:BettorSingleBetsCollectionViewControl 
+                    CustomText="In Progress SingleBets"
+                    CustomItemSource="{Binding BettorSingleBetsInProgress}"/>
 
                 <controls:BettorSingleBetsCollectionViewControl 
-                CustomItemSource="{Binding BettorSingleBetsInProgress}"/>
-
-                <Label Text="Winning Single Bets" 
-                   FontSize="25" 
-                   FontAttributes="Bold"
-                   TextColor="Black"/>
+                        CustomText="Winning Single Bets"
+                        CustomItemSource="{Binding BettorSingleBetsWinners}"/>
 
                 <controls:BettorSingleBetsCollectionViewControl 
-                CustomItemSource="{Binding BettorSingleBetsWinners}"/>
-
-                <Label Text="Losing Single Bets" 
-                   FontSize="25" 
-                   FontAttributes="Bold" 
-                   TextColor="Black"/>
+                            CustomText="Losing Single Bets"
+                            CustomItemSource="{Binding BettorSingleBetsLosers}"/>
 
                 <controls:BettorSingleBetsCollectionViewControl 
-                CustomItemSource="{Binding BettorSingleBetsLosers}"/>
+                            CustomText="Push Single Bets"
+                            CustomItemSource="{Binding BettorSingleBetsPush}"/>
 
-                <Label Text="Push Single Bets" 
-                   FontSize="25" 
-                   FontAttributes="Bold" 
-                   TextColor="Black"/>
 
-                <controls:BettorSingleBetsCollectionViewControl 
-                CustomItemSource="{Binding BettorSingleBetsPush}"/>
+                <VerticalStackLayout>
 
-                <Label Text="In Progress Parley Bets" 
-                   FontSize="25" 
-                   FontAttributes="Bold" 
-                   TextColor="Black"/>
+                    <Label 
+                       Text="In Progress Parley Bets" 
+                       FontSize="25" 
+                       FontAttributes="Bold" 
+                       TextColor="Black"/>
 
-                <controls:BettorParleyBetsCollectionViewControl 
-                CustomItemSource="{Binding BettorParleyBetsInProgress}"/>
+                    <Frame Margin="10,5">
 
-                <Label Text="Winning Parley Bets" 
-                   FontSize="25" 
-                   FontAttributes="Bold" 
-                   TextColor="Black"/>
+                        <Border>
 
-                <controls:BettorParleyBetsCollectionViewControl 
-                CustomItemSource="{Binding BettorParleyBetsWinners}"/>
+                            <controls:BettorParleyBetsCollectionViewControl 
+                                CustomItemSource="{Binding BettorParleyBetsInProgress}"/>
 
-                <Label Text="Losing Parley Bets" 
-                   FontSize="25" 
-                   FontAttributes="Bold" 
-                   TextColor="Black"/>
+                        </Border>
+                    </Frame>
 
-                <controls:BettorParleyBetsCollectionViewControl 
-                CustomItemSource="{Binding BettorParleyBetsLosers}"/>
+                </VerticalStackLayout>
 
-                <Label Text="Push Parley Bets" 
-                   FontSize="25" 
-                   FontAttributes="Bold" 
-                   TextColor="Black"/>
+                <VerticalStackLayout>
 
-                <controls:BettorParleyBetsCollectionViewControl 
-                CustomItemSource="{Binding BettorParleyBetsPush}"/>
+                    <Label 
+                       Text="Winning Parley Bets" 
+                       FontSize="25" 
+                       FontAttributes="Bold" 
+                       TextColor="Black"/>
+
+                    <Frame Margin="10,5">
+
+                        <Border>
+
+                            <controls:BettorParleyBetsCollectionViewControl 
+                                CustomItemSource="{Binding BettorParleyBetsWinners}"/>
+
+                        </Border>
+                    </Frame>
+
+                </VerticalStackLayout>
+
+                <VerticalStackLayout>
+
+                    <Label 
+                       Text="Losing Parley Bets" 
+                       FontSize="25" 
+                       FontAttributes="Bold" 
+                       TextColor="Black"/>
+
+                    <Frame Margin="10,5">
+
+                        <Border>
+
+                            <controls:BettorParleyBetsCollectionViewControl 
+                                CustomItemSource="{Binding BettorParleyBetsLosers}"/>
+
+                        </Border>
+                    </Frame>
+
+                </VerticalStackLayout>
+
+                <VerticalStackLayout>
+
+                    <Label 
+                       Text="Push Parley Bets" 
+                       FontSize="25" 
+                       FontAttributes="Bold" 
+                       TextColor="Black"/>
+
+                    <Frame Margin="10,5">
+
+                        <Border>
+
+                            <controls:BettorParleyBetsCollectionViewControl 
+                                CustomItemSource="{Binding BettorParleyBetsPush}"/>
+
+                        </Border>
+                    </Frame>
+
+                </VerticalStackLayout>
 
             </VerticalStackLayout>
+
         </ScrollView>
     
 </views:BasePage>
