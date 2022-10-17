@@ -48,11 +48,13 @@ public partial class MyBetsPage : BasePage<MyBetsViewModel>
         if (SingleBetsVerticleStackLayout.IsVisible)
         {
             (SingleInProgressView.IsVisible, SingleWinnersView.IsVisible, SingleLosersView.IsVisible, SinglePushView.IsVisible) =
-                (InProgressButton.BackgroundColor == Colors.DarkRed, WinnersButton.BackgroundColor == Colors.DarkRed, LosersButton.BackgroundColor == Colors.DarkRed, PushButton.BackgroundColor == Colors.DarkRed);
+                (InProgressButton.BackgroundColor == Colors.DarkRed, WinnersButton.BackgroundColor == Colors.DarkRed, 
+                    LosersButton.BackgroundColor == Colors.DarkRed, PushButton.BackgroundColor == Colors.DarkRed);
             return;
         }
 
         (ParleyInProgressView.IsVisible, ParleyWinnersView.IsVisible, ParleyLosersView.IsVisible, ParleyPushView.IsVisible) =
-            (InProgressButton.BackgroundColor == Colors.DarkRed, WinnersButton.BackgroundColor == Colors.DarkRed, LosersButton.BackgroundColor == Colors.DarkRed, PushButton.BackgroundColor == Colors.DarkRed);
+            (InProgressButton.BackgroundColor == Colors.DarkRed, WinnersButton.BackgroundColor == Colors.DarkRed, 
+                LosersButton.BackgroundColor == Colors.DarkRed, PushButton.BackgroundColor == Colors.DarkRed);
     }
 }
