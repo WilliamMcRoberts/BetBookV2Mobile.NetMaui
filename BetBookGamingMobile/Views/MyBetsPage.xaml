@@ -8,28 +8,53 @@
         x:DataType="viewModels:MyBetsViewModel"
         x:Class="BetBookGamingMobile.Views.MyBetsPage"
         x:TypeArguments="viewModels:MyBetsViewModel">
-    
+
     <ScrollView>
 
         <VerticalStackLayout>
-        
-            <HorizontalStackLayout 
-                HorizontalOptions="Center"
-                Margin="10">
-
-                <Button x:Name="SingleInProgressButton" Text="In Progress" Clicked="SingleInProgressButton_Clicked" />
-                <Button x:Name="SingleWinnersButton" Text="Winners" Clicked="SingleWinnersButton_Clicked"/>
-                <Button x:Name="SingleLosersButton" Text="Losers" Clicked="SingleLosersButton_Clicked" />
-                <Button x:Name="SinglePushButton" Text="Push" Clicked="SinglePushButton_Clicked"/>
+            
+            <HorizontalStackLayout Margin="10" HorizontalOptions="CenterAndExpand" Spacing="10">
+                
+                <RadioButton x:Name="SingleRadioButton" Content="Single Bets" 
+                             CheckedChanged="RadioButton_CheckedChanged" Background="Transparent" 
+                             TextColor="White" FontAttributes="Bold" VerticalOptions="Center" Margin="5"/>
+                
+                <RadioButton x:Name="ParleyRadioButton" Content="Parley Bets" 
+                             CheckedChanged="RadioButton_CheckedChanged" Background="Transparent" 
+                             TextColor="White" FontAttributes="Bold" VerticalOptions="Center" Margin="5"/>
                 
             </HorizontalStackLayout>
-        
+            
+            <HorizontalStackLayout 
+                HorizontalOptions="CenterAndExpand" Margin="10" Spacing="4">
+ 
+                <Button 
+                    x:Name="InProgressButton" Text="Active" Clicked="BetStatusButton_Clicked"  
+                    FontAttributes="Bold" BackgroundColor="DarkBlue" CornerRadius="15" BorderColor="White" 
+                    BorderWidth="1" FontSize="12" WidthRequest="80"/>
 
-            <VerticalStackLayout>
+                <Button 
+                    x:Name="WinnersButton" Text="Winners" Clicked="BetStatusButton_Clicked"  
+                    FontAttributes="Bold" BackgroundColor="DarkBlue" CornerRadius="15" BorderColor="White" 
+                    BorderWidth="1" FontSize="12"  WidthRequest="80"/>
+                
+                <Button 
+                    x:Name="LosersButton" Text="Losers" Clicked="BetStatusButton_Clicked"  
+                    FontAttributes="Bold" BackgroundColor="DarkBlue" CornerRadius="15" BorderColor="White" 
+                    BorderWidth="1" FontSize="12"  WidthRequest="80"/>
+                
+                <Button 
+                    x:Name="PushButton" Text="Push" Clicked="BetStatusButton_Clicked"  
+                    FontAttributes="Bold" BackgroundColor="DarkBlue" CornerRadius="15" BorderColor="White" 
+                    BorderWidth="1" FontSize="12"  WidthRequest="80"/>
+                
+            </HorizontalStackLayout>
+
+            <VerticalStackLayout x:Name="SingleBetsVerticleStackLayout">
 
                 <controls:BettorSingleBetsCollectionViewControl 
                     x:Name="SingleInProgressView"
-                    CustomText="In Progress SingleBets"
+                    CustomText="In Progress Single Bets"
                     CustomItemSource="{Binding BettorSingleBetsInProgress}"/>
 
                 <controls:BettorSingleBetsCollectionViewControl 
@@ -46,86 +71,30 @@
                     x:Name="SinglePushView"
                     CustomText="Push Single Bets"
                     CustomItemSource="{Binding BettorSingleBetsPush}"/>
+                
+            </VerticalStackLayout>
+            
+            <VerticalStackLayout x:Name="ParleyBetsVerticleStackLayout">
 
-                <VerticalStackLayout>
+                <controls:BettorParleyBetsCollectionViewControl
+                    x:Name="ParleyInProgressView"
+                    CustomText="In Progress Parley Bets"
+                    CustomItemSource="{Binding BettorParleyBetsInProgress}"/>
 
-                    <Label 
-                       Text="In Progress Parley Bets" 
-                       FontSize="25" 
-                       FontAttributes="Bold" 
-                       TextColor="Black"/>
+                <controls:BettorParleyBetsCollectionViewControl
+                    x:Name="ParleyWinnersView"
+                    CustomText="Winning Parley Bets"
+                    CustomItemSource="{Binding BettorParleyBetsWinners}"/>
 
-                    <Frame Margin="10,5">
+                <controls:BettorParleyBetsCollectionViewControl
+                    x:Name="ParleyLosersView"
+                    CustomText="Losing Parley Bets"
+                    CustomItemSource="{Binding BettorParleyBetsLosers}"/>
 
-                        <Border>
-
-                            <controls:BettorParleyBetsCollectionViewControl 
-                                CustomItemSource="{Binding BettorParleyBetsInProgress}"/>
-
-                        </Border>
-                    </Frame>
-
-                </VerticalStackLayout>
-
-                <VerticalStackLayout>
-
-                    <Label 
-                       Text="Winning Parley Bets" 
-                       FontSize="25" 
-                       FontAttributes="Bold" 
-                       TextColor="Black"/>
-
-                    <Frame Margin="10,5">
-
-                        <Border>
-
-                            <controls:BettorParleyBetsCollectionViewControl 
-                                CustomItemSource="{Binding BettorParleyBetsWinners}"/>
-
-                        </Border>
-                    </Frame>
-
-                </VerticalStackLayout>
-
-                <VerticalStackLayout>
-
-                    <Label 
-                       Text="Losing Parley Bets" 
-                       FontSize="25" 
-                       FontAttributes="Bold" 
-                       TextColor="Black"/>
-
-                    <Frame Margin="10,5">
-
-                        <Border>
-
-                            <controls:BettorParleyBetsCollectionViewControl 
-                                CustomItemSource="{Binding BettorParleyBetsLosers}"/>
-
-                        </Border>
-                    </Frame>
-
-                </VerticalStackLayout>
-
-                <VerticalStackLayout>
-
-                    <Label 
-                       Text="Push Parley Bets" 
-                       FontSize="25" 
-                       FontAttributes="Bold" 
-                       TextColor="Black"/>
-
-                    <Frame Margin="10,5">
-
-                        <Border>
-
-                            <controls:BettorParleyBetsCollectionViewControl 
-                                CustomItemSource="{Binding BettorParleyBetsPush}"/>
-
-                        </Border>
-                    </Frame>
-
-                </VerticalStackLayout>
+                <controls:BettorParleyBetsCollectionViewControl
+                    x:Name="ParleyPushView"
+                    CustomText="Push Parley Bets"
+                    CustomItemSource="{Binding BettorParleyBetsPush}"/>
 
             </VerticalStackLayout>
 

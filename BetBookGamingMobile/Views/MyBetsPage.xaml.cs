@@ -13,49 +13,76 @@ public partial class MyBetsPage : BasePage<MyBetsViewModel>
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
-        SetVisibilityState();
-		if (!_isLoaded)
+
+        SetPageState();
+
+        if (!_isLoaded)
 			await ViewModel.SetStateCommand.ExecuteAsync(null);
 		_isLoaded = true;
     }
 
-    private void SingleInProgressButton_Clicked(object sender, EventArgs e)
+    private void BetStatusButton_Clicked(object sender, EventArgs e)
     {
-        SingleInProgressView.IsVisible = true;
-        SingleWinnersView.IsVisible = false;
-        SingleLosersView.IsVisible = false;
-        SinglePushView.IsVisible = false;
+        ArgumentNullException.ThrowIfNull(sender);
+
+        var button = (Button)sender;
+
+        button.BackgroundColor = button.BackgroundColor == Colors.DarkBlue ? Colors.DarkRed : Colors.DarkBlue;
+
+        if (SingleBetsVerticleStackLayout.IsVisible)
+        {
+            switch (button.Text)
+            {
+                case "Active":
+                    SingleInProgressView.IsVisible = InProgressButton.BackgroundColor == Colors.DarkRed;
+                    break;
+                case "Winners":
+                    SingleWinnersView.IsVisible = WinnersButton.BackgroundColor == Colors.DarkRed;
+                    break;
+                case "Losers":
+                    SingleLosersView.IsVisible = LosersButton.BackgroundColor == Colors.DarkRed;
+                    break;
+                case "Push":
+                    SinglePushView.IsVisible = PushButton.BackgroundColor == Colors.DarkRed;
+                    break;
+            }
+            return;
+        }
+
+        switch (button.Text)
+        {
+            case "Active":
+                ParleyInProgressView.IsVisible = InProgressButton.BackgroundColor == Colors.DarkRed;
+                break;
+            case "Winners":
+                ParleyWinnersView.IsVisible = WinnersButton.BackgroundColor == Colors.DarkRed;
+                break;
+            case "Losers":
+                ParleyLosersView.IsVisible = LosersButton.BackgroundColor == Colors.DarkRed;
+                break;
+            case "Push":
+                ParleyPushView.IsVisible = PushButton.BackgroundColor == Colors.DarkRed;
+                break;
+        }
     }
 
-    private void SingleWinnersButton_Clicked(object sender, EventArgs e)
+    private void RadioButton_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
-        SingleInProgressView.IsVisible = false;
-        SingleWinnersView.IsVisible = true;
-        SingleLosersView.IsVisible = false;
-        SinglePushView.IsVisible = false;
+        var radioButton = (RadioButton)sender;
+        (SingleBetsVerticleStackLayout.IsVisible, ParleyBetsVerticleStackLayout.IsVisible) =
+            radioButton.Content.ToString() == "Single Bets" ? (true, false) : (false, true);
     }
 
-    private void SingleLosersButton_Clicked(object sender, EventArgs e)
+    private void SetPageState()
     {
-        SingleInProgressView.IsVisible = false;
-        SingleWinnersView.IsVisible = false;
-        SingleLosersView.IsVisible = true;
-        SinglePushView.IsVisible = false;
-    }
+        SingleRadioButton.IsChecked = true;
+        (InProgressButton.BackgroundColor, WinnersButton.BackgroundColor, LosersButton.BackgroundColor, PushButton.BackgroundColor) =
+            (Colors.DarkRed, Colors.DarkBlue, Colors.DarkBlue, Colors.DarkBlue);
+        (SingleBetsVerticleStackLayout.IsVisible, ParleyBetsVerticleStackLayout.IsVisible) = (true, false);
+        (SingleInProgressView.IsVisible, SingleWinnersView.IsVisible, SingleLosersView.IsVisible, SinglePushView.IsVisible) =
+            (true, false, false, false);
+        (ParleyInProgressView.IsVisible, ParleyWinnersView.IsVisible, ParleyLosersView.IsVisible, ParleyPushView.IsVisible) =
+            (false, false, false, false);
 
-    private void SinglePushButton_Clicked(object sender, EventArgs e)
-    {
-        SingleInProgressView.IsVisible = false;
-        SingleWinnersView.IsVisible = false;
-        SingleLosersView.IsVisible = false;
-        SinglePushView.IsVisible = true;
-    }
-
-    private void SetVisibilityState()
-    {
-        SingleInProgressView.IsVisible = true;
-        SingleWinnersView.IsVisible = false;
-        SingleLosersView.IsVisible = false;
-        SinglePushView.IsVisible = false;
     }
 }

@@ -6,18 +6,164 @@
              xmlns:controls="clr-namespace:BetBookGamingMobile.ViewControls"
              xmlns:models="clr-namespace:BetBookGamingMobile.Models"
              x:DataType="viewModels:MyBetsViewModel"
-             x:Class="BetBookGamingMobile.ViewControls.BettorParleyBetsCollectionViewControl">
-    
-    <CollectionView x:Name="BettorParleyBetsCollectionView"
-                SelectionMode="None">
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="models:ParleyBetSlipModel">
-                <VerticalStackLayout>
-                    <Label Text="{Binding ParleyBetPayout}"/>
-                    <Label Text="{Binding ParleyBetAmount}"/>
-                </VerticalStackLayout>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+             x:Class="BetBookGamingMobile.ViewControls.BettorParleyBetsCollectionViewControl"
+             x:Name="MyParleyBetsContentView">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="BetListLabelStyle" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="FontSize" Value="25"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="Margin" Value="10"/>
+            </Style>
+
+            <Style x:Key="BetItemLabelStyle" TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
+
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <VerticalStackLayout>
+
+        <Label 
+            x:Name="BetListLabel"
+            Style="{StaticResource BetListLabelStyle}"/>
+
+        <CollectionView 
+            x:Name="BettorParleyBetsCollectionView"
+            SelectionMode="None">
+
+            <CollectionView.ItemTemplate>
+
+                <DataTemplate x:DataType="models:ParleyBetSlipModel">
+
+                    <Frame Margin="10,5">
+
+                        <Border>
+
+                            <Border.StrokeShape>
+
+                                <RoundRectangle CornerRadius="15"/>
+
+                            </Border.StrokeShape>
+
+                            <Border.Background>
+
+                                <LinearGradientBrush EndPoint="1,0">
+
+                                    <GradientStop 
+                                        Color="Azure"
+                                        Offset="0.1" />
+
+                                    <GradientStop 
+                                        Color="IndianRed"
+                                        Offset="1.0" />
+
+                                </LinearGradientBrush>
+
+                            </Border.Background>
+
+                            <VerticalStackLayout Margin="10" Spacing="10">
+                                
+                                <CollectionView ItemsSource="{Binding SingleBetsForParleyList}">
+                                    
+                                    <CollectionView.ItemTemplate>
+                                        
+                                        <DataTemplate x:DataType="models:SingleBetForParleyModel">
+                                            
+                                            <VerticalStackLayout Margin="0,15,0,5">
+                                                
+                                                <HorizontalStackLayout 
+                                                    Spacing="10" 
+                                                    HorizontalOptions="Center" 
+                                                    Margin="0">
+                                                    
+                                                    <Label 
+                                                        Text="{Binding GameSnapshot.AwayTeam}"
+                                                        HorizontalOptions="Center"
+                                                        FontAttributes="Bold"
+                                                        TextColor="Black"
+                                                        FontSize="16"/>
+                                                    
+                                                    <Label 
+                                                        Text="@"
+                                                        HorizontalOptions="Center"
+                                                        FontAttributes="Bold"
+                                                        TextColor="Black"/>
+                                                    
+                                                    <Label 
+                                                        Text="{Binding GameSnapshot.HomeTeam}"
+                                                        HorizontalOptions="Center"
+                                                        FontAttributes="Bold"
+                                                        TextColor="Black"
+                                                        FontSize="16"/>
+
+                                                </HorizontalStackLayout>
+                                                
+                                                <HorizontalStackLayout 
+                                                    HorizontalOptions="Center" 
+                                                    Spacing="30">
+                                                    
+                                                    <VerticalStackLayout>
+                                                        <Label Style="{StaticResource BetItemLabelStyle}"  Text="BetStatus"/>
+                                                        <Label Style="{StaticResource BetItemLabelStyle}"  Text="Bet Type"/>
+                                                        <Label Style="{StaticResource BetItemLabelStyle}"  Text="Chosen Winner"/>
+                                                    </VerticalStackLayout>
+
+                                                    <VerticalStackLayout>
+                                                        <Label Style="{StaticResource BetItemLabelStyle}" Text="{Binding BetStatusDisplay}"/>
+                                                        <Label Style="{StaticResource BetItemLabelStyle}" Text="{Binding BetTypeDisplay}"/>
+                                                        <Label Style="{StaticResource BetItemLabelStyle}" Text="{Binding WinnerSummary}"/>
+                                                    </VerticalStackLayout>
+                                                    
+                                                </HorizontalStackLayout>
+                                                
+                                            </VerticalStackLayout>
+                                            
+                                        </DataTemplate>
+                                        
+                                    </CollectionView.ItemTemplate>
+                                    
+                                </CollectionView>
+                                
+                                <HorizontalStackLayout 
+                                    Margin="0,0,0,10" 
+                                    HorizontalOptions="Center" 
+                                    Spacing="30">
+
+                                    <VerticalStackLayout>
+
+                                        <Label FontAttributes="Bold" TextColor="Black"  FontSize="16" Text="Bet Amount" />
+                                        <Label FontAttributes="Bold" TextColor="Black"  FontSize="16" Text="Bet Payout" />
+
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout>
+
+                                        <Label FontAttributes="Bold" TextColor="Black" FontSize="16" Text="{Binding ParleyBetAmount}"/>
+                                        <Label FontAttributes="Bold" TextColor="Black" FontSize="16" Text="{Binding ParleyBetPayout}"/>
+
+                                    </VerticalStackLayout>
+
+                                </HorizontalStackLayout>
+
+                            </VerticalStackLayout>
+
+                        </Border>
+
+                    </Frame>
+
+                </DataTemplate>
+
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+    </VerticalStackLayout>
     
 </ContentView>
