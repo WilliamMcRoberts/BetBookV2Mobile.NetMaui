@@ -1,5 +1,5 @@
 ﻿
-
+#nullable enable
 namespace BetBookGamingMobile.Models;
 
 public class GameSnapshotModel
@@ -19,4 +19,12 @@ public class GameSnapshotModel
     public int ScoreID { get; set; }
     public int? OverPayout { get; set; }
     public int? UnderPayout { get; set; }
+    public string? AwayTeamImage { get => $"{AwayTeam.ToLower()}.svg"; }
+    public string? HomeTeamImage { get => $"{HomeTeam.ToLower()}.svg"; }
+    public string? DateDisplay
+    {
+        get => $"{Date:g}";
+    }
 }
+
+#nullable disable

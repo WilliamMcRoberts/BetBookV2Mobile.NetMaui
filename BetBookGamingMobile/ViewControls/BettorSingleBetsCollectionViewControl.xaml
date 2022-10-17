@@ -13,22 +13,23 @@
         <ResourceDictionary>
 
             <Style x:Key="BetListLabelStyle" TargetType="Label">
-            <Setter Property="HorizontalOptions" Value="Center"/>
-            <Setter Property="FontSize" Value="25"/>
-            <Setter Property="FontAttributes" Value="Bold"/>
-            <Setter Property="TextColor" Value="White"/>
-            <Setter Property="Margin" Value="10"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="FontSize" Value="25"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="Margin" Value="10"/>
             </Style>
 
             <Style x:Key="BetItemLabelStyle" TargetType="Label">
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
             </Style>
 
         </ResourceDictionary>
     </ContentView.Resources>
     
-    <VerticalStackLayout>
+    <VerticalStackLayout Margin="0,0,0,50">
         
         <Label 
             x:Name="BetListLabel"
@@ -70,9 +71,9 @@
                             
                             <VerticalStackLayout>
                                 
-                                <Label Text="{Binding GameSnapshot.Date}"
+                                <Label Text="{Binding GameSnapshot.DateDisplay}"
                                        HorizontalOptions="Center"
-                                       Margin="10"
+                                       Margin="0,10,0,0"
                                        FontAttributes="Bold"
                                        TextColor="Black"/>
                                 
@@ -82,21 +83,19 @@
                                     Spacing="30">
                                     
                                     <VerticalStackLayout>
-
-                                        <Label Style="{StaticResource BetItemLabelStyle}"  Text="Bet Amount" />
-                                        <Label Style="{StaticResource BetItemLabelStyle}"  Text="Bet Payout" />
-                                        <Label Style="{StaticResource BetItemLabelStyle}"  Text="Chosen Winner"/>
-                                        <Label Style="{StaticResource BetItemLabelStyle}"  Text="Bet Type"/>
-                                        
+                                        <Image Source="{Binding GameSnapshot.AwayTeamImage}" WidthRequest="35" HeightRequest="35" HorizontalOptions="Center"/>
+                                        <Label Style="{StaticResource BetItemLabelStyle}"  Text="Bet Type" />
+                                        <Label Style="{StaticResource BetItemLabelStyle}"  Text="Chosen Winner" />
+                                        <Label Style="{StaticResource BetItemLabelStyle}"  Text="Bet Amount"  />
+                                        <Label Style="{StaticResource BetItemLabelStyle}"  Text="Bet Payout"  />
                                     </VerticalStackLayout>
 
                                     <VerticalStackLayout>
-
-                                        <Label Style="{StaticResource BetItemLabelStyle}"  Text="{Binding BetAmount}"/>
-                                        <Label Style="{StaticResource BetItemLabelStyle}"  Text="{Binding BetPayout}"/>
-                                        <Label Style="{StaticResource BetItemLabelStyle}"   Text="{Binding WinnerSummary}"/>
-                                        <Label Style="{StaticResource BetItemLabelStyle}" Text="{Binding BetTypeDisplay}"/>
-                                        
+                                        <Image Source="{Binding GameSnapshot.HomeTeamImage}" WidthRequest="35" HeightRequest="35" HorizontalOptions="Center"/>
+                                        <Label Style="{StaticResource BetItemLabelStyle}" Text="{Binding BetTypeDisplay}" />
+                                        <Label Style="{StaticResource BetItemLabelStyle}"   Text="{Binding WinnerSummary}"  />
+                                        <Label Style="{StaticResource BetItemLabelStyle}"  Text="{Binding BetAmountDisplay}" />
+                                        <Label Style="{StaticResource BetItemLabelStyle}"  Text="{Binding BetPayoutDisplay}" />
                                     </VerticalStackLayout>
                                     
                                 </HorizontalStackLayout>

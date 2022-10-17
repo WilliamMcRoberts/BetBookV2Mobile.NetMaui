@@ -29,9 +29,9 @@ public class SingleBetForParleyModel
 
     public string? BetTypeDisplay
     {
-        get => BetType == BetType.POINTSPREAD ? "PointSpread"
-            : BetType == BetType.OVERUNDER ? "OverUnder"
-            : "Moneyline";
+        get => BetType == BetType.POINTSPREAD ? "PS"
+            : BetType == BetType.OVERUNDER ? "OU"
+            : "ML";
     }
 
     public string? WinnerSummary

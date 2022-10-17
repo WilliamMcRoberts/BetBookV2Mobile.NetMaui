@@ -28,7 +28,7 @@ public partial class MyBetsViewModel : AppBaseViewModel
         if (IsBusy) return;
 
         var loggedInUser = _authState.CurrentAuthenticationState.LoggedInUser;
-
+            
         if (string.IsNullOrEmpty(loggedInUser.UserId))
             return;
 
@@ -81,4 +81,7 @@ public partial class MyBetsViewModel : AppBaseViewModel
         BettorParleyBetsPush.AddRange(bettorParleyBets.Where(
             b => b.ParleyBetSlipStatus == ParleyBetSlipStatus.PUSH), BettorParleyBetsPush.Any());
     }  
+
+    // TODO - Bet Status Button Animations
+    // TODO - Fix My Bets Page UI
 }

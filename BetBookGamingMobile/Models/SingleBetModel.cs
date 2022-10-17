@@ -23,11 +23,21 @@ public class SingleBetModel
 
     public string WinnerChosen { get; set; } = string.Empty;
 
+    public string? BetAmountDisplay
+    {
+        get => $"{BetAmount:C}";
+    }
+
+    public string? BetPayoutDisplay
+    {
+        get => $"{BetPayout:C}";
+    }
+
     public string? BetTypeDisplay 
     { 
-        get => BetType == BetType.POINTSPREAD ? "PointSpread" 
-            : BetType == BetType.OVERUNDER ? "OverUnder" 
-            : "Moneyline"; 
+        get => BetType == BetType.POINTSPREAD ? "PS" 
+            : BetType == BetType.OVERUNDER ? "OU" 
+            : "ML"; 
     }
 
     public string? WinnerSummary

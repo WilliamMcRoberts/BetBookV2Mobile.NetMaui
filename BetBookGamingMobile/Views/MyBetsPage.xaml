@@ -5,6 +5,8 @@
         xmlns:views="clr-namespace:BetBookGamingMobile.Views"
         xmlns:controls="clr-namespace:BetBookGamingMobile.ViewControls"
         xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
+        xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+        xmlns:animations="clr-namespace:BetBookGamingMobile.Animations"
         x:DataType="viewModels:MyBetsViewModel"
         x:Class="BetBookGamingMobile.Views.MyBetsPage"
         x:TypeArguments="viewModels:MyBetsViewModel">
@@ -17,40 +19,80 @@
                 
                 <RadioButton x:Name="SingleRadioButton" Content="Single Bets" 
                              CheckedChanged="RadioButton_CheckedChanged" Background="Transparent" 
-                             TextColor="White" FontAttributes="Bold" VerticalOptions="Center" Margin="5"/>
+                             TextColor="White" FontAttributes="Bold" VerticalOptions="Center" Margin="5" />
                 
                 <RadioButton x:Name="ParleyRadioButton" Content="Parley Bets" 
                              CheckedChanged="RadioButton_CheckedChanged" Background="Transparent" 
-                             TextColor="White" FontAttributes="Bold" VerticalOptions="Center" Margin="5"/>
+                             TextColor="White" FontAttributes="Bold" VerticalOptions="Center" Margin="5" />
                 
             </HorizontalStackLayout>
             
             <HorizontalStackLayout 
                 HorizontalOptions="CenterAndExpand" Margin="10" Spacing="4">
- 
+
                 <Button 
                     x:Name="InProgressButton" Text="Active" Clicked="BetStatusButton_Clicked"  
-                    FontAttributes="Bold" BackgroundColor="DarkBlue" CornerRadius="15" BorderColor="White" 
-                    BorderWidth="1" FontSize="12" WidthRequest="80"/>
+                    FontAttributes="Bold"  CornerRadius="15" BorderColor="White" 
+                    BorderWidth="1" FontSize="12" WidthRequest="80" BackgroundColor="DarkBlue">
+                    <Button.Behaviors>
+                        <mct:AnimationBehavior EventName="Clicked">
+                            <mct:AnimationBehavior.AnimationType>
+                                <animations:ButtonAnimation 
+                                    Easing="{x:Static Easing.Linear}"
+                                    Length="100"/>
+                            </mct:AnimationBehavior.AnimationType>
+                        </mct:AnimationBehavior>
+                    </Button.Behaviors>
+                </Button>
 
                 <Button 
                     x:Name="WinnersButton" Text="Winners" Clicked="BetStatusButton_Clicked"  
                     FontAttributes="Bold" BackgroundColor="DarkBlue" CornerRadius="15" BorderColor="White" 
-                    BorderWidth="1" FontSize="12"  WidthRequest="80"/>
-                
+                    BorderWidth="1" FontSize="12"  WidthRequest="80">
+                    <Button.Behaviors>
+                        <mct:AnimationBehavior EventName="Clicked">
+                            <mct:AnimationBehavior.AnimationType>
+                                <animations:ButtonAnimation 
+                                    Easing="{x:Static Easing.Linear}"
+                                    Length="100"/>
+                            </mct:AnimationBehavior.AnimationType>
+                        </mct:AnimationBehavior>
+                    </Button.Behaviors>
+                </Button>
+
                 <Button 
                     x:Name="LosersButton" Text="Losers" Clicked="BetStatusButton_Clicked"  
                     FontAttributes="Bold" BackgroundColor="DarkBlue" CornerRadius="15" BorderColor="White" 
-                    BorderWidth="1" FontSize="12"  WidthRequest="80"/>
-                
+                    BorderWidth="1" FontSize="12"  WidthRequest="80">
+                    <Button.Behaviors>
+                        <mct:AnimationBehavior EventName="Clicked">
+                            <mct:AnimationBehavior.AnimationType>
+                                <animations:ButtonAnimation 
+                                    Easing="{x:Static Easing.Linear}"
+                                    Length="100"/>
+                            </mct:AnimationBehavior.AnimationType>
+                        </mct:AnimationBehavior>
+                    </Button.Behaviors>
+                </Button>
+
                 <Button 
                     x:Name="PushButton" Text="Push" Clicked="BetStatusButton_Clicked"  
                     FontAttributes="Bold" BackgroundColor="DarkBlue" CornerRadius="15" BorderColor="White" 
-                    BorderWidth="1" FontSize="12"  WidthRequest="80"/>
+                    BorderWidth="1" FontSize="12"  WidthRequest="80">
+                    <Button.Behaviors>
+                        <mct:AnimationBehavior EventName="Clicked">
+                            <mct:AnimationBehavior.AnimationType>
+                                <animations:ButtonAnimation 
+                                    Easing="{x:Static Easing.Linear}"
+                                    Length="100"/>
+                            </mct:AnimationBehavior.AnimationType>
+                        </mct:AnimationBehavior>
+                    </Button.Behaviors>
+                </Button>
                 
             </HorizontalStackLayout>
 
-            <VerticalStackLayout x:Name="SingleBetsVerticleStackLayout">
+            <VerticalStackLayout x:Name="SingleBetsVerticleStackLayout" IsVisible="True">
 
                 <controls:BettorSingleBetsCollectionViewControl 
                     x:Name="SingleInProgressView"

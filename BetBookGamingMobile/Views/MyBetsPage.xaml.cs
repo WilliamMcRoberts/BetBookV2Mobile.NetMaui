@@ -14,6 +14,9 @@ public partial class MyBetsPage : BasePage<MyBetsViewModel>
     {
         base.OnNavigatedTo(args);
 
+        SingleRadioButton.IsChecked = true;
+        InProgressButton.BackgroundColor = Colors.DarkRed;
+
         SetPageState();
 
         if (!_isLoaded)
@@ -29,60 +32,27 @@ public partial class MyBetsPage : BasePage<MyBetsViewModel>
 
         button.BackgroundColor = button.BackgroundColor == Colors.DarkBlue ? Colors.DarkRed : Colors.DarkBlue;
 
-        if (SingleBetsVerticleStackLayout.IsVisible)
-        {
-            switch (button.Text)
-            {
-                case "Active":
-                    SingleInProgressView.IsVisible = InProgressButton.BackgroundColor == Colors.DarkRed;
-                    break;
-                case "Winners":
-                    SingleWinnersView.IsVisible = WinnersButton.BackgroundColor == Colors.DarkRed;
-                    break;
-                case "Losers":
-                    SingleLosersView.IsVisible = LosersButton.BackgroundColor == Colors.DarkRed;
-                    break;
-                case "Push":
-                    SinglePushView.IsVisible = PushButton.BackgroundColor == Colors.DarkRed;
-                    break;
-            }
-            return;
-        }
-
-        switch (button.Text)
-        {
-            case "Active":
-                ParleyInProgressView.IsVisible = InProgressButton.BackgroundColor == Colors.DarkRed;
-                break;
-            case "Winners":
-                ParleyWinnersView.IsVisible = WinnersButton.BackgroundColor == Colors.DarkRed;
-                break;
-            case "Losers":
-                ParleyLosersView.IsVisible = LosersButton.BackgroundColor == Colors.DarkRed;
-                break;
-            case "Push":
-                ParleyPushView.IsVisible = PushButton.BackgroundColor == Colors.DarkRed;
-                break;
-        }
+        SetPageState();
     }
 
     private void RadioButton_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
-        var radioButton = (RadioButton)sender;
         (SingleBetsVerticleStackLayout.IsVisible, ParleyBetsVerticleStackLayout.IsVisible) =
-            radioButton.Content.ToString() == "Single Bets" ? (true, false) : (false, true);
+            (SingleRadioButton.IsChecked, ParleyRadioButton.IsChecked);
+
+        SetPageState();
     }
 
     private void SetPageState()
     {
-        SingleRadioButton.IsChecked = true;
-        (InProgressButton.BackgroundColor, WinnersButton.BackgroundColor, LosersButton.BackgroundColor, PushButton.BackgroundColor) =
-            (Colors.DarkRed, Colors.DarkBlue, Colors.DarkBlue, Colors.DarkBlue);
-        (SingleBetsVerticleStackLayout.IsVisible, ParleyBetsVerticleStackLayout.IsVisible) = (true, false);
-        (SingleInProgressView.IsVisible, SingleWinnersView.IsVisible, SingleLosersView.IsVisible, SinglePushView.IsVisible) =
-            (true, false, false, false);
-        (ParleyInProgressView.IsVisible, ParleyWinnersView.IsVisible, ParleyLosersView.IsVisible, ParleyPushView.IsVisible) =
-            (false, false, false, false);
+        if (SingleBetsVerticleStackLayout.IsVisible)
+        {
+            (SingleInProgressView.IsVisible, SingleWinnersView.IsVisible, SingleLosersView.IsVisible, SinglePushView.IsVisible) =
+                (InProgressButton.BackgroundColor == Colors.DarkRed, WinnersButton.BackgroundColor == Colors.DarkRed, LosersButton.BackgroundColor == Colors.DarkRed, PushButton.BackgroundColor == Colors.DarkRed);
+            return;
+        }
 
+        (ParleyInProgressView.IsVisible, ParleyWinnersView.IsVisible, ParleyLosersView.IsVisible, ParleyPushView.IsVisible) =
+            (InProgressButton.BackgroundColor == Colors.DarkRed, WinnersButton.BackgroundColor == Colors.DarkRed, LosersButton.BackgroundColor == Colors.DarkRed, PushButton.BackgroundColor == Colors.DarkRed);
     }
 }
