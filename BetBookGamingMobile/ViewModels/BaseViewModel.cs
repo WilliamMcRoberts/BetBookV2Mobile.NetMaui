@@ -10,6 +10,9 @@ public partial class BaseViewModel : ObservableObject
     private bool isBusy = false;
 
     [ObservableProperty]
+    private bool isRefreshing;
+
+    [ObservableProperty]
     private string loadingText = string.Empty;
 
     [ObservableProperty]
@@ -25,25 +28,11 @@ public partial class BaseViewModel : ObservableObject
     private string errorImage = string.Empty;
 
     [ObservableProperty]
+    private bool isLoggedIn;
+
+    [ObservableProperty]
     private bool isNotLoggedIn = true;
 
     public BaseViewModel() =>
         IsErrorState = false;
-
-    protected void SetDataLoadingIndicators(bool isStarting = true)
-    {
-        if (isStarting)
-        {
-            IsBusy = true;
-            DataLoaded = false;
-            IsErrorState = false;
-            ErrorMessage = "";
-            ErrorImage = "";
-        }
-        else
-        {
-            LoadingText = "";
-            IsBusy = false;
-        }
-    }
 }

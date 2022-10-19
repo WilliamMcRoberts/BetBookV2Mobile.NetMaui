@@ -13,18 +13,19 @@
 
     <ScrollView>
 
-        <VerticalStackLayout>
+        <VerticalStackLayout Margin="0,0,0,50">
             
             <HorizontalStackLayout Margin="10" HorizontalOptions="CenterAndExpand" Spacing="10">
-                
+
                 <RadioButton x:Name="SingleRadioButton" Content="Single Bets" 
-                             CheckedChanged="RadioButton_CheckedChanged" Background="Transparent" 
-                             TextColor="White" FontAttributes="Bold" VerticalOptions="Center" Margin="5" />
-                
+                              Background="Transparent" CheckedChanged="RadioButton_CheckedChanged"
+                             TextColor="White" FontAttributes="Bold" VerticalOptions="Center" Margin="5"/>
+
                 <RadioButton x:Name="ParleyRadioButton" Content="Parley Bets" 
-                             CheckedChanged="RadioButton_CheckedChanged" Background="Transparent" 
-                             TextColor="White" FontAttributes="Bold" VerticalOptions="Center" Margin="5" />
-                
+                              Background="Transparent" CheckedChanged="RadioButton_CheckedChanged"
+                             TextColor="White" FontAttributes="Bold" VerticalOptions="Center" Margin="5"/>
+
+
             </HorizontalStackLayout>
             
             <HorizontalStackLayout 
@@ -139,9 +140,13 @@
                     CustomItemSource="{Binding BettorParleyBetsPush}"/>
 
             </VerticalStackLayout>
-
+            
+            <ActivityIndicator 
+                HorizontalOptions="Center" VerticalOptions="Center" 
+                IsRunning="{Binding IsBusy}" HeightRequest="80" 
+                WidthRequest="80" Color="DarkBlue" IsVisible="{Binding IsBusy}"/>
+            
         </VerticalStackLayout>
-
     </ScrollView>
-
+    
 </views:BasePage>

@@ -14,6 +14,7 @@ public partial class MyBetsPage : BasePage<MyBetsViewModel>
     {
         base.OnNavigatedTo(args);
 
+
         SingleRadioButton.IsChecked = true;
         InProgressButton.BackgroundColor = Colors.DarkRed;
 
@@ -26,8 +27,6 @@ public partial class MyBetsPage : BasePage<MyBetsViewModel>
 
     private void BetStatusButton_Clicked(object sender, EventArgs e)
     {
-        ArgumentNullException.ThrowIfNull(sender);
-
         var button = (Button)sender;
 
         button.BackgroundColor = button.BackgroundColor == Colors.DarkBlue ? Colors.DarkRed : Colors.DarkBlue;

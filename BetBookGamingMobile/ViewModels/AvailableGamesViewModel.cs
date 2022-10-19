@@ -6,9 +6,6 @@ public partial class AvailableGamesViewModel : AppBaseViewModel
     public ObservableCollection<GameDto> Games { get; } = new();
 
     [ObservableProperty]
-    private bool isRefreshing;
-
-    [ObservableProperty]
     SeasonType season;
 
     [ObservableProperty]
@@ -24,13 +21,22 @@ public partial class AvailableGamesViewModel : AppBaseViewModel
         if (IsBusy) return;
 
         IsBusy = true;
-        IsRefreshing = true;
 
-        IEnumerable<GameDto> gameList = await _apiService.GetGames(Season, Week);
+        try
+        {
+            IEnumerable<GameDto> gameList = await _apiService.GetGames(Season, Week);
 
-        Games.AddRange(
-            gameList.Where(game => !game.HasStarted).OrderBy(game => game.Date), Games.Any());
-
+            Games.AddRange(
+                gameList.Where(game => !game.HasStarted).OrderBy(game => game.Date), Games.Any());
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
         // Sample Data
         //Games.Add(new GameDto
         //{
@@ -48,9 +54,6 @@ public partial class AvailableGamesViewModel : AppBaseViewModel
         //    PointSpreadAwayTeamMoneyLine = -110,
         //    PointSpreadHomeTeamMoneyLine = 225
         //});
-
-        IsBusy = false;
-        IsRefreshing = false;
     }
 
     [RelayCommand]
@@ -59,12 +62,11 @@ public partial class AvailableGamesViewModel : AppBaseViewModel
         if (gameDto is null)
             return;
 
-        await Shell.Current.GoToAsync(nameof(GameDetailsPage),
-            true,
+        await Shell.Current.GoToAsync(nameof(GameDetailsPage), true,
             new Dictionary<string, object>
-                    {
-                        {"GameDto", gameDto }
-                    });
+                {
+                    {"GameDto", gameDto }
+                });
     }
 
     [RelayCommand]

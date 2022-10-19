@@ -4,14 +4,17 @@ namespace BetBookGamingMobile.ViewModels;
 public partial class MyBetsViewModel : AppBaseViewModel
 {
     private readonly AuthenticationState _authState;
-    
-    public IEnumerable<SingleBetModel> bettorSingleBets;
+
+    [ObservableProperty]
+    private UserModel loggedInUser;
+
+    private IEnumerable<SingleBetModel> bettorSingleBets;
     public ObservableCollection<SingleBetModel> BettorSingleBetsInProgress { get; } = new();
     public ObservableCollection<SingleBetModel> BettorSingleBetsWinners { get; } = new();
     public ObservableCollection<SingleBetModel> BettorSingleBetsPush { get; } = new();
     public ObservableCollection<SingleBetModel> BettorSingleBetsLosers { get; } = new();
 
-    public IEnumerable<ParleyBetSlipModel> bettorParleyBets;
+    private IEnumerable<ParleyBetSlipModel> bettorParleyBets;
     public ObservableCollection<ParleyBetSlipModel> BettorParleyBetsInProgress { get; } = new();
     public ObservableCollection<ParleyBetSlipModel> BettorParleyBetsWinners { get; } = new();
     public ObservableCollection<ParleyBetSlipModel> BettorParleyBetsPush { get; } = new();
@@ -27,16 +30,17 @@ public partial class MyBetsViewModel : AppBaseViewModel
     {
         if (IsBusy) return;
 
-        var loggedInUser = _authState.CurrentAuthenticationState.LoggedInUser;
+        LoggedInUser = _authState.CurrentAuthenticationState.LoggedInUser;
             
         if (string.IsNullOrEmpty(loggedInUser.UserId))
             return;
 
         IsBusy = true;
+
         try
         {
-            await GetAndPopulateBettorSingleBetsAsync(loggedInUser);
-            await GetAndPopulateBettorParleyBetsAsync(loggedInUser);
+            await PopulateBettorSingleBetsAsync(LoggedInUser);
+            await PopulateBettorParleyBetsAsync(LoggedInUser);
         }
         catch (Exception ex)
         {
@@ -48,7 +52,7 @@ public partial class MyBetsViewModel : AppBaseViewModel
         }
     }
 
-    private async Task GetAndPopulateBettorSingleBetsAsync(UserModel loggedInUser)
+    private async Task PopulateBettorSingleBetsAsync(UserModel loggedInUser)
     {
         bettorSingleBets = await _apiService.GetAllBettorSingleBets(loggedInUser.UserId);
 
@@ -65,7 +69,7 @@ public partial class MyBetsViewModel : AppBaseViewModel
             b => b.SingleBetStatus == SingleBetStatus.PUSH), BettorSingleBetsPush.Any());
     }
 
-    private async Task GetAndPopulateBettorParleyBetsAsync(UserModel loggedInUser)
+    private async Task PopulateBettorParleyBetsAsync(UserModel loggedInUser)
     {
         bettorParleyBets = await _apiService.GetAllBettorParleyBets(loggedInUser.UserId);
 
@@ -81,7 +85,4 @@ public partial class MyBetsViewModel : AppBaseViewModel
         BettorParleyBetsPush.AddRange(bettorParleyBets.Where(
             b => b.ParleyBetSlipStatus == ParleyBetSlipStatus.PUSH), BettorParleyBetsPush.Any());
     }  
-
-    // TODO - Bet Status Button Animations
-    // TODO - Fix My Bets Page UI
 }

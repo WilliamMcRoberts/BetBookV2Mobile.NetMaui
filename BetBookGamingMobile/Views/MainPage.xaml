@@ -4,20 +4,74 @@
         xmlns:models="clr-namespace:BetBookGamingMobile.Models"
         xmlns:views="clr-namespace:BetBookGamingMobile.Views"
         xmlns:controls="clr-namespace:BetBookGamingMobile.ViewControls"
+        xmlns:animations="clr-namespace:BetBookGamingMobile.Animations"
+        xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
         xmlns:viewModels="clr-namespace:BetBookGamingMobile.ViewModels"
         x:DataType="viewModels:MainViewModel"
         x:Class="BetBookGamingMobile.Views.MainPage"
         x:TypeArguments="viewModels:MainViewModel">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="LoginLogoutButtonStyle" TargetType="Button">
+                <Setter Property="BorderColor" Value="White"/>
+                <Setter Property="CornerRadius" Value="15"/>
+                <Setter Property="BorderWidth" Value="1"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="WidthRequest" Value="120"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="TextTransform" Value="Uppercase"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <VerticalStackLayout>
+        <Label Text="Bet Book Gaming V2" TextColor="White" FontSize="30" FontAttributes="Bold" Margin="5,20,5,20" HorizontalOptions="Center"/>
+        <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
 
-    <Button Margin="5" 
-            BackgroundColor="DarkBlue" 
-            x:Name="LoginButton" 
-            Text="Press to Login" 
-            WidthRequest="150"
-            HeightRequest="75"
-            HorizontalOptions="Center"
-            VerticalOptions="Center"
-            IsVisible="{Binding IsNotLoggedIn}"
-            Command="{Binding LoginCommand}"/>
+            <Button x:Name="LoginButton" Command="{Binding LoginCommand}" Text="Login"
+                BackgroundColor="DarkBlue" Style="{StaticResource LoginLogoutButtonStyle}">
+
+                <Button.Behaviors>
+                    <mct:AnimationBehavior EventName="Clicked">
+                        <mct:AnimationBehavior.AnimationType>
+                            <animations:ButtonAnimation Easing="{x:Static Easing.Linear}" Length="100"/>
+                        </mct:AnimationBehavior.AnimationType>
+                    </mct:AnimationBehavior>
+                </Button.Behaviors>
+
+                <Button.Shadow>
+                    <Shadow Brush="Black" Offset="10, 10" Radius="15" Opacity=".8"/>
+                </Button.Shadow>
+
+            </Button>
+
+            <Button x:Name="LogoutButton" Command="{Binding LogoutCommand}" Text="Logout" 
+                    BackgroundColor="DarkRed" Style="{StaticResource LoginLogoutButtonStyle}">
+
+                <Button.Behaviors>
+                    <mct:AnimationBehavior EventName="Clicked">
+                        <mct:AnimationBehavior.AnimationType>
+                            <animations:ButtonAnimation Easing="{x:Static Easing.Linear}" Length="100"/>
+                        </mct:AnimationBehavior.AnimationType>
+                    </mct:AnimationBehavior>
+                </Button.Behaviors>
+
+                <Button.Shadow>
+                    <Shadow Brush="Black" Offset="10, 10" Radius="15" Opacity=".8"/>
+                </Button.Shadow>
+
+            </Button>
+
+        </HorizontalStackLayout>
+
+        <ActivityIndicator HorizontalOptions="Center" IsRunning="{Binding IsBusy}" 
+                           IsVisible="{Binding IsBusy}" HeightRequest="80" WidthRequest="80" 
+                           Color="DarkBlue" />
+        
+    </VerticalStackLayout>
+    
     
 </views:BasePage>

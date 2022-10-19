@@ -1,5 +1,4 @@
 ﻿
-
 namespace BetBookGamingMobile;
 
 public static class MauiProgram
@@ -16,6 +15,7 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
+
         builder.Services.AddSingleton(Connectivity.Current);
 
         /**********************    Authentication      ********************************/
@@ -26,7 +26,7 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<IApiService, ApiService>();
        
-        /**********************   Global State   *****************************************/
+        /**********************   State   *****************************************/
 
         builder.Services.AddScoped<BetSlipState>();
         builder.Services.AddScoped<AuthenticationState>();

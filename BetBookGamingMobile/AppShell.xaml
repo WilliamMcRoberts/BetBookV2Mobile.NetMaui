@@ -79,10 +79,6 @@
                     Route="MyBetsPage" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Account">
-
-    </FlyoutItem>
-
     <FlyoutItem Title="Settings"
                 Icon="{OnPlatform Default='gearsolid.svg', MacCatalyst=''}">
         <ShellContent

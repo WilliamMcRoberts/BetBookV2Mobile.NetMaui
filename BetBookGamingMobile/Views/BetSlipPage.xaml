@@ -34,35 +34,17 @@
         
         <VerticalStackLayout Margin="0,20,0,30">
             
-            <Label 
-                HorizontalOptions="Center" 
-                TextColor="White" 
-                Text="{Binding SinglesPayoutDisplay}"
-                FontSize="18"
-                FontAttributes="Bold"
-                Margin="5, 10"/>
+            <Label HorizontalOptions="Center" TextColor="White" Text="{Binding SinglesPayoutDisplay}"
+                FontSize="18" FontAttributes="Bold" Margin="5, 10"/>
 
 
-            <Label 
-                Margin="5, 10,5, 20" 
-                HorizontalOptions="Center" 
-                TextColor="White" 
-                Text="{Binding ParleyPayoutDisplay}"
-                FontSize="18"
-                FontAttributes="Bold"/>
+            <Label Margin="5, 10,5, 20" HorizontalOptions="Center" TextColor="White" 
+                Text="{Binding ParleyPayoutDisplay}" FontSize="18" FontAttributes="Bold"/>
 
-            <Line 
-                X1="0"
-                Y1="0"
-                X2="325"
-                Y2="0"
-                Stroke="DarkRed"
-                HorizontalOptions="Center"
-                StrokeThickness="4"/>
+            <Line X1="0" Y1="0" X2="325" Y2="0" Stroke="DarkRed"
+                HorizontalOptions="Center" StrokeThickness="4"/>
 
-            <CollectionView 
-                Margin="0,15,0,0" 
-                ItemsSource="{Binding BetSlipStateModel.BetsInBetSlip}">
+            <CollectionView Margin="0,15,0,0" ItemsSource="{Binding BetSlipStateModel.BetsInBetSlip}">
 
                 <CollectionView.ItemTemplate>
 
@@ -73,98 +55,51 @@
                             <Border>
 
                                 <Border.StrokeShape>
-
                                     <RoundRectangle CornerRadius="15"/>
-
                                 </Border.StrokeShape>
 
                                 <Border.Background>
-
                                     <LinearGradientBrush EndPoint="1,0">
-
-                                        <GradientStop Color="Azure"
-                                            Offset="0.1" />
-
-                                        <GradientStop Color="IndianRed"
-                                            Offset="1.0" />
-
+                                        <GradientStop Color="Azure" Offset="0.1" />
+                                        <GradientStop Color="IndianRed" Offset="1.0" />
                                     </LinearGradientBrush>
-
                                 </Border.Background>
 
-                                <HorizontalStackLayout 
-                                HorizontalOptions="Center" 
-                                Margin="5"
-                                Spacing="60">
+                                <HorizontalStackLayout HorizontalOptions="Center" Margin="5" Spacing="60">
 
                                     <VerticalStackLayout>
 
-                                        <Button 
-                                        x:Name="RemoveBetButton"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BetSlipViewModel}}, Path=RemoveBetFromPreBetsCommand}"
-                                        Text="Remove"
-                                        TextColor="DarkRed"
-                                        FontAttributes="Bold"
-                                        CommandParameter="{Binding .}"
-                                        HorizontalOptions="Center"
-                                        FontSize="13"
-                                        Margin="0,0,0, 2"
-                                        Background="Transparent"/>
+                                        <Button x:Name="RemoveBetButton" Text="Remove" Margin="0,0,0, 2"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BetSlipViewModel}}, Path=RemoveBetFromPreBetsCommand}"
+                                            TextColor="DarkRed" FontAttributes="Bold" CommandParameter="{Binding .}"
+                                            HorizontalOptions="Center" FontSize="13"  Background="Transparent"/>
 
-                                        <Label 
-                                        TextColor="DarkBlue" 
-                                        FontSize="17" 
-                                        FontAttributes="Bold"  
-                                        Text="{Binding Game.AwayTeam}"
-                                        HorizontalOptions="Center"/>
+                                        <Label TextColor="DarkBlue" FontSize="17" FontAttributes="Bold"  
+                                            Text="{Binding Game.AwayTeam}" HorizontalOptions="Center"/>
 
-                                        <HorizontalStackLayout 
-                                        HorizontalOptions="Center"
-                                        Spacing="3">
+                                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="3">
 
-                                            <Label 
-                                            TextColor="DarkBlue" 
-                                            FontAttributes="Bold" 
-                                            FontSize="15" Text="@"/>
+                                            <Label TextColor="DarkBlue" FontAttributes="Bold" FontSize="15" Text="@"/>
 
-                                            <Label 
-                                            TextColor="DarkBlue" 
-                                            FontAttributes="Bold" 
-                                            FontSize="17" 
-                                            Text="{Binding Game.HomeTeam}"/>
+                                            <Label TextColor="DarkBlue" FontAttributes="Bold" FontSize="17" Text="{Binding Game.HomeTeam}"/>
 
                                         </HorizontalStackLayout>
 
                                     </VerticalStackLayout>
 
-                                    <VerticalStackLayout 
-                                    Padding="0,5,0,0">
+                                    <VerticalStackLayout Padding="0,5,0,0">
 
-                                        <Label 
-                                        Text="Single Wager Amount" 
-                                        TextColor="White" 
-                                        FontSize="15"
-                                        HorizontalOptions="Center"
-                                        HorizontalTextAlignment="Center"/>
+                                        <Label Text="Single Wager Amount" TextColor="White" 
+                                            FontSize="15" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
 
-                                        <Entry 
-                                        x:Name="SingleBetAmountEntry"
-                                        Text="{Binding BetAmount}"
-                                        TextChanged="SingleBetAmountEntry_TextChanged"
-                                        TextColor="White"
-                                        HorizontalTextAlignment="Center"
-                                        PlaceholderColor="White"
-                                        Placeholder="Enter an amount"
-                                        FontSize="13"
-                                        Keyboard="Numeric"
-                                        Margin="10,0"/>
+                                        <Entry x:Name="SingleBetAmountEntry" Text="{Binding BetAmount}"
+                                            TextChanged="SingleBetAmountEntry_TextChanged" TextColor="White"
+                                            HorizontalTextAlignment="Center" PlaceholderColor="White"
+                                            Placeholder="Enter an amount" FontSize="13" Keyboard="Numeric"
+                                            Margin="10,0"/>
 
-                                        <Label  
-                                        TextColor="White"
-                                        FontSize="16" 
-                                        Text="{Binding WinnerSummary}"
-                                        HorizontalOptions="Center"
-                                        HorizontalTextAlignment="Center"/>
+                                        <Label TextColor="White" FontSize="16" Text="{Binding WinnerSummary}"
+                                            HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
 
                                     </VerticalStackLayout>
 
@@ -182,44 +117,26 @@
             
             <VerticalStackLayout Margin="0,15,0,20">
                 
-                <Label 
-                    Text="Parley Wager Amount" 
-                    TextColor="White" 
-                    FontSize="20"
-                    HorizontalTextAlignment="Center"/>
+                <Label Text="Parley Wager Amount" TextColor="White" FontSize="20" HorizontalTextAlignment="Center"/>
 
-                <Entry 
-                   x:Name="ParleyBetAmountEntry"
-                   PlaceholderColor="White"
-                   Text="{Binding ParleyWagerAmount}"
-                   TextChanged="ParleyBetAmountEntry_TextChanged"
-                   Placeholder="Enter an amount"
-                   TextColor="White"
-                   HorizontalTextAlignment="Center"
-                   Keyboard="Numeric" 
-                   Margin="100,0"/>
+                <Entry  x:Name="ParleyBetAmountEntry" PlaceholderColor="White" Text="{Binding ParleyWagerAmount}"
+                   TextChanged="ParleyBetAmountEntry_TextChanged" Placeholder="Enter an amount" TextColor="White"
+                   HorizontalTextAlignment="Center" Keyboard="Numeric" Margin="100,0"/>
                 
             </VerticalStackLayout>
 
-            <Line 
-                X1="0"
-                Y1="0"
-                X2="325"
-                Y2="0"
-                Stroke="DarkRed"
-                HorizontalOptions="Center"
-                StrokeThickness="4"/>
+            <Line X1="0" Y1="0" X2="325" Y2="0" Stroke="DarkRed" HorizontalOptions="Center" StrokeThickness="4"/>
 
-            <viewControls:SubmitWagerButtonControl 
-                CustomCommand="{Binding SubmitSinglesWagerCommand}"
-                Margin="0,30,0,10"
-                CustomText="Submit Singles Wager"/>
+            <viewControls:SubmitWagerButtonControl Margin="0,30,0,10" 
+                CustomCommand="{Binding SubmitSinglesWagerCommand}" CustomText="Submit Singles Wager"/>
 
-            <viewControls:SubmitWagerButtonControl 
-                CustomCommand="{Binding SubmitParleyWagerCommand}"
-                Margin="0,10,0,0"
-                CustomText="Submit Parley Wager"/>
-
+            <viewControls:SubmitWagerButtonControl Margin="0,10,0,0" 
+                CustomCommand="{Binding SubmitParleyWagerCommand}" CustomText="Submit Parley Wager"/>
+            
+            <ActivityIndicator HorizontalOptions="Center" VerticalOptions="Center" 
+                IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" 
+                HeightRequest="80" WidthRequest="80" Color="DarkBlue" />
+            
         </VerticalStackLayout>
         
     </ScrollView>

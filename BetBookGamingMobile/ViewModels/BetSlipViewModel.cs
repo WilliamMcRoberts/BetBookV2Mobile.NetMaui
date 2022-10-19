@@ -14,6 +14,9 @@ public partial class BetSlipViewModel : BaseViewModel
     }
 
     [ObservableProperty]
+    private UserModel loggedInUser;
+
+    [ObservableProperty]
     private string _parleyWagerAmount;
 
     [ObservableProperty]
@@ -28,11 +31,28 @@ public partial class BetSlipViewModel : BaseViewModel
     [RelayCommand]
     private async Task SubmitSinglesWagerAsync()
     {
-        var loggedInUser = _authenticationState.CurrentAuthenticationState.LoggedInUser;
+        if (IsBusy) return;
 
-        if (string.IsNullOrEmpty(loggedInUser.UserId)) return;
+        LoggedInUser = _authenticationState.CurrentAuthenticationState.LoggedInUser;
 
-        bool singlesBetSlipGood = await _betSlipState.OnSubmitBetsFromSinglesBetSlip(loggedInUser);
+        if (string.IsNullOrEmpty(LoggedInUser.UserId)) return;
+
+        bool singlesBetSlipGood = false;
+
+        IsBusy = true;
+
+        try
+        {
+            singlesBetSlipGood = await _betSlipState.OnSubmitBetsFromSinglesBetSlip(LoggedInUser);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
 
         await singlesBetSlipGood.ShowWagerConfirmationToastAsync("singles");
 
@@ -42,12 +62,29 @@ public partial class BetSlipViewModel : BaseViewModel
     [RelayCommand]
     private async Task SubmitParleyWagerAsync()
     {
-        var loggedInUser = _authenticationState.CurrentAuthenticationState.LoggedInUser;
+        if (IsBusy) return;
 
-        if (string.IsNullOrEmpty(loggedInUser.UserId)) return;
+        LoggedInUser = _authenticationState.CurrentAuthenticationState.LoggedInUser;
 
-        bool parleyBetSlipGood = decimal.TryParse(ParleyWagerAmount, out var parleyWager) && 
-            await _betSlipState.OnSubmitBetsFromParleyBetSlip(loggedInUser, parleyWager);
+        if (string.IsNullOrEmpty(LoggedInUser.UserId)) return;
+
+        bool parleyBetSlipGood = false;
+
+        IsBusy = true;
+
+        try
+        {
+            parleyBetSlipGood = decimal.TryParse(ParleyWagerAmount, out var parleyWager) &&
+                await _betSlipState.OnSubmitBetsFromParleyBetSlip(LoggedInUser, parleyWager);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
 
         await parleyBetSlipGood.ShowWagerConfirmationToastAsync("parley");
 

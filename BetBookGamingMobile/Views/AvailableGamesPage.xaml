@@ -16,7 +16,6 @@
         <RefreshView
             Grid.ColumnSpan="2"
             Command="{Binding GetGamesCommand}"
-            IsRefreshing="{Binding IsRefreshing}"
             Margin="0,10,0,10">
 
             <CollectionView
@@ -97,12 +96,26 @@
                                         WidthRequest="115" />
 
                                     </HorizontalStackLayout>
+                                    
                                 </Border>
+                                
                             </Frame>
+                            
                         </Grid>
+                        
                     </DataTemplate>
+                    
                 </CollectionView.ItemTemplate>
+                
             </CollectionView>
+            
         </RefreshView>
+        
+        <ActivityIndicator 
+                HorizontalOptions="Center" VerticalOptions="Center" 
+                IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" 
+                HeightRequest="80" WidthRequest="80" Color="DarkBlue" />
+
     </Grid>
+    
 </views:BasePage>

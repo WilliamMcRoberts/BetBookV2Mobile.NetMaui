@@ -5,6 +5,8 @@ public partial class MainViewModel : AppBaseViewModel
 {
     private readonly IAuthService _authService;
     private readonly AuthenticationState _authState;
+
+    [ObservableProperty]
     UserModel loggedInUser;
 
     public MainViewModel(
@@ -19,16 +21,46 @@ public partial class MainViewModel : AppBaseViewModel
     {
         var data = await _authService.GetAuthClaims();
 
-        await LoadAndVerifyUserAsync(data);
+        if (IsBusy) return;
 
-        if (string.IsNullOrWhiteSpace(loggedInUser.UserId))
-            return;
+        IsBusy = true;
 
-        await GoToAvailableGamesPageAsync();
+        try
+        {
+            await LoadAndVerifyUserAsync(data);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+
+        IsLoggedIn = !string.IsNullOrWhiteSpace(LoggedInUser.UserId);
+        IsNotLoggedIn = !IsLoggedIn;
+
+        if(IsLoggedIn)
+            await GoToAvailableGamesPageAsync();
+    }
+
+    [RelayCommand]
+    void Logout()
+    {
+        var authState = _authState.GetCurrentAuthenticationState();
+        authState.LoggedInUser = null;
+        authState.FirstName = "";
+        authState.DisplayName = "";
+        authState.LastName = "";
+        authState.EmailAddress = "";
+        authState.ObjectId = "";
+        authState.JobTitle = "";
+        LoggedInUser = null;
     }
 
     public async Task GoToAvailableGamesPageAsync() =>
-        await Shell.Current.GoToAsync($"//AvailableGamesPage", true);
+        await Shell.Current.GoToAsync("//AvailableGamesPage");
 
     public async Task LoadAndVerifyUserAsync(JwtSecurityToken data)
     {
@@ -39,45 +71,48 @@ public partial class MainViewModel : AppBaseViewModel
 
         if (string.IsNullOrWhiteSpace(authState.ObjectId)) return;
 
-        loggedInUser = await _apiService.GetUserByObjectId(authState.ObjectId) ?? new();
+        LoggedInUser = await _apiService.GetUserByObjectId(authState.ObjectId) ?? new();
 
         authState.DisplayName = data.Claims.FirstOrDefault(c => c.Type.Contains("name"))?.Value;
         authState.FirstName = data.Claims.FirstOrDefault(c => c.Type.Contains("given_name"))?.Value;
         authState.LastName = data.Claims.FirstOrDefault(c => c.Type.Contains("family_name"))?.Value;
         authState.EmailAddress = data.Claims.FirstOrDefault(c => c.Type.Contains("emails"))?.Value;
         string jobTitle = data.Claims.FirstOrDefault(c => c.Type.Contains("jobTitle"))?.Value;
+
         if(!string.IsNullOrEmpty(jobTitle)) authState.JobTitle = jobTitle;
 
         bool isDirty = false;
 
-        (isDirty, loggedInUser.ObjectIdentifier) = !authState.ObjectId.Equals(loggedInUser.ObjectIdentifier) ?
-            (true, authState.ObjectId) : (isDirty, loggedInUser.ObjectIdentifier);
+        (isDirty, LoggedInUser.ObjectIdentifier) = !authState.ObjectId.Equals(LoggedInUser.ObjectIdentifier) ?
+            (true, authState.ObjectId) : (isDirty, LoggedInUser.ObjectIdentifier);
 
-        (isDirty, loggedInUser.FirstName) = !authState.FirstName.Equals(loggedInUser.FirstName) ?
-            (true, authState.FirstName) : (isDirty, loggedInUser.FirstName);
+        (isDirty, LoggedInUser.FirstName) = !authState.FirstName.Equals(LoggedInUser.FirstName) ?
+            (true, authState.FirstName) : (isDirty, LoggedInUser.FirstName);
 
-        (isDirty, loggedInUser.LastName) = !authState.LastName.Equals(loggedInUser.LastName) ?
-            (true, authState.LastName) : (isDirty, loggedInUser.LastName);
+        (isDirty, LoggedInUser.LastName) = !authState.LastName.Equals(LoggedInUser.LastName) ?
+            (true, authState.LastName) : (isDirty, LoggedInUser.LastName);
 
-        (isDirty, loggedInUser.DisplayName) = !authState.DisplayName.Equals(loggedInUser.DisplayName) ?
-            (true, authState.DisplayName) : (isDirty, loggedInUser.DisplayName);
+        (isDirty, LoggedInUser.DisplayName) = !authState.DisplayName.Equals(LoggedInUser.DisplayName) ?
+            (true, authState.DisplayName) : (isDirty, LoggedInUser.DisplayName);
 
-        (isDirty, loggedInUser.EmailAddress) = !authState.EmailAddress.Equals(loggedInUser.EmailAddress) ?
-            (true, authState.EmailAddress) : (isDirty, loggedInUser.EmailAddress);
+        (isDirty, LoggedInUser.EmailAddress) = !authState.EmailAddress.Equals(LoggedInUser.EmailAddress) ?
+            (true, authState.EmailAddress) : (isDirty, LoggedInUser.EmailAddress);
 
-        (isDirty, loggedInUser.AccountBalance) = loggedInUser.AccountBalance <= 0 ? 
-            (true, 10000) : (isDirty, loggedInUser.AccountBalance);
+        (isDirty, LoggedInUser.AccountBalance) = LoggedInUser.AccountBalance <= 0 ? 
+            (true, 10000) : (isDirty, LoggedInUser.AccountBalance);
 
-        _authState.CurrentAuthenticationState.LoggedInUser = loggedInUser;
+        _authState.CurrentAuthenticationState.LoggedInUser = LoggedInUser;
 
         if (!isDirty) return;
 
-        if (!string.IsNullOrWhiteSpace(loggedInUser.UserId))
+        if (!string.IsNullOrWhiteSpace(LoggedInUser.UserId))
         {
-            await _apiService.UpdateUser(loggedInUser);
+            await _apiService.UpdateUser(LoggedInUser);
             return;
         }
-        await _apiService.CreateUser(loggedInUser);
-        if (string.IsNullOrEmpty(loggedInUser.ObjectIdentifier)) await LoginAsync();
+
+        await _apiService.CreateUser(LoggedInUser);
+
+        if (string.IsNullOrEmpty(LoggedInUser.ObjectIdentifier)) await LoginAsync();
     }
 }

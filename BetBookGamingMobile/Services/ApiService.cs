@@ -52,7 +52,7 @@ public class ApiService : BaseService, IApiService
 
     public async Task<IEnumerable<ParleyBetSlipModel>> GetAllBettorParleyBets(string userId)
     {
-        var resourceUri = $"ParleyBetSlips/BettorId={userId}";
+        var resourceUri = $"ParleyBetSlips/BettorId/{userId}";
         try
         {
             return await GetAsync<IEnumerable<ParleyBetSlipModel>>(resourceUri);
@@ -66,7 +66,7 @@ public class ApiService : BaseService, IApiService
 
     public async Task<IEnumerable<SingleBetModel>> GetAllBettorSingleBets(string userId)
     {
-        var resourceUri = $"SingleBets/BettorId={userId}";
+        var resourceUri = $"SingleBets/BettorId/{userId}";
         try
         {
             return await GetAsync<IEnumerable<SingleBetModel>>(resourceUri);
