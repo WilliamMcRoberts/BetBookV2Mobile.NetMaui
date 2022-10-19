@@ -79,14 +79,6 @@
                     Route="MyBetsPage" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Settings"
-                Icon="{OnPlatform Default='gearsolid.svg', MacCatalyst=''}">
-        <ShellContent
-                    Title="Settings"
-                    ContentTemplate="{DataTemplate views:AvailableGamesPage}"
-                    Route="AvailableGamesPage" />
-    </FlyoutItem>
-
 </Shell>
 
 

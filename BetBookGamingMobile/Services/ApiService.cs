@@ -5,7 +5,7 @@ public class ApiService : BaseService, IApiService
 {
     public ApiService(IConnectivity connectivity) : base(connectivity)
     {
-        SetBaseURL(Constants.VortexURL);
+        SetBaseURL(Constants.BetBookGamingV2URL);
     }
 
     public async Task<bool> CreateParleyBet(ParleyBetSlipModel parleyBet)
@@ -95,7 +95,7 @@ public class ApiService : BaseService, IApiService
         }
         finally
         {
-            SetBaseURL(Constants.VortexURL);
+            SetBaseURL(Constants.BetBookGamingV2URL);
         }
         return games;
     }

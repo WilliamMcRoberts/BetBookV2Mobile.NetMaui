@@ -17,5 +17,6 @@ public static class Constants
     public static string GamesApiKey = "";
     public static string GameServiceURL = "https://api.sportsdata.io/v3/nfl/scores/json/ScoresByWeek/";
     public static string VortexURL = "https://user9f9bd262219b696.app.vtxhub.com/";
+    public static string BetBookGamingV2URL = "https://betbookgamingv2api.azurewebsites.net/";
     public static string BetBookGamingApiKey = "~";
 }
