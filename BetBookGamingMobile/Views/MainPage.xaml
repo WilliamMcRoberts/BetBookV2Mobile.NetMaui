@@ -26,52 +26,69 @@
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
-    
-    <VerticalStackLayout>
-        <Label Text="Bet Book Gaming V2" TextColor="White" FontSize="30" FontAttributes="Bold" Margin="5,20,5,20" HorizontalOptions="Center"/>
-        <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="190"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
 
-            <Button x:Name="LoginButton" Command="{Binding LoginCommand}" Text="Login"
+        <Path Stroke="#000" Data="m250.03517,38.40998l366.99977,0l0,154.39994l-183.50001,38.60003l-183.49997,-38.60003l0.00021,-154.39994z" Fill="#00008b"/>
+        <StackLayout>
+            <Frame HeightRequest="120" WidthRequest="120" CornerRadius="60" Padding="0" Margin="0,100,0,0" HorizontalOptions="Center" BorderColor="White" >
+                <Image Source="ua.png" Aspect="AspectFill"/>
+            </Frame>
+        </StackLayout>
+        
+        <VerticalStackLayout Grid.Row="1">
+            <Label Text="Welcome To" TextColor="White" FontSize="30" FontAttributes="Bold" Margin="5,60,5,0" HorizontalOptions="Center"/>
+            <Label Text="Bet Book Gaming V2" TextColor="White" FontSize="30" FontAttributes="Bold" Margin="5,20,5,20" HorizontalOptions="Center"/>
+            <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10" Margin="5,20,5,0">
+
+                <Button x:Name="LoginButton" Command="{Binding LoginCommand}" Text="Login"
                 BackgroundColor="DarkBlue" Style="{StaticResource LoginLogoutButtonStyle}">
 
-                <Button.Behaviors>
-                    <mct:AnimationBehavior EventName="Clicked">
-                        <mct:AnimationBehavior.AnimationType>
-                            <animations:ButtonAnimation Easing="{x:Static Easing.Linear}" Length="100"/>
-                        </mct:AnimationBehavior.AnimationType>
-                    </mct:AnimationBehavior>
-                </Button.Behaviors>
+                    <Button.Behaviors>
+                        <mct:AnimationBehavior EventName="Clicked">
+                            <mct:AnimationBehavior.AnimationType>
+                                <animations:ButtonAnimation Easing="{x:Static Easing.Linear}" Length="100"/>
+                            </mct:AnimationBehavior.AnimationType>
+                        </mct:AnimationBehavior>
+                    </Button.Behaviors>
 
-                <Button.Shadow>
-                    <Shadow Brush="Black" Offset="10, 10" Radius="15" Opacity=".8"/>
-                </Button.Shadow>
+                    <Button.Shadow>
+                        <Shadow Brush="Black" Offset="10, 10" Radius="15" Opacity=".8"/>
+                    </Button.Shadow>
 
-            </Button>
+                </Button>
 
-            <Button x:Name="LogoutButton" Command="{Binding LogoutCommand}" Text="Logout" 
+                <Button x:Name="LogoutButton" Command="{Binding LogoutCommand}" Text="Logout" 
                     BackgroundColor="DarkRed" Style="{StaticResource LoginLogoutButtonStyle}">
 
-                <Button.Behaviors>
-                    <mct:AnimationBehavior EventName="Clicked">
-                        <mct:AnimationBehavior.AnimationType>
-                            <animations:ButtonAnimation Easing="{x:Static Easing.Linear}" Length="100"/>
-                        </mct:AnimationBehavior.AnimationType>
-                    </mct:AnimationBehavior>
-                </Button.Behaviors>
+                    <Button.Behaviors>
+                        <mct:AnimationBehavior EventName="Clicked">
+                            <mct:AnimationBehavior.AnimationType>
+                                <animations:ButtonAnimation Easing="{x:Static Easing.Linear}" Length="100"/>
+                            </mct:AnimationBehavior.AnimationType>
+                        </mct:AnimationBehavior>
+                    </Button.Behaviors>
 
-                <Button.Shadow>
-                    <Shadow Brush="Black" Offset="10, 10" Radius="15" Opacity=".8"/>
-                </Button.Shadow>
+                    <Button.Shadow>
+                        <Shadow Brush="Black" Offset="10, 10" Radius="15" Opacity=".8"/>
+                    </Button.Shadow>
 
-            </Button>
+                </Button>
 
-        </HorizontalStackLayout>
+            </HorizontalStackLayout>
 
-        <ActivityIndicator HorizontalOptions="Center" IsRunning="{Binding IsBusy}" 
+            <ActivityIndicator HorizontalOptions="Center" IsRunning="{Binding IsBusy}"
                            IsVisible="{Binding IsBusy}" HeightRequest="80" WidthRequest="80" 
                            Color="DarkBlue" />
-        
-    </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </Grid>
+    
     
     
 </views:BasePage>

@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.IdentityModel.Abstractions;
+
 namespace BetBookGamingMobile.ViewModels;
 
 public partial class BetSlipViewModel : BaseViewModel
@@ -35,7 +37,9 @@ public partial class BetSlipViewModel : BaseViewModel
 
         LoggedInUser = _authenticationState.CurrentAuthenticationState.LoggedInUser;
 
-        if (string.IsNullOrEmpty(LoggedInUser.UserId)) return;
+        IsLoggedIn = LoggedInUser is not null && !string.IsNullOrEmpty(LoggedInUser.UserId);
+
+        if (isNotLoggedIn) return;
 
         bool singlesBetSlipGood = false;
 
@@ -66,7 +70,9 @@ public partial class BetSlipViewModel : BaseViewModel
 
         LoggedInUser = _authenticationState.CurrentAuthenticationState.LoggedInUser;
 
-        if (string.IsNullOrEmpty(LoggedInUser.UserId)) return;
+        IsLoggedIn = LoggedInUser is not null && !string.IsNullOrEmpty(LoggedInUser.UserId);
+
+        if (isNotLoggedIn) return;
 
         bool parleyBetSlipGood = false;
 

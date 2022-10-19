@@ -38,11 +38,8 @@ public partial class MainViewModel : AppBaseViewModel
             IsBusy = false;
         }
 
-        IsLoggedIn = !string.IsNullOrWhiteSpace(LoggedInUser.UserId);
-        IsNotLoggedIn = !IsLoggedIn;
-
-        if(IsLoggedIn)
-            await GoToAvailableGamesPageAsync();
+        if(!string.IsNullOrWhiteSpace(LoggedInUser.UserId))
+            await Shell.Current.GoToAsync("//AvailableGamesPage");
     }
 
     [RelayCommand]
@@ -58,9 +55,6 @@ public partial class MainViewModel : AppBaseViewModel
         authState.JobTitle = "";
         LoggedInUser = null;
     }
-
-    public async Task GoToAvailableGamesPageAsync() =>
-        await Shell.Current.GoToAsync("//AvailableGamesPage");
 
     public async Task LoadAndVerifyUserAsync(JwtSecurityToken data)
     {

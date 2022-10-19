@@ -31,9 +31,10 @@ public partial class MyBetsViewModel : AppBaseViewModel
         if (IsBusy) return;
 
         LoggedInUser = _authState.CurrentAuthenticationState.LoggedInUser;
-            
-        if (string.IsNullOrEmpty(loggedInUser.UserId))
-            return;
+
+        IsLoggedIn = LoggedInUser is not null && !string.IsNullOrEmpty(LoggedInUser.UserId);
+
+        if (isNotLoggedIn) return;
 
         IsBusy = true;
 

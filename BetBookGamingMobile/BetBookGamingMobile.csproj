@@ -108,6 +108,9 @@
 	  <None Remove="Resources\Images\stadiumbackground.jpg" />
 	  <None Remove="Resources\Images\tb.svg" />
 	  <None Remove="Resources\Images\ten.svg" />
+	  <None Remove="Resources\Images\ua.png" />
+	  <None Remove="Resources\Images\useravatar.png" />
+	  <None Remove="Resources\Images\userlargesolid.svg" />
 	  <None Remove="Resources\Images\was.svg" />
 	  <None Remove="Resources\Splash\splash.svg" />
 	</ItemGroup>
