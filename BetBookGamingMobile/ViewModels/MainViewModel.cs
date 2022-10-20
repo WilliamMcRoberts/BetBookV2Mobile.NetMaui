@@ -60,8 +60,7 @@ public partial class MainViewModel : AppBaseViewModel
     {
         var authState = _authState.GetCurrentAuthenticationState();
 
-        authState.ObjectId = 
-            data.Claims.FirstOrDefault(c => c.Type.Contains("oid"))?.Value;
+        authState.ObjectId = data.Claims.FirstOrDefault(c => c.Type.Contains("oid"))?.Value;
 
         if (string.IsNullOrWhiteSpace(authState.ObjectId)) return;
 
@@ -77,23 +76,41 @@ public partial class MainViewModel : AppBaseViewModel
 
         bool isDirty = false;
 
-        (isDirty, LoggedInUser.ObjectIdentifier) = !authState.ObjectId.Equals(LoggedInUser.ObjectIdentifier) ?
-            (true, authState.ObjectId) : (isDirty, LoggedInUser.ObjectIdentifier);
+        if (!authState.ObjectId.Equals(LoggedInUser.ObjectIdentifier))
+        {
+            isDirty = true;
+            LoggedInUser.ObjectIdentifier = authState.ObjectId;
+        }
 
-        (isDirty, LoggedInUser.FirstName) = !authState.FirstName.Equals(LoggedInUser.FirstName) ?
-            (true, authState.FirstName) : (isDirty, LoggedInUser.FirstName);
+        if (!authState.FirstName.Equals(LoggedInUser.FirstName))
+        {
+            isDirty = true;
+            LoggedInUser.FirstName = authState.FirstName;
+        }
 
-        (isDirty, LoggedInUser.LastName) = !authState.LastName.Equals(LoggedInUser.LastName) ?
-            (true, authState.LastName) : (isDirty, LoggedInUser.LastName);
+        if (!authState.LastName.Equals(LoggedInUser.LastName))
+        {
+            isDirty = true;
+            LoggedInUser.LastName = authState.LastName;
+        }
 
-        (isDirty, LoggedInUser.DisplayName) = !authState.DisplayName.Equals(LoggedInUser.DisplayName) ?
-            (true, authState.DisplayName) : (isDirty, LoggedInUser.DisplayName);
+        if (!authState.DisplayName.Equals(LoggedInUser.DisplayName))
+        {
+            isDirty = true;
+            LoggedInUser.DisplayName = authState.DisplayName;
+        }
 
-        (isDirty, LoggedInUser.EmailAddress) = !authState.EmailAddress.Equals(LoggedInUser.EmailAddress) ?
-            (true, authState.EmailAddress) : (isDirty, LoggedInUser.EmailAddress);
+        if (!authState.EmailAddress.Equals(LoggedInUser.EmailAddress))
+        {
+            isDirty = true;
+            LoggedInUser.EmailAddress = authState.EmailAddress;
+        }
 
-        (isDirty, LoggedInUser.AccountBalance) = LoggedInUser.AccountBalance <= 0 ? 
-            (true, 10000) : (isDirty, LoggedInUser.AccountBalance);
+        if (LoggedInUser.AccountBalance <= 0)
+        {
+            isDirty = true;
+            LoggedInUser.AccountBalance = 10000;
+        }
 
         _authState.CurrentAuthenticationState.LoggedInUser = LoggedInUser;
 
