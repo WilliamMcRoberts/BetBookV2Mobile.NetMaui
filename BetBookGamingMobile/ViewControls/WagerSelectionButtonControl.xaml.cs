@@ -29,14 +29,14 @@ public partial class WagerSelectionButtonControl : ContentView
                 control.WagerSelectionButton.CommandParameter = newValue as string;
             });
 
-    public static readonly BindableProperty CustomBackgroundColorProperty = BindableProperty.Create(
-            nameof(CustomBackgroundColor),
-            typeof(Color),
+    public static readonly BindableProperty CustomBackgroundProperty = BindableProperty.Create(
+            nameof(CustomBackground),
+            typeof(Brush),
             typeof(WagerSelectionButtonControl),
             propertyChanged: (bindable, oldValue, newValue) =>
             {
                 var control = (WagerSelectionButtonControl)bindable;
-                control.WagerSelectionButton.BackgroundColor = newValue as Color;
+                control.WagerSelectionButton.Background = newValue as Brush;
             });
 
     public static readonly BindableProperty CustomTextProperty = BindableProperty.Create(
@@ -61,10 +61,10 @@ public partial class WagerSelectionButtonControl : ContentView
         set => SetValue(CustomCommandParameterProperty, value); 
     }
 
-    public Color CustomBackgroundColor
+    public Brush CustomBackground
     {
-        get => GetValue(CustomBackgroundColorProperty) as Color;
-        set => SetValue(CustomBackgroundColorProperty, value);
+        get => GetValue(CustomBackgroundProperty) as Brush;
+        set => SetValue(CustomBackgroundProperty, value);
     }
 
     public string CustomText

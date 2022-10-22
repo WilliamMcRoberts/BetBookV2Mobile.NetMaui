@@ -110,7 +110,7 @@ public class ApiService : BaseService, IApiService
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
-            return new UserModel();
+            return null;
         }
     }
 
@@ -124,7 +124,7 @@ public class ApiService : BaseService, IApiService
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
-            return new UserModel();
+            return null;
         }
     }
 

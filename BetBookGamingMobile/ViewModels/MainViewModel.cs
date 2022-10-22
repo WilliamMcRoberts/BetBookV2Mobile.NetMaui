@@ -3,19 +3,20 @@ namespace BetBookGamingMobile.ViewModels;
 
 public partial class MainViewModel : AppBaseViewModel
 {
+    public event LoggedIn LoginComplete;
+    public delegate void LoggedIn();
     private readonly IAuthService _authService;
     private readonly AuthenticationState _authState;
-
+    
     [ObservableProperty]
     UserModel loggedInUser;
 
-    public MainViewModel(
-        IAuthService authService,AuthenticationState authState, IApiService apiService) :base(apiService)
+    public MainViewModel(IAuthService authService, AuthenticationState authState, IApiService apiService) :base(apiService)
     {
         _authService = authService;
         _authState = authState;
     }
-    
+
     [RelayCommand]
     async Task LoginAsync()
     {
@@ -38,8 +39,8 @@ public partial class MainViewModel : AppBaseViewModel
             IsBusy = false;
         }
 
-        if(!string.IsNullOrWhiteSpace(LoggedInUser.UserId))
-            await Shell.Current.GoToAsync("//AvailableGamesPage");
+        if (!string.IsNullOrEmpty(LoggedInUser.UserId))
+            LoginComplete?.Invoke();
     }
 
     [RelayCommand]

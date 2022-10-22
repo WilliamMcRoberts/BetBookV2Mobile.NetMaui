@@ -34,7 +34,7 @@
                 <Button 
                     x:Name="InProgressButton" Text="Active" Clicked="BetStatusButton_Clicked"  
                     FontAttributes="Bold"  CornerRadius="15" BorderColor="White" 
-                    BorderWidth="1" FontSize="12" WidthRequest="80" BackgroundColor="DarkBlue">
+                    BorderWidth="1" FontSize="12" WidthRequest="80" >
                     <Button.Behaviors>
                         <mct:AnimationBehavior EventName="Clicked">
                             <mct:AnimationBehavior.AnimationType>
@@ -48,7 +48,7 @@
 
                 <Button 
                     x:Name="WinnersButton" Text="Winners" Clicked="BetStatusButton_Clicked"  
-                    FontAttributes="Bold" BackgroundColor="DarkBlue" CornerRadius="15" BorderColor="White" 
+                    FontAttributes="Bold"  CornerRadius="15" BorderColor="White" 
                     BorderWidth="1" FontSize="12"  WidthRequest="80">
                     <Button.Behaviors>
                         <mct:AnimationBehavior EventName="Clicked">
@@ -63,7 +63,7 @@
 
                 <Button 
                     x:Name="LosersButton" Text="Losers" Clicked="BetStatusButton_Clicked"  
-                    FontAttributes="Bold" BackgroundColor="DarkBlue" CornerRadius="15" BorderColor="White" 
+                    FontAttributes="Bold"  CornerRadius="15" BorderColor="White" 
                     BorderWidth="1" FontSize="12"  WidthRequest="80">
                     <Button.Behaviors>
                         <mct:AnimationBehavior EventName="Clicked">
@@ -78,7 +78,7 @@
 
                 <Button 
                     x:Name="PushButton" Text="Push" Clicked="BetStatusButton_Clicked"  
-                    FontAttributes="Bold" BackgroundColor="DarkBlue" CornerRadius="15" BorderColor="White" 
+                    FontAttributes="Bold" CornerRadius="15" BorderColor="White" 
                     BorderWidth="1" FontSize="12"  WidthRequest="80">
                     <Button.Behaviors>
                         <mct:AnimationBehavior EventName="Clicked">
@@ -97,7 +97,7 @@
 
                 <controls:BettorSingleBetsCollectionViewControl 
                     x:Name="SingleInProgressView"
-                    CustomText="In Progress Single Bets"
+                    CustomText="Active Single Bets"
                     CustomItemSource="{Binding BettorSingleBetsInProgress}"/>
 
                 <controls:BettorSingleBetsCollectionViewControl 
@@ -121,7 +121,7 @@
 
                 <controls:BettorParleyBetsCollectionViewControl
                     x:Name="ParleyInProgressView"
-                    CustomText="In Progress Parley Bets"
+                    CustomText="Active Parley Bets"
                     CustomItemSource="{Binding BettorParleyBetsInProgress}"/>
 
                 <controls:BettorParleyBetsCollectionViewControl

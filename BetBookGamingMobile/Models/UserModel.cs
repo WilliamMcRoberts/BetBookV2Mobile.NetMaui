@@ -18,4 +18,6 @@ public class UserModel
     public string DisplayName { get; set; }
 
     public decimal AccountBalance { get; set; }
+
+    public string BalanceDisplay { get => $"{AccountBalance:C}"; }
 }

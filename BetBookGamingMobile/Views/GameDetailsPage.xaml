@@ -140,16 +140,14 @@
                     Text="Point Spread"
                     Style="{StaticResource WagerLabelStyle}"/>
 
-                <viewControls:WagerSelectionButtonControl
+                <viewControls:WagerSelectionButtonControl x:Name="ApButton"
                     CustomCommand="{Binding SelectOrRemoveWagerForPointSpreadCommand}"
                     CustomCommandParameter="{Binding GameDto.AwayTeam}"
-                    CustomBackgroundColor="{Binding ButtonColorState.ApColor}"
                     CustomText="{Binding ButtonTextState.ApText}"/>
 
-                <viewControls:WagerSelectionButtonControl
+                <viewControls:WagerSelectionButtonControl x:Name="HpButton"
                     CustomCommand="{Binding SelectOrRemoveWagerForPointSpreadCommand}"
                     CustomCommandParameter="{Binding GameDto.HomeTeam}"
-                    CustomBackgroundColor="{Binding ButtonColorState.HpColor}"
                     CustomText="{Binding ButtonTextState.HpText}"/>
 
                 <Label 
@@ -157,32 +155,28 @@
                     Text="Moneyline"
                     Style="{StaticResource WagerLabelStyle}"/>
 
-                <viewControls:WagerSelectionButtonControl
+                <viewControls:WagerSelectionButtonControl x:Name="AmButton"
                     CustomCommand="{Binding SelectOrRemoveWagerForMoneylineCommand}"
                     CustomCommandParameter="{Binding GameDto.AwayTeam}"
-                    CustomBackgroundColor="{Binding ButtonColorState.AmColor}"
                     CustomText="{Binding ButtonTextState.AmText}"/>
 
-                <viewControls:WagerSelectionButtonControl
+                <viewControls:WagerSelectionButtonControl x:Name="HmButton"
                     CustomCommand="{Binding SelectOrRemoveWagerForMoneylineCommand}"
                     CustomCommandParameter="{Binding GameDto.HomeTeam}"
-                    CustomBackgroundColor="{Binding ButtonColorState.HmColor}"
                     CustomText="{Binding ButtonTextState.HmText}"/>
 
                 <Label x:Name="OverUnderLabel" 
                        Text="Over/Under"
                        Style="{StaticResource WagerLabelStyle}"/>
 
-                <viewControls:WagerSelectionButtonControl
+                <viewControls:WagerSelectionButtonControl x:Name="OButton"
                     CustomCommand="{Binding SelectOrRemoveWagerForOverUnderCommand}"
                     CustomCommandParameter="Over"
-                    CustomBackgroundColor="{Binding ButtonColorState.OColor}"
                     CustomText="{Binding ButtonTextState.OText}"/>
 
-                <viewControls:WagerSelectionButtonControl
+                <viewControls:WagerSelectionButtonControl x:Name="UButton"
                     CustomCommand="{Binding SelectOrRemoveWagerForOverUnderCommand}"
                     CustomCommandParameter="Under"
-                    CustomBackgroundColor="{Binding ButtonColorState.UColor}"
                     CustomText="{Binding ButtonTextState.UText}"/>
 
             </VerticalStackLayout>

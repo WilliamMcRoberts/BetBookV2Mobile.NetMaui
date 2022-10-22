@@ -1,7 +1,4 @@
 
-
-using AndroidX.Lifecycle;
-
 namespace BetBookGamingMobile.Views;
 
 public abstract class BasePage<TViewModel> : BasePage where TViewModel : BaseViewModel

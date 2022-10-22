@@ -16,7 +16,10 @@ public partial class MyBetsPage : BasePage<MyBetsViewModel>
 
 
         SingleRadioButton.IsChecked = true;
-        InProgressButton.BackgroundColor = Colors.DarkRed;
+        InProgressButton.Background = Brush.DarkRed;
+        WinnersButton.Background = Brush.DarkBlue;
+        LosersButton.Background = Brush.DarkBlue;
+        PushButton.Background = Brush.DarkBlue;
 
         SetPageState();
 
@@ -29,7 +32,7 @@ public partial class MyBetsPage : BasePage<MyBetsViewModel>
     {
         var button = (Button)sender;
 
-        button.BackgroundColor = button.BackgroundColor == Colors.DarkBlue ? Colors.DarkRed : Colors.DarkBlue;
+        button.Background = button.Background == Brush.DarkBlue ? Brush.DarkRed : Brush.DarkBlue;
 
         SetPageState();
     }
@@ -47,13 +50,13 @@ public partial class MyBetsPage : BasePage<MyBetsViewModel>
         if (SingleBetsVerticleStackLayout.IsVisible)
         {
             (SingleInProgressView.IsVisible, SingleWinnersView.IsVisible, SingleLosersView.IsVisible, SinglePushView.IsVisible) =
-                (InProgressButton.BackgroundColor == Colors.DarkRed, WinnersButton.BackgroundColor == Colors.DarkRed, 
-                    LosersButton.BackgroundColor == Colors.DarkRed, PushButton.BackgroundColor == Colors.DarkRed);
+                (InProgressButton.Background == Brush.DarkRed, WinnersButton.Background == Brush.DarkRed, 
+                    LosersButton.Background == Brush.DarkRed, PushButton.Background == Brush.DarkRed);
             return;
         }
 
         (ParleyInProgressView.IsVisible, ParleyWinnersView.IsVisible, ParleyLosersView.IsVisible, ParleyPushView.IsVisible) =
-            (InProgressButton.BackgroundColor == Colors.DarkRed, WinnersButton.BackgroundColor == Colors.DarkRed, 
-                LosersButton.BackgroundColor == Colors.DarkRed, PushButton.BackgroundColor == Colors.DarkRed);
+            (InProgressButton.Background == Brush.DarkRed, WinnersButton.Background == Brush.DarkRed, 
+                LosersButton.Background == Brush.DarkRed, PushButton.Background == Brush.DarkRed);
     }
 }

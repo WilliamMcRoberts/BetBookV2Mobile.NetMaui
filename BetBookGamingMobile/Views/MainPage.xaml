@@ -26,7 +26,9 @@
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
+    
     <Grid>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="190"/>
             <RowDefinition Height="2*"/>
@@ -34,16 +36,39 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <Path Stroke="#000" Data="m250.03517,38.40998l366.99977,0l0,154.39994l-183.50001,38.60003l-183.49997,-38.60003l0.00021,-154.39994z" Fill="#00008b"/>
+        <Path Data="m250.03517,38.40998l366.99977,0l0,154.39994l-183.50001,38.60003l-183.49997,-38.60003l0.00021,-154.39994z" 
+              Stroke="#000" Fill="#00008b"/>
+
         <StackLayout>
-            <Frame HeightRequest="120" WidthRequest="120" CornerRadius="60" Padding="0" Margin="0,100,0,0" HorizontalOptions="Center" BorderColor="White" >
+            <Frame x:Name="SnackBarAnchor" HeightRequest="120" WidthRequest="120" CornerRadius="60" Padding="0" Margin="0,100,0,0" HorizontalOptions="Center" BorderColor="White" >
                 <Image Source="ua.png" Aspect="AspectFill"/>
             </Frame>
         </StackLayout>
         
-        <VerticalStackLayout Grid.Row="1">
+        <VerticalStackLayout x:Name="testVSL" Grid.Row="1">
             <Label Text="Welcome To" TextColor="White" FontSize="30" FontAttributes="Bold" Margin="5,60,5,0" HorizontalOptions="Center"/>
-            <Label Text="Bet Book Gaming V2" TextColor="White" FontSize="30" FontAttributes="Bold" Margin="5,20,5,20" HorizontalOptions="Center"/>
+            <Label Text="Bet Book Gaming!" TextColor="White" FontSize="30" FontAttributes="Bold" Margin="5,10,5,20" HorizontalOptions="Center"/>
+
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                
+                <VerticalStackLayout Spacing="2">
+                    <Label Text="Name:" TextColor="White" FontSize="15"   />
+                    <Label Text="Email:" TextColor="White" FontSize="15"  />
+                    <Label Text="Balance:" TextColor="White" FontSize="15"  />
+                </VerticalStackLayout>
+                
+                <VerticalStackLayout Spacing="2">
+                    <Label Text="{Binding LoggedInUser.DisplayName}" TextColor="White" FontSize="15"  />
+                    <Label Text="{Binding LoggedInUser.EmailAddress}" TextColor="White" FontSize="15"  />
+                    <Label Text="{Binding LoggedInUser.BalanceDisplay}" TextColor="White" FontSize="15"  />
+                </VerticalStackLayout>
+                
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+        
+        <VerticalStackLayout Grid.Row="2">
+            
             <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10" Margin="5,20,5,0">
 
                 <Button x:Name="LoginButton" Command="{Binding LoginCommand}" Text="Login"
@@ -81,14 +106,13 @@
                 </Button>
 
             </HorizontalStackLayout>
-
-            <ActivityIndicator HorizontalOptions="Center" IsRunning="{Binding IsBusy}"
+            
+        </VerticalStackLayout>
+        
+        <ActivityIndicator HorizontalOptions="Center" IsRunning="{Binding IsBusy}"
                            IsVisible="{Binding IsBusy}" HeightRequest="80" WidthRequest="80" 
                            Color="DarkBlue" />
-
-        </VerticalStackLayout>
+        
     </Grid>
-    
-    
-    
+
 </views:BasePage>

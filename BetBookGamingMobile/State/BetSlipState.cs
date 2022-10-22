@@ -22,7 +22,7 @@ public class BetSlipState
         _apiService = apiService;
     }
 
-    public ButtonColorStateModel SelectOrRemoveWinnerAndGameForBet(
+    public void SelectOrRemoveWinnerAndGameForBet(
         string winner, GameDto game, BetType betType)
     {
         var bet = preBets.Where(b => b.Winner == winner && b.Game.ScoreID == game.ScoreID && b.BetType == betType)
@@ -32,7 +32,7 @@ public class BetSlipState
         {
             preBets.Remove(bet);
             conflictingBetsForParley = CheckForConflictingBets();
-            return GetButtonColorState(game);
+            return;
         }
 
         preBets.Add(new CreateBetModel
@@ -46,34 +46,7 @@ public class BetSlipState
         });
 
         conflictingBetsForParley = CheckForConflictingBets();
-        return GetButtonColorState(game);
     }
-
-    public ButtonColorStateModel GetButtonColorState(GameDto gameDto) =>
-        new()
-        {
-            ApColor = preBets.Contains(preBets.Where(b => 
-                b.Winner == gameDto.AwayTeam && b.Game.ScoreID == gameDto.ScoreID && b.BetType == BetType.POINTSPREAD)
-                .FirstOrDefault()) ? Colors.DarkRed : Colors.DarkBlue,
-            HpColor = preBets.Contains(preBets.Where(b => 
-                b.Winner == gameDto.HomeTeam && b.Game.ScoreID == gameDto.ScoreID && b.BetType == BetType.POINTSPREAD)
-                .FirstOrDefault()) ? Colors.DarkRed : Colors.DarkBlue,
-            AmColor = preBets.Contains(preBets.Where(b => 
-                b.Winner == gameDto.AwayTeam && b.Game.ScoreID == gameDto.ScoreID && b.BetType == BetType.MONEYLINE)
-                .FirstOrDefault()) ? Colors.DarkRed : Colors.DarkBlue,
-            HmColor = preBets.Contains(preBets.Where(b => 
-                b.Winner == gameDto.HomeTeam && b.Game.ScoreID == gameDto.ScoreID && b.BetType == BetType.MONEYLINE)
-                .FirstOrDefault()) ? Colors.DarkRed : Colors.DarkBlue,
-            OColor = preBets.Contains(preBets.Where(b => 
-                b.Winner == string.Concat("Over", gameDto.ScoreID.ToString()) && b.Game.ScoreID == gameDto.ScoreID && b.BetType == BetType.OVERUNDER)
-                .FirstOrDefault()) ? Colors.DarkRed : Colors.DarkBlue,
-            UColor = preBets.Contains(preBets.Where(b => 
-                b.Winner == string.Concat("Under", gameDto.ScoreID.ToString()) && b.Game.ScoreID == gameDto.ScoreID && b.BetType == BetType.OVERUNDER)
-                .FirstOrDefault()) ? Colors.DarkRed : Colors.DarkBlue
-        };
-
-    public (ButtonColorStateModel, ButtonTextStateModel) GetAllStates(GameDto gameDto) =>
-        (GetButtonColorState(gameDto), gameDto.GetButtonTextState());
 
     public BetSlipStateModel GetBetSlipState()
     {

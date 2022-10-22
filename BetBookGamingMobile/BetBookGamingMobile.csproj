@@ -17,6 +17,8 @@
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.betbookgamingmobile</ApplicationId>
 		<ApplicationIdGuid>26069F05-6F99-4C31-9859-16E391316C4B</ApplicationIdGuid>
+		<ApplicationVersion>1</ApplicationVersion>
+
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -187,6 +189,14 @@
 	    <Version>1.8.0</Version>
 	  </PackageReference>
 	</ItemGroup>
+	
+	<PropertyGroup Condition="$(TargetFramework.Contains('-android')) and '$(Configuration)' == 'Release'">
+		<AndroidKeyStore>True</AndroidKeyStore>
+		<AndroidSigningKeyStore>..\BetBookGamingMobile.keystore</AndroidSigningKeyStore>
+		<AndroidSigningStorePass></AndroidSigningStorePass>
+		<AndroidSigningKeyAlias>BetBookGamingMobileAlias</AndroidSigningKeyAlias>
+		<AndroidSigningKeyPass></AndroidSigningKeyPass>
+	</PropertyGroup>
 
 	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionBetBookGamingMobileHideInfoBar="True" XamarinHotReloadUnhandledDeviceExceptionBetBookGamingMobileHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
