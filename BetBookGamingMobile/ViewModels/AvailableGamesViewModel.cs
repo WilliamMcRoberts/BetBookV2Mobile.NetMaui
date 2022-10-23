@@ -37,23 +37,6 @@ public partial class AvailableGamesViewModel : AppBaseViewModel
         {
             IsBusy = false;
         }
-        // Sample Data
-        //Games.Add(new GameDto
-        //{
-        //    AwayTeam = "CIN",
-        //    HomeTeam = "PIT",
-        //    Date = new DateTime(2022, 10, 22, 11, 30, 00),
-        //    PointSpread = (float)3.5,
-        //    AwayTeamMoneyLine = -110,
-        //    HomeTeamMoneyLine = 225,
-        //    DateTime = new DateTime(2022, 10, 22, 1, 05, 00),
-        //    OverUnder = (float)22.5,
-        //    OverPayout = -110,
-        //    UnderPayout = 325,
-        //    ScoreID = 123456,
-        //    PointSpreadAwayTeamMoneyLine = -110,
-        //    PointSpreadHomeTeamMoneyLine = 225
-        //});
     }
 
     [RelayCommand]
