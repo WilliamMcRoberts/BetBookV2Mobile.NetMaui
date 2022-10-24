@@ -68,21 +68,23 @@
                                         Source="{Binding AwayTeamImage}"
                                         WidthRequest="115" />
 
-                                        <VerticalStackLayout  Spacing="4" VerticalOptions="Center">
+                                        <VerticalStackLayout  Spacing="5" VerticalOptions="CenterAndExpand">
 
-                                            <Label HorizontalTextAlignment="Center" 
+                                            <Label
                                             Text="{Binding DateOfGameOnly}"
                                             TextColor="DarkRed"
                                             FontSize="20"
                                             FontAttributes="Bold"/>
 
-                                            <Label HorizontalTextAlignment="Center" 
+                                            <Label 
+                                                Margin="0,0,0,5"
+                                                HorizontalOptions="CenterAndExpand"
                                             TextColor="DarkRed"
                                             FontSize="35"
                                             FontAttributes="Bold"
                                             Text="@"/>
 
-                                            <Label HorizontalTextAlignment="Center" 
+                                            <Label 
                                             TextColor="DarkRed"
                                             FontSize="20"
                                             FontAttributes="Bold"

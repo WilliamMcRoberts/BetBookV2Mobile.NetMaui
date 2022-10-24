@@ -3,8 +3,6 @@ namespace BetBookGamingMobile.Views;
 
 public partial class AvailableGamesPage : BasePage<AvailableGamesViewModel>
 {
-    public bool _isLoaded = false;
-
     public AvailableGamesPage(AvailableGamesViewModel viewModel) :base(viewModel)
     {
 		InitializeComponent();
@@ -14,8 +12,6 @@ public partial class AvailableGamesPage : BasePage<AvailableGamesViewModel>
     {
         base.OnNavigatedTo(args);
 
-        if (!_isLoaded)
-            await ViewModel.SetStateCommand.ExecuteAsync(null);
-        _isLoaded = true;
+        await ViewModel.SetStateCommand.ExecuteAsync(null);
     }
 }

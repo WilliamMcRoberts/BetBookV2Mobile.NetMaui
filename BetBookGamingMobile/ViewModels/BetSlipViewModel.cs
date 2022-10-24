@@ -32,13 +32,23 @@ public partial class BetSlipViewModel : BaseViewModel
     [RelayCommand]
     private async Task SubmitSinglesWagerAsync()
     {
-        if (IsBusy) return;
+        if (IsBusy)
+        {
+            await Shell.Current.DisplayAlert(
+                "App is busy", "Application is busy doing something else...please try again in a moment", "OK");
+            return;
+        }
 
         LoggedInUser = _authenticationState.CurrentAuthenticationState.LoggedInUser;
 
         IsLoggedIn = LoggedInUser is not null && !string.IsNullOrEmpty(LoggedInUser.UserId);
 
-        if (isNotLoggedIn) return;
+        if (isNotLoggedIn)
+        {
+            await Shell.Current.DisplayAlert(
+                "Not logged in", "You have to be logged in to place a wager", "OK");
+            return;
+        }
 
         bool singlesBetSlipGood = false;
 
@@ -50,7 +60,8 @@ public partial class BetSlipViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(ex.Message);
+            await Shell.Current.DisplayAlert(
+                "Something went wrong", ex.Message, "OK");
         }
         finally
         {
@@ -65,13 +76,29 @@ public partial class BetSlipViewModel : BaseViewModel
     [RelayCommand]
     private async Task SubmitParleyWagerAsync()
     {
-        if (IsBusy) return;
+        if (IsBusy)
+        {
+            await Shell.Current.DisplayAlert(
+                "App is busy", "Application is busy doing something else...please try again in a moment", "OK");
+            return;
+        }
+
+        if (_betSlipState.conflictingBetsForParley)
+        {
+            await Shell.Current.DisplayAlert(
+                "Conflicting Bets", "You have conflicting bets in your bet slip...parley wager not possible", "OK");
+        }
 
         LoggedInUser = _authenticationState.CurrentAuthenticationState.LoggedInUser;
 
         IsLoggedIn = LoggedInUser is not null && !string.IsNullOrEmpty(LoggedInUser.UserId);
 
-        if (isNotLoggedIn) return;
+        if (isNotLoggedIn)
+        {
+            await Shell.Current.DisplayAlert(
+                "Not logged in", "You have to be logged in to place a wager", "OK");
+            return;
+        }
 
         bool parleyBetSlipGood = false;
 
@@ -84,7 +111,8 @@ public partial class BetSlipViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(ex.Message);
+            await Shell.Current.DisplayAlert(
+                "Something went wrong", ex.Message, "OK");
         }
         finally
         {

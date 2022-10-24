@@ -23,7 +23,7 @@ public partial class MainPage : BasePage<MainViewModel>
         };
 
         _customSnackbar = Snackbar.Make(
-            "You can navigate by clicking the menu button in the top left",
+            "You can navigate by using the menu located in the top left.",
             async () =>
             {
                 await _customSnackbar.Dismiss();

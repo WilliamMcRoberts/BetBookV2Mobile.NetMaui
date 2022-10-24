@@ -4,6 +4,8 @@ using Microsoft.UI.Windowing;
 using Windows.Graphics;
 #endif
 
+using MonkeyCache.FileStore;
+
 namespace BetBookGamingMobile;
 
 public partial class App : Application
@@ -17,6 +19,9 @@ public partial class App : Application
 
         //Enable Version Tracking
         VersionTracking.Track();
+
+        //MonkeyCache ApplicationId
+        Barrel.ApplicationId = AppInfo.PackageName;
 
         //Set App size on MS Windows
         Microsoft.Maui.Handlers.WindowHandler.Mapper.AppendToMapping(nameof(IWindow), (handler, view) =>

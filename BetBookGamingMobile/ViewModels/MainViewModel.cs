@@ -22,7 +22,12 @@ public partial class MainViewModel : AppBaseViewModel
     {
         var data = await _authService.GetAuthClaims();
 
-        if (IsBusy) return;
+        if (IsBusy)
+        {
+            await Shell.Current.DisplayAlert(
+                "App is busy", "Application is busy doing something else...please try again in a moment", "OK");
+            return;
+        }
 
         IsBusy = true;
 
@@ -32,7 +37,8 @@ public partial class MainViewModel : AppBaseViewModel
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(ex.Message);
+            await Shell.Current.DisplayAlert(
+                "Something went wrong", ex.Message, "OK");
         }
         finally
         {

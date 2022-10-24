@@ -28,13 +28,23 @@ public partial class MyBetsViewModel : AppBaseViewModel
     [RelayCommand]
     private async Task SetStateAsync()
     {
-        if (IsBusy) return;
+        if (IsBusy)
+        {
+            await Shell.Current.DisplayAlert(
+                "App is busy", "Application is busy doing something else...please try again in a moment", "OK");
+            return;
+        }
 
         LoggedInUser = _authState.CurrentAuthenticationState.LoggedInUser;
 
         IsLoggedIn = LoggedInUser is not null && !string.IsNullOrEmpty(LoggedInUser.UserId);
 
-        if (isNotLoggedIn) return;
+        if (isNotLoggedIn)
+        {
+            await Shell.Current.DisplayAlert(
+                "Not logged in", "You have to be logged in to view wager history", "OK");
+            return;
+        }
 
         IsBusy = true;
 
@@ -45,7 +55,8 @@ public partial class MyBetsViewModel : AppBaseViewModel
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(ex.Message);
+            await Shell.Current.DisplayAlert(
+                "Something went wrong", ex.Message, "OK");
         }
         finally
         {

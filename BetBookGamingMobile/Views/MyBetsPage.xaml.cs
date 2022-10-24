@@ -3,8 +3,6 @@ namespace BetBookGamingMobile.Views;
 
 public partial class MyBetsPage : BasePage<MyBetsViewModel>
 {
-    public bool _isLoaded = false;
-
     public MyBetsPage(MyBetsViewModel viewModel) : base(viewModel)
 	{
 		InitializeComponent();
@@ -23,9 +21,7 @@ public partial class MyBetsPage : BasePage<MyBetsViewModel>
 
         SetPageState();
 
-        if (!_isLoaded)
-			await ViewModel.SetStateCommand.ExecuteAsync(null);
-		_isLoaded = true;
+		await ViewModel.SetStateCommand.ExecuteAsync(null);
     }
 
     private void BetStatusButton_Clicked(object sender, EventArgs e)

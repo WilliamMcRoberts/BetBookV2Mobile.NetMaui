@@ -126,6 +126,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.9" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0-rc.1.22426.10" />
 		<PackageReference Include="Microsoft.Identity.Client" Version="4.47.2" />
+		<PackageReference Include="MonkeyCache.FileStore" Version="1.6.3" />
 		<PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta04" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0-rc.1.22426.10" />
