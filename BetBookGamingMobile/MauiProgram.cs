@@ -15,7 +15,6 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-
         builder.Services.AddSingleton(Connectivity.Current);
 
         /**********************    Authentication      ********************************/
@@ -46,8 +45,6 @@ public static class MauiProgram
         builder.Services.AddTransient<BetSlipPage>();
         builder.Services.AddTransient<MyBetsPage>();
         builder.Services.AddTransient<AvailableGamesPage>();
-
-        builder.Configuration.AddUserSecrets("e7d4ad5e-3fed-44c5-846f-c09a4742a4cd");
 
         return builder.Build();
     }
