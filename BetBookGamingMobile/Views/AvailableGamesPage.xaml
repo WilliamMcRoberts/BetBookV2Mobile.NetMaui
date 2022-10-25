@@ -14,8 +14,9 @@
           RowDefinitions="*,Auto">
 
         <RefreshView
+            IsRefreshing="{Binding IsRefreshing}"
             Grid.ColumnSpan="2"
-            Command="{Binding GetGamesCommand}"
+            Command="{Binding RefreshGamesCommand}"
             Margin="0,10,0,10">
 
             <CollectionView

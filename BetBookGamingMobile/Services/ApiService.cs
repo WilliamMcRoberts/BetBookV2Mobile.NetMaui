@@ -60,7 +60,7 @@ public class ApiService : BaseService, IApiService
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
-            return await Task.FromResult(Enumerable.Empty<ParleyBetSlipModel>());
+            return null;
         }
     }
 
@@ -74,13 +74,13 @@ public class ApiService : BaseService, IApiService
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
-            return await Task.FromResult(Enumerable.Empty<SingleBetModel>());
+            return null;
         }
     }
 
     public async Task<IEnumerable<GameDto>> GetGames(SeasonType season, int week)
     { 
-        IEnumerable<GameDto> games = new List<GameDto>();
+        var games = new List<GameDto>();
 
         SetBaseURL(Constants.GameServiceURL);
 
@@ -92,12 +92,12 @@ public class ApiService : BaseService, IApiService
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
+            return null;
         }
         finally
         {
             SetBaseURL(Constants.BetBookGamingV2URL);
         }
-        return games;
     }
 
     public async Task<UserModel> GetUserByObjectId(string objectId)

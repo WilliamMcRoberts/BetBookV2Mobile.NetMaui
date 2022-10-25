@@ -1,4 +1,5 @@
 ﻿
+using GoogleGson;
 using MonkeyCache.FileStore;
 
 namespace BetBookGamingMobile.ViewModels;
@@ -8,10 +9,10 @@ public partial class AvailableGamesViewModel : AppBaseViewModel
     public ObservableCollection<GameDto> Games { get; } = new();
 
     [ObservableProperty]
-    SeasonType season;
+    private SeasonType _season;
 
     [ObservableProperty]
-    int week;
+    private int _week;
 
     public AvailableGamesViewModel(IApiService apiService) :base(apiService)
     {
@@ -20,45 +21,52 @@ public partial class AvailableGamesViewModel : AppBaseViewModel
     [RelayCommand]
     public async Task GetGamesAsync()
     {
-        if (IsBusy)
+        var json = String.Empty;
+
+        json = Barrel.Current.Get<string>("games");
+
+        if (string.IsNullOrWhiteSpace(json) || Barrel.Current.IsExpired("games"))
         {
-            await Shell.Current.DisplayAlert(
-                "App is busy", "Application is busy doing something else...please try again in a moment", "OK");
+            Barrel.Current.EmptyExpired();
+
+            if(isNotBusy)
+                await RefreshGames();
+
             return;
         }
 
-        IsBusy = true;
+        IEnumerable<GameDto> gameListFromCache = JsonSerializer.Deserialize<IEnumerable<GameDto>>(json);
+        Games.AddRange(gameListFromCache.Where(game => !game.HasStarted).OrderBy(game => game.Date), Games.Any());
+    }
+
+    [RelayCommand]
+    private async Task RefreshGames()
+    {
+        if (!IsRefreshing) IsBusy = true;
+
+        var json = String.Empty;
 
         try
         {
-            var json = String.Empty;
-
-            json = Barrel.Current.Get<string>("games");
-
-            if (!string.IsNullOrWhiteSpace(json))
-            {
-                IEnumerable<GameDto> gameListFromCache = JsonSerializer.Deserialize<IEnumerable<GameDto>>(json);
-                Games.AddRange(
-                    gameListFromCache.Where(game => !game.HasStarted).OrderBy(game => game.Date), Games.Any());
-                return;
-            }
-
             IEnumerable<GameDto> gameList = await _apiService.GetGames(Season, Week);
+
+            if (gameList is null) return;
 
             json = JsonSerializer.Serialize(gameList);
 
-            Barrel.Current.Add("games", json, TimeSpan.FromMinutes(15));
-
             Games.AddRange(gameList.Where(game => !game.HasStarted).OrderBy(game => game.Date), Games.Any());
+
+            Barrel.Current.Add(key: "games", json, TimeSpan.FromMinutes(10));
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             await Shell.Current.DisplayAlert(
-                "Something went wrong", ex.Message, "OK");
+                "Something went wrong", "Please try again in a moment", "OK");
         }
         finally
         {
             IsBusy = false;
+            IsRefreshing = false;
         }
     }
 
