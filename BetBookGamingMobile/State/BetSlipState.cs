@@ -48,22 +48,13 @@ public class BetSlipState
         conflictingBetsForParley = CheckForConflictingBets();
     }
 
-    public BetSlipStateModel GetBetSlipState()
-    {
-        var betSlipState = new BetSlipStateModel();
-
-        betSlipState.BetsInBetSlip.AddRange(preBets);
-
-        return betSlipState;
-    }
-
     public bool CheckForConflictingBets()
     {
         foreach (var bet in preBets)
             if (preBets.Where(b => b.Game.ScoreID == bet.Game.ScoreID && b.BetType == bet.BetType).Count() > 1)
-                return true;
+                return conflictingBetsForParley = true;
 
-        return false;
+        return conflictingBetsForParley = false;
     }
 
     public async Task<bool> OnSubmitBetsFromSinglesBetSlip(UserModel loggedInUser)
@@ -182,13 +173,6 @@ public class BetSlipState
             bet => totalDecimalOdds *= bet.MoneylinePayout.ConvertMoneylinePayoutToDecimalFormat());
 
         return Math.Round(totalParleyWager * totalDecimalOdds, 2);
-    }
-
-    public BetSlipStateModel RemoveBetFromPreBetsList(CreateBetModel createBetModel)
-    {
-        preBets.Remove(createBetModel);
-
-        return GetBetSlipState();
     }
 
     public decimal GetPayoutForTotalBetsSingles()

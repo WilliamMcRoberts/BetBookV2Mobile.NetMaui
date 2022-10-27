@@ -4,12 +4,10 @@ namespace BetBookGamingMobile.ViewModels;
 [QueryProperty("GameDto", "GameDto")]
 public partial class GameDetailsViewModel : AppBaseViewModel
 {
-    public event PointSpreadBetSelectedOrRemoved PointSpreadBetsChanged;
-    public delegate void PointSpreadBetSelectedOrRemoved(List<CreateBetModel> betList);
-    public event MoneylineBetSelectedOrRemoved MoneylineBetsChanged;
-    public delegate void MoneylineBetSelectedOrRemoved(List<CreateBetModel> betList);
-    public event OverUnderBetSelectedOrRemoved OverUnderBetsChanged;
-    public delegate void OverUnderBetSelectedOrRemoved(List<CreateBetModel> betList);
+    public event BetSelectedOrRemoved BetsChanged;
+
+    public delegate void BetSelectedOrRemoved(List<CreateBetModel> betList, BetType betType);
+
     private readonly BetSlipState _betSlipState;
 
     [ObservableProperty]
@@ -27,26 +25,24 @@ public partial class GameDetailsViewModel : AppBaseViewModel
     private async Task SelectOrRemoveWagerForPointSpreadAsync(string winner)
     {
         _betSlipState.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.POINTSPREAD);
-        PointSpreadBetsChanged?.Invoke(_betSlipState.preBets);
+        BetsChanged?.Invoke(_betSlipState.preBets, BetType.POINTSPREAD);
         await _betSlipState.preBets.Count.ShowBetNumberToastAsync();
     }
         
-
     [RelayCommand]
     private async Task SelectOrRemoveWagerForMoneylineAsync(string winner)
     {
         _betSlipState.SelectOrRemoveWinnerAndGameForBet(winner, GameDto, BetType.MONEYLINE);
-        MoneylineBetsChanged?.Invoke(_betSlipState.preBets);
+        BetsChanged?.Invoke(_betSlipState.preBets, BetType.MONEYLINE);
         await _betSlipState.preBets.Count.ShowBetNumberToastAsync();
     }
     
-
     [RelayCommand]
     private async Task SelectOrRemoveWagerForOverUnderAsync(string winner)
     {
         _betSlipState.SelectOrRemoveWinnerAndGameForBet(
             string.Concat(winner, GameDto.ScoreID.ToString()), GameDto, BetType.OVERUNDER);
-        OverUnderBetsChanged?.Invoke(_betSlipState.preBets);
+        BetsChanged?.Invoke(_betSlipState.preBets, BetType.OVERUNDER);
         await _betSlipState.preBets.Count.ShowBetNumberToastAsync();
     }
 
@@ -54,8 +50,8 @@ public partial class GameDetailsViewModel : AppBaseViewModel
     private void SetState()
     {
         ButtonTextState = GameDto.GetButtonTextState();
-        PointSpreadBetsChanged?.Invoke(_betSlipState.preBets);
-        MoneylineBetsChanged?.Invoke(_betSlipState.preBets);
-        OverUnderBetsChanged?.Invoke(_betSlipState.preBets);
+        BetsChanged?.Invoke(_betSlipState.preBets, BetType.POINTSPREAD);
+        BetsChanged?.Invoke(_betSlipState.preBets, BetType.MONEYLINE);
+        BetsChanged?.Invoke(_betSlipState.preBets, BetType.OVERUNDER);
     }
 }

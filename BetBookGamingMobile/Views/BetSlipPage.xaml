@@ -44,7 +44,7 @@
             <Line X1="0" Y1="0" X2="325" Y2="0" Stroke="DarkRed"
                 HorizontalOptions="Center" StrokeThickness="4"/>
 
-            <CollectionView Margin="0,15,0,0" ItemsSource="{Binding BetSlipStateModel.BetsInBetSlip}">
+            <CollectionView Margin="0,15,0,0" ItemsSource="{Binding Bets}">
 
                 <CollectionView.ItemTemplate>
 
@@ -114,9 +114,9 @@
                 </CollectionView.ItemTemplate>
 
             </CollectionView>
-            
+
             <VerticalStackLayout Margin="0,15,0,20">
-                
+
                 <Label Text="Parley Wager Amount" TextColor="White" FontSize="20" HorizontalTextAlignment="Center"/>
 
                 <Entry  x:Name="ParleyBetAmountEntry" PlaceholderColor="White" Text="{Binding ParleyWagerAmount}"
@@ -132,11 +132,11 @@
 
             <viewControls:SubmitWagerButtonControl Margin="0,10,0,0" 
                 CustomCommand="{Binding SubmitParleyWagerCommand}" CustomText="Submit Parley Wager"/>
-            
+
             <ActivityIndicator HorizontalOptions="Center" VerticalOptions="Center" 
                 IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" 
                 HeightRequest="80" WidthRequest="80" Color="DarkBlue" />
-            
+
         </VerticalStackLayout>
         
     </ScrollView>

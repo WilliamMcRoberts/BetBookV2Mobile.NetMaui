@@ -9,16 +9,16 @@ public partial class MyBetsViewModel : AppBaseViewModel
     private UserModel loggedInUser;
 
     private IEnumerable<SingleBetModel> bettorSingleBets;
-    public ObservableCollection<SingleBetModel> BettorSingleBetsInProgress { get; } = new();
-    public ObservableCollection<SingleBetModel> BettorSingleBetsWinners { get; } = new();
-    public ObservableCollection<SingleBetModel> BettorSingleBetsPush { get; } = new();
+    public List<SingleBetModel> BettorSingleBetsInProgress { get; } = new();
+    public List<SingleBetModel> BettorSingleBetsWinners { get; } = new();
+    public List<SingleBetModel> BettorSingleBetsPush { get; } = new();
     public ObservableCollection<SingleBetModel> BettorSingleBetsLosers { get; } = new();
 
     private IEnumerable<ParleyBetSlipModel> bettorParleyBets;
-    public ObservableCollection<ParleyBetSlipModel> BettorParleyBetsInProgress { get; } = new();
-    public ObservableCollection<ParleyBetSlipModel> BettorParleyBetsWinners { get; } = new();
-    public ObservableCollection<ParleyBetSlipModel> BettorParleyBetsPush { get; } = new();
-    public ObservableCollection<ParleyBetSlipModel> BettorParleyBetsLosers { get; } = new();
+    public List<ParleyBetSlipModel> BettorParleyBetsInProgress { get; } = new();
+    public List<ParleyBetSlipModel> BettorParleyBetsWinners { get; } = new();
+    public List<ParleyBetSlipModel> BettorParleyBetsPush { get; } = new();
+    public List<ParleyBetSlipModel> BettorParleyBetsLosers { get; } = new();
 
     public MyBetsViewModel(AuthenticationState authState, IApiService apiService) :base(apiService)
 	{
@@ -67,34 +67,18 @@ public partial class MyBetsViewModel : AppBaseViewModel
     private async Task PopulateBettorSingleBetsAsync(UserModel loggedInUser)
     {
         bettorSingleBets = await _apiService.GetAllBettorSingleBets(loggedInUser.UserId);
-
-        BettorSingleBetsInProgress.AddRange(bettorSingleBets.Where(
-            b => b.SingleBetStatus == SingleBetStatus.IN_PROGRESS), BettorSingleBetsInProgress.Any());
-
-        BettorSingleBetsWinners.AddRange(bettorSingleBets.Where(
-            b => b.SingleBetStatus == SingleBetStatus.WINNER), BettorSingleBetsWinners.Any());
-
-        BettorSingleBetsLosers.AddRange(bettorSingleBets.Where(
-            b => b.SingleBetStatus == SingleBetStatus.LOSER), BettorSingleBetsLosers.Any());
-
-        BettorSingleBetsPush.AddRange(bettorSingleBets.Where(
-            b => b.SingleBetStatus == SingleBetStatus.PUSH), BettorSingleBetsPush.Any());
+        BettorSingleBetsInProgress.AddRange(bettorSingleBets.Where(b => b.SingleBetStatus == SingleBetStatus.IN_PROGRESS));
+        BettorSingleBetsWinners.AddRange(bettorSingleBets.Where(b => b.SingleBetStatus == SingleBetStatus.WINNER));
+        BettorSingleBetsLosers.AddRange(bettorSingleBets.Where(b => b.SingleBetStatus == SingleBetStatus.LOSER));
+        BettorSingleBetsPush.AddRange(bettorSingleBets.Where(b => b.SingleBetStatus == SingleBetStatus.PUSH));
     }
 
     private async Task PopulateBettorParleyBetsAsync(UserModel loggedInUser)
     {
         bettorParleyBets = await _apiService.GetAllBettorParleyBets(loggedInUser.UserId);
-
-        BettorParleyBetsInProgress.AddRange(bettorParleyBets.Where(
-            b => b.ParleyBetSlipStatus == ParleyBetSlipStatus.IN_PROGRESS), BettorParleyBetsInProgress.Any());
-
-        BettorParleyBetsWinners.AddRange(bettorParleyBets.Where(
-            b => b.ParleyBetSlipStatus == ParleyBetSlipStatus.WINNER), BettorParleyBetsWinners.Any());
-
-        BettorParleyBetsLosers.AddRange(bettorParleyBets.Where(
-            b => b.ParleyBetSlipStatus == ParleyBetSlipStatus.LOSER), BettorParleyBetsLosers.Any());
-
-        BettorParleyBetsPush.AddRange(bettorParleyBets.Where(
-            b => b.ParleyBetSlipStatus == ParleyBetSlipStatus.PUSH), BettorParleyBetsPush.Any());
+        BettorParleyBetsInProgress.AddRange(bettorParleyBets.Where(b => b.ParleyBetSlipStatus == ParleyBetSlipStatus.IN_PROGRESS));
+        BettorParleyBetsWinners.AddRange(bettorParleyBets.Where(b => b.ParleyBetSlipStatus == ParleyBetSlipStatus.WINNER));
+        BettorParleyBetsLosers.AddRange(bettorParleyBets.Where(b => b.ParleyBetSlipStatus == ParleyBetSlipStatus.LOSER));
+        BettorParleyBetsPush.AddRange(bettorParleyBets.Where(b => b.ParleyBetSlipStatus == ParleyBetSlipStatus.PUSH));
     }  
 }

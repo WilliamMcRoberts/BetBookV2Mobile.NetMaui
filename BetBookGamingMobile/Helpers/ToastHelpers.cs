@@ -22,10 +22,8 @@ public static class ToastHelpers
     /// <param name="betGood">bool represents the success of wager submission</param>
     /// <param name="betType">string represents the type of bet that was submitted</param>
     /// <returns></returns>
-    public static async Task ShowWagerConfirmationToastAsync(this bool betGood, string betType)
+    public static async Task ShowWagerConfirmationToastAsync(this string betType)
     {
-        if (!betGood) return;
-
         var toast = Toast.Make($"Your {betType} wager was submitted!", textSize: 18);
 
         await toast.Show();

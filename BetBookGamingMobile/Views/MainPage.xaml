@@ -109,7 +109,7 @@
             
         </VerticalStackLayout>
         
-        <ActivityIndicator HorizontalOptions="Center" IsRunning="{Binding IsBusy}"
+        <ActivityIndicator HorizontalOptions="Center" IsRunning="{Binding IsBusy}" VerticalOptions="Center" Margin="0,100,0,0"
                            IsVisible="{Binding IsBusy}" HeightRequest="80" WidthRequest="80" 
                            Color="DarkBlue" />
         

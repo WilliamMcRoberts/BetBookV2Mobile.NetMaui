@@ -6,6 +6,7 @@ public partial class BetSlipViewModel : BaseViewModel
 {
     private readonly AuthenticationState _authenticationState;
     private readonly BetSlipState _betSlipState;
+    public ObservableCollection<CreateBetModel> Bets { get; } = new();
 
     public BetSlipViewModel(
         AuthenticationState authenticationState, BetSlipState betSlipState)
@@ -25,9 +26,6 @@ public partial class BetSlipViewModel : BaseViewModel
 
     [ObservableProperty]
     private string _parleyPayoutDisplay;
-
-    [ObservableProperty]
-    private BetSlipStateModel _betSlipStateModel;
 
     [RelayCommand]
     private async Task SubmitSinglesWagerAsync()
@@ -68,9 +66,26 @@ public partial class BetSlipViewModel : BaseViewModel
             IsBusy = false;
         }
 
-        await singlesBetSlipGood.ShowWagerConfirmationToastAsync("singles");
+        if (!singlesBetSlipGood)
+        {
+            if (_betSlipState.gameHasStarted)
+            {
+                await Shell.Current.DisplayAlert(
+                "Wager not submitted", _betSlipState.startedGameDescription, "OK");
+            }
 
-        BetSlipStateModel = singlesBetSlipGood ? _betSlipState.GetBetSlipState() : BetSlipStateModel;
+            if (_betSlipState.betAmountForSinglesBad)
+            {
+                await Shell.Current.DisplayAlert(
+                "Wager not submitted", "All single wagers must be more than $0.00", "OK");
+            }
+
+            return;
+        }
+
+        Bets.Clear();
+
+        await "singles".ShowWagerConfirmationToastAsync();
     }
 
     [RelayCommand]
@@ -87,6 +102,7 @@ public partial class BetSlipViewModel : BaseViewModel
         {
             await Shell.Current.DisplayAlert(
                 "Conflicting Bets", "You have conflicting bets in your bet slip...parley wager not possible", "OK");
+            return;
         }
 
         LoggedInUser = _authenticationState.CurrentAuthenticationState.LoggedInUser;
@@ -109,19 +125,36 @@ public partial class BetSlipViewModel : BaseViewModel
             parleyBetSlipGood = decimal.TryParse(ParleyWagerAmount, out var parleyWager) &&
                 await _betSlipState.OnSubmitBetsFromParleyBetSlip(LoggedInUser, parleyWager);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             await Shell.Current.DisplayAlert(
-                "Something went wrong", ex.Message, "OK");
+                "Something went wrong", "Please try again in a moment", "OK");
         }
         finally
         {
             IsBusy = false;
         }
 
-        await parleyBetSlipGood.ShowWagerConfirmationToastAsync("parley");
+        if (!parleyBetSlipGood)
+        {
+            if (_betSlipState.gameHasStarted)
+            {
+                await Shell.Current.DisplayAlert(
+                "Wager not submitted", _betSlipState.startedGameDescription, "OK");
+            }
 
-        BetSlipStateModel = parleyBetSlipGood ? _betSlipState.GetBetSlipState() : BetSlipStateModel;
+            if (_betSlipState.betAmountForParleyBad)
+            {
+                await Shell.Current.DisplayAlert(
+                "Wager not submitted", "Parley wager must be more than $0.00", "OK");
+            }
+
+            return;
+        }
+
+        await "parley".ShowWagerConfirmationToastAsync();
+
+        Bets.Clear();
 
         ParleyWagerAmount = String.Empty;
     }
@@ -129,7 +162,12 @@ public partial class BetSlipViewModel : BaseViewModel
     [RelayCommand]
     private void RemoveBetFromPreBets(CreateBetModel createBet)
     {
-        BetSlipStateModel = _betSlipState.RemoveBetFromPreBetsList(createBet);
+        if (_betSlipState.preBets.Contains(createBet) && Bets.Contains(createBet))
+        {
+            _betSlipState.preBets.Remove(createBet);
+            Bets.Remove(createBet);
+            _betSlipState.CheckForConflictingBets();
+        }
         GetPayoutForTotalBetsSingles();
         GetPayoutForTotalBetsParley();
     }
@@ -137,7 +175,7 @@ public partial class BetSlipViewModel : BaseViewModel
     [RelayCommand]
     private void SetState()
     {
-        BetSlipStateModel = _betSlipState.GetBetSlipState();
+        Bets.AddRange(_betSlipState.preBets, Bets.Any());
         GetPayoutForTotalBetsSingles();
         GetPayoutForTotalBetsParley();
     }
