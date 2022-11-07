@@ -8,7 +8,7 @@ public class AuthService : IAuthService
     public AuthService()
     {
         _publicClientApplication = PublicClientApplicationBuilder.Create(Constants.ClientId)
-            .WithB2CAuthority(Constants.AuthoritySignIn)
+            .WithB2CAuthority(Constants.B2CSigninSignupAuthority)
 
 #if WINDOWS
             .WithRedirectUri("http://localhost")
@@ -46,7 +46,8 @@ public class AuthService : IAuthService
         var result = await LoginAsync(CancellationToken.None);
         var token = result?.IdToken;
 
-        if (token is null) return null;
+        if (token is null) 
+            return null;
 
         var handler = new JwtSecurityTokenHandler();
         var data = handler.ReadJwtToken(token);

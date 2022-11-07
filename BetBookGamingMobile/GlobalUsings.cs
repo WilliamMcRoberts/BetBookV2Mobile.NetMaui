@@ -26,6 +26,8 @@ global using CommunityToolkit.Maui.Alerts;
 global using CommunityToolkit.Maui.Animations;
 global using CommunityToolkit.Maui.Core;
 global using Font = Microsoft.Maui.Font;
+global using MonkeyCache.FileStore;
+
 
 
 

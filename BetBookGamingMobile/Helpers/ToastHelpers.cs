@@ -19,7 +19,6 @@ public static class ToastHelpers
     /// <summary>
     /// Shows wager confirmation toast if wager submission was successful
     /// </summary>
-    /// <param name="betGood">bool represents the success of wager submission</param>
     /// <param name="betType">string represents the type of bet that was submitted</param>
     /// <returns></returns>
     public static async Task ShowWagerConfirmationToastAsync(this string betType)

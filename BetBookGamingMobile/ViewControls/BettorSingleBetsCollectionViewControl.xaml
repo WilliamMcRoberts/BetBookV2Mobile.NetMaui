@@ -29,7 +29,7 @@
         </ResourceDictionary>
     </ContentView.Resources>
     
-    <VerticalStackLayout>
+    <VerticalStackLayout >
         
         <Label 
             x:Name="BetListLabel"
@@ -43,7 +43,7 @@
 
                 <DataTemplate x:DataType="models:SingleBetModel">
 
-                    <Frame Margin="10,5">
+                    <Frame Margin="10,5" >
 
                         <Border>
 

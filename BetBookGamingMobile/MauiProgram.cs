@@ -16,6 +16,7 @@ public static class MauiProgram
             });
 
         builder.Services.AddSingleton(Connectivity.Current);
+        builder.Services.AddSingleton<IDeviceDisplay>(DeviceDisplay.Current);
 
         /**********************    Authentication      ********************************/
 

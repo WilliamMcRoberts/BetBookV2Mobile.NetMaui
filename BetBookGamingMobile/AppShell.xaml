@@ -6,7 +6,7 @@
     xmlns:views="clr-namespace:BetBookGamingMobile.Views"
     xmlns:sys="clr-namespace:System;assembly=netstandard"
     FlyoutBehavior="Flyout"
-    FlyoutHeaderBehavior="Fixed"
+    FlyoutHeaderBehavior="Scroll"
     BackgroundColor="#262626">
         
     <Shell.FlyoutHeader>

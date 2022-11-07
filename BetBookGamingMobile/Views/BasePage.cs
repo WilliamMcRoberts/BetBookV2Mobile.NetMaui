@@ -15,6 +15,7 @@ public abstract class BasePage<TViewModel> : BasePage where TViewModel : BaseVie
 
 public partial class BasePage : ContentPage
 {
+
     protected BasePage(object viewModel = null)
     {
         BindingContext = viewModel;

@@ -141,6 +141,9 @@
 	  <Compile Update="ViewControls\BettorSingleBetsCollectionViewControl.xaml.cs">
 	    <DependentUpon>BettorSingleBetsCollectionViewControl.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\BasePage.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\MyBetsPage.xaml.cs">
 	    <DependentUpon>MyBetsPage.xaml</DependentUpon>
 	  </Compile>
@@ -169,9 +172,6 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\AvailableGamesPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\BasePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\BetSlipPage.xaml">

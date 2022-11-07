@@ -11,6 +11,7 @@ public partial class BaseViewModel : ObservableObject
     private bool isBusy;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(isNotRefreshing))]
     private bool isRefreshing;
 
     [ObservableProperty]
@@ -33,6 +34,8 @@ public partial class BaseViewModel : ObservableObject
     private bool isLoggedIn;
 
     public bool isNotBusy => !IsBusy;
+
+    public bool isNotRefreshing => !IsRefreshing;
 
     public bool isNotLoggedIn => !IsLoggedIn;
 

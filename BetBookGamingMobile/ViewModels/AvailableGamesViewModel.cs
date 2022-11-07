@@ -1,7 +1,4 @@
 ﻿
-using GoogleGson;
-using MonkeyCache.FileStore;
-
 namespace BetBookGamingMobile.ViewModels;
 
 public partial class AvailableGamesViewModel : AppBaseViewModel
@@ -42,7 +39,7 @@ public partial class AvailableGamesViewModel : AppBaseViewModel
     [RelayCommand]
     private async Task RefreshGames()
     {
-        if (!IsRefreshing) IsBusy = true;
+        if (isNotRefreshing) IsBusy = true;
 
         var json = String.Empty;
 

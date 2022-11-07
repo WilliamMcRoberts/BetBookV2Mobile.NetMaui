@@ -13,9 +13,9 @@
 
     <ScrollView>
 
-        <VerticalStackLayout Margin="0,0,0,50">
+        <VerticalStackLayout Margin="0,0,0,50" HorizontalOptions="Fill">
             
-            <HorizontalStackLayout Margin="10" HorizontalOptions="CenterAndExpand" Spacing="10">
+            <HorizontalStackLayout Margin="10" HorizontalOptions="Center" Spacing="10">
 
                 <RadioButton x:Name="SingleRadioButton" Content="Single Bets" 
                               Background="Transparent" CheckedChanged="RadioButton_CheckedChanged"
@@ -29,7 +29,7 @@
             </HorizontalStackLayout>
             
             <HorizontalStackLayout 
-                HorizontalOptions="CenterAndExpand" Margin="10" Spacing="4">
+                HorizontalOptions="Center" Margin="10" Spacing="5">
 
                 <Button 
                     x:Name="InProgressButton" Text="Active" Clicked="BetStatusButton_Clicked"  

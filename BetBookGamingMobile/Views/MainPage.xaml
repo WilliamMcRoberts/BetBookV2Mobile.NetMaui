@@ -36,9 +36,6 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <Path Data="m250.03517,38.40998l366.99977,0l0,154.39994l-183.50001,38.60003l-183.49997,-38.60003l0.00021,-154.39994z" 
-              Stroke="#000" Fill="#00008b"/>
-
         <StackLayout>
             <Frame x:Name="SnackBarAnchor" HeightRequest="120" WidthRequest="120" CornerRadius="60" Padding="0" Margin="0,100,0,0" HorizontalOptions="Center" BorderColor="White" >
                 <Image Source="ua.png" Aspect="AspectFill"/>
