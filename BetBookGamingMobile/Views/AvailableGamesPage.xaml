@@ -12,10 +12,7 @@
 
     <VerticalStackLayout>
        
-        <ActivityIndicator 
-                HorizontalOptions="Center" VerticalOptions="Center" 
-                IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" 
-                HeightRequest="80" WidthRequest="80" Color="DarkBlue" />
+        
         
         <RefreshView
             IsRefreshing="{Binding IsRefreshing}"
@@ -108,7 +105,10 @@
 
         </RefreshView>
 
-        
+        <ActivityIndicator 
+                HorizontalOptions="Center" VerticalOptions="Center" 
+                IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" 
+                HeightRequest="80" WidthRequest="80" Color="DarkBlue" />
         
     </VerticalStackLayout>
 

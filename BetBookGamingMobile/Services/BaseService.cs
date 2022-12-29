@@ -41,6 +41,35 @@ public class BaseService
         return await _httpClient.GetFromJsonAsync<T>(resource);
     }
 
+    //protected async Task<T> GetAsync<T>(string resource)
+    //{
+    //    //Get Json data (from Cache or Web)
+    //    var json = await GetJsonAsync(resource);
+
+    //    //Return the result
+    //    return JsonSerializer.Deserialize<T>(json);
+    //}
+
+    //private async Task<string> GetJsonAsync(string resource)
+    //{
+    //    //No Cache Found, or Cached data was not required, or Internet connection is also available
+    //    if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+    //        throw new InternetConnectionException();
+
+    //    //Extract response from URI
+    //    var response = await _httpClient.GetAsync(new Uri(_httpClient.BaseAddress, resource));
+
+    //    //Check for valid response
+    //    response.EnsureSuccessStatusCode();
+
+    //    //Read Response
+    //    string json = await response.Content.ReadAsStringAsync();
+
+    //    //Return the result
+    //    return json;
+    //}
+
+
     protected async Task<HttpResponseMessage> PostAsync<T>(string uri, T payload)
     {
         if (_connectivity.NetworkAccess != NetworkAccess.Internet)
